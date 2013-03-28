@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><uml:Model xmlns:uml="http://schema.omg.org/spec/UML/2.1.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1" xmi:id="_mGqe4JdIEeKH9ewMYB8Lrw" name="curso_taller_openerp">
+  <eAnnotations xmi:id="_mGrF8JdIEeKH9ewMYB8Lrw" source="Objing">
+    <contents xmi:type="uml:Property" xmi:id="_mGrF8ZdIEeKH9ewMYB8Lrw" name="exporterVersion">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrF8pdIEeKH9ewMYB8Lrw" value="2.2"/>
+    </contents>
+    <contents xmi:type="uml:Property" xmi:id="_mGrF85dIEeKH9ewMYB8Lrw" name="isRoundTrip"/>
+    <contents xmi:type="uml:Property" xmi:id="_mGrF9JdIEeKH9ewMYB8Lrw" name="Visibility">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrF9ZdIEeKH9ewMYB8Lrw" value="0"/>
+    </contents>
+  </eAnnotations>
+  <ownedComment xmi:type="uml:Comment" xmi:id="_mGrF9pdIEeKH9ewMYB8Lrw">
+    <eAnnotations xmi:id="_mGrF95dIEeKH9ewMYB8Lrw" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_mGrF-JdIEeKH9ewMYB8Lrw" name="NoteType_Name">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrF-ZdIEeKH9ewMYB8Lrw" value="description"/>
+      </contents>
+    </eAnnotations>
+    <body>Modelo de ejemplo para el curso-taller-openerp</body>
+  </ownedComment>
+  <packagedElement xmi:type="uml:Package" xmi:id="_mGrF-pdIEeKH9ewMYB8Lrw" name="mi_modulo">
+    <eAnnotations xmi:id="_mGrF-5dIEeKH9ewMYB8Lrw" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_mGrF_JdIEeKH9ewMYB8Lrw" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrF_ZdIEeKH9ewMYB8Lrw" value="0"/>
+      </contents>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Class" xmi:id="_mGrF_pdIEeKH9ewMYB8Lrw" name="mi_tabla">
+      <eAnnotations xmi:id="_mGrF_5dIEeKH9ewMYB8Lrw" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_mGrGAJdIEeKH9ewMYB8Lrw" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrGAZdIEeKH9ewMYB8Lrw" value="0"/>
+        </contents>
+      </eAnnotations>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_mGrtAJdIEeKH9ewMYB8Lrw" name="name" isUnique="false" isReadOnly="true">
+        <eAnnotations xmi:id="_mGrtAZdIEeKH9ewMYB8Lrw" source="Objing">
+          <contents xmi:type="uml:Property" xmi:id="_mGrtApdIEeKH9ewMYB8Lrw" name="Visibility">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrtA5dIEeKH9ewMYB8Lrw" value="0"/>
+          </contents>
+          <contents xmi:type="uml:Property" xmi:id="_mGrtBJdIEeKH9ewMYB8Lrw" name="AccessMode">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrtBZdIEeKH9ewMYB8Lrw" value="read"/>
+          </contents>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1.1/uml.xml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_mGrtBpdIEeKH9ewMYB8Lrw" name="description" isUnique="false" isReadOnly="true">
+        <eAnnotations xmi:id="_mGrtB5dIEeKH9ewMYB8Lrw" source="Objing">
+          <contents xmi:type="uml:Property" xmi:id="_mGrtCJdIEeKH9ewMYB8Lrw" name="Visibility">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrtCZdIEeKH9ewMYB8Lrw" value="0"/>
+          </contents>
+          <contents xmi:type="uml:Property" xmi:id="_mGrtCpdIEeKH9ewMYB8Lrw" name="AccessMode">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mGrtC5dIEeKH9ewMYB8Lrw" value="read"/>
+          </contents>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.1.1/uml.xml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
