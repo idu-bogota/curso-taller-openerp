@@ -11,6 +11,6 @@ class mi_modulo_mi_tabla(osv.osv):
         'datetime': fields.datetime('fecha y hora'),
         'description': fields.text('descripcion'),
         'price': fields.float('precio', digits = (10,4)),
-        'options': fields.selection([('o1','opcion uno'),('o2','opcion dos')], 'opciones'),
+        'state': fields.selection([('draft','borrador'),('active','Activo'),('cancelled','Cancelado')], 'estado'),
     }
 mi_modulo_mi_tabla()

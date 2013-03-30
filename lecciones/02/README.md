@@ -44,7 +44,7 @@ Los tipos básicos de atributos disponibles para ser utilizados son:
 * char: *fields.char('nombre', size = 255)*, **size** indica el tamaño del campo de texto
 * text: *fields.text('descripcion')*,
 * float: *fields.float('precio', digits = (10,4))*, **digits** indica la precisión del numero, sin precisión se maneja como un float
-* selection: *fields.selection([('o1','opcion uno'),('o2','opcion dos')], 'opciones')*
+* selection: *fields.selection([('draft','borrador'),('active','Activo'),('cancelled','Cancelado')], 'estado')*
 * binary: *fields.binary('foto', filters = '*.png')*
 
 ## Despliegue de los campos

@@ -1,6 +1,6 @@
 {
     "name" : "mi_modulo",
-    "version" : "1.0",
+    "version" : "2.0",
     "author" : "xx",
     "category" : "xx",
     "description" : "xx",
