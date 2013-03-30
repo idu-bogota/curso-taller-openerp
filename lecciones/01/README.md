@@ -33,15 +33,15 @@ El módulo de OpenERP tiene la siguiente estructura básica:
     * **depends**: Listar los módulos que deben estar instalados en el sistema previamente
     * **update_xml**:  Archivos xml/csv a ser cargados en el momento de la actualización del módulo (ej. datos, vistas, flujos de trabajo)
 
-* **`mi_modulo.py`**: Módulo python que contiene las clases que hacen parte del modelo de nuestro módulo
+* **`mi_modulo.py`**: Módulo python que contiene los objetos de negocio de nuestro módulo
 
         from osv import fields, osv
 
         class mi_modulo_mi_tabla(osv.osv):
             _name = "mi_modulo.mi_tabla"
             _columns = {
-                'name' : fields.char('name',size=255),
-                'description' : fields.char('description',size=255),
+                'name' : fields.char('nombre',size=255),
+                'description' : fields.char('descripcion',size=255),
             }
         mi_modulo_mi_tabla()
 
@@ -84,7 +84,24 @@ El módulo de OpenERP tiene la siguiente estructura básica:
         </data>
         </openerp>
 
+
+## Instalación del módulo
+
+1. Para instalar el módulo este debe estar disponible en la carpeta addons de openerp, se pueden utilizar varias carpetas addons en una instalación de OpenERP, las carpetas se definen en el archivo de configuración *openerp-server.conf* en el parametro *addons_path*, ejemplo:
+
+    [options]
+    db_host = False
+    db_port = False
+    db_user = openerp
+    db_password = False
+    addons_path = /usr/share/pyshared/openerp/addons/,/opt/openerp-idu-addons/src
+
+1. Luego se reinicia el servidor y para que se registre el nuevo módulo en la base de datos se entra como administrador en la opción *configuración -> actualizar lista de módulos -> actualizar* (solo esta disponible si tiene la opción de interfaz extendida en sus preferencias de usuario). Esto hace que aparezca el nuevo módulo en el listado para ser instalado.
+
+1. Para instalar el módulo en la base de datos debe ingresar como administrador en la opción *Configuración -> módulos*, luego activa la opción *extra* y coloca el nombre del nuevo módulo a instalar y presiona enter, luego hace click en el botón *instalar*, la interfaz se recargará y el menú del módulo aparecerá en la interfaz.
+
 ## Generación de un módulo a partir de un diagrama UML
+
 Actualmente se encuentra en desarrollo la herramienta [xmi2openerp](https://github.com/andresc1125/xmi2openerp) que permite la generación de módulos OpenERP a partir de un modelo XMI. La herramienta se ha probado con modelos realizados con la herramienta [Modelio](http://www.modelio.org/).
 
 Como ejemplo el diagrama UML ![Diagrama UML](curso_taller_openerp.png) se convierte en un módulo OpenERP con el siguiente comando:
