@@ -89,12 +89,12 @@ El módulo de OpenERP tiene la siguiente estructura básica:
 
 1. Para instalar el módulo este debe estar disponible en la carpeta addons de openerp, se pueden utilizar varias carpetas addons en una instalación de OpenERP, las carpetas se definen en el archivo de configuración *openerp-server.conf* en el parametro *addons_path*, ejemplo:
 
-    [options]
-    db_host = False
-    db_port = False
-    db_user = openerp
-    db_password = False
-    addons_path = /usr/share/pyshared/openerp/addons/,/opt/openerp-idu-addons/src
+        [options]
+        db_host = False
+        db_port = False
+        db_user = openerp
+        db_password = False
+        addons_path = /usr/share/pyshared/openerp/addons/,/opt/openerp-idu-addons/src
 
 1. Luego se reinicia el servidor y para que se registre el nuevo módulo en la base de datos se entra como administrador en la opción *configuración -> actualizar lista de módulos -> actualizar* (solo esta disponible si tiene la opción de interfaz extendida en sus preferencias de usuario). Esto hace que aparezca el nuevo módulo en el listado para ser instalado.
 
