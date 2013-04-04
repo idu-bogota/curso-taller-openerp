@@ -47,3 +47,9 @@ Para extender una vista, se define la vista del objeto tal como se hace para obj
 
 Más información relacionada con la herencia en las vistas puede ser encontrada en [el libro de desarrollo de OpenERP](http://doc.openerp.com/v6.1/developer/03_modules_3.html#inheritance-in-views)
 
+    ------------
+    | /!\ Nota |
+    ------------
+
+    El código de este módulo requiere que se encuentre instalado el módulo de CRM, para instalar este y otras dependencias, debe hacer la actualización del módulo manualmente. Si no lo hace aparecerá un error que indica que el Objeto *mi_modulo.mi_tabla_relacionada* no existe.
+
