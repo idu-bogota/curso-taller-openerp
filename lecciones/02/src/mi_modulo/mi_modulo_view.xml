@@ -14,7 +14,7 @@
                     <field name="datetime"/>
                     <field name="description"/>
                     <field name="price"/>
-                    <field name="options"/>
+                    <field name="state"/>
                 </form>
           </field>
     </record>
