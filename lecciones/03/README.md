@@ -30,10 +30,10 @@ La estructura para la creación de una vista a través de un archivo XML es la s
         </field>
     </record>
 
-* **<record>**: Este tag es utilizado para insertar registros en la base de datos asociados a un objeto de negocio definido en el atributo model, este tag no es solo utilizado para definición de vistas como se verá en las lecciones siguientes.
+* **`<record>`**: Este tag es utilizado para insertar registros en la base de datos asociados a un objeto de negocio definido en el atributo model, este tag no es solo utilizado para definición de vistas como se verá en las lecciones siguientes.
 * **model**: Indica de que tipo es el registro que se va a crear en la base de datos, para el caso de las vistas es: *ir.ui.view*.
 * **id**: Es un identificador único para el registro, este identificador sirve para referenciar el registro en otros elementos y documentos XML.
-* **<field>**: Este tag es utilizado para almacenar un valor especifico de acuerdo al record.model contenedor.
+* **`<field>`**: Este tag es utilizado para almacenar un valor especifico de acuerdo al record.model contenedor.
 * atributo **name**: Indica el nombre del campo en la base de datos en el cual se va a almacenar el valor
 * **name**: Es el nombre con el cual se identifica la vista
 * **model**: Indica el modelo al cual esta vista estará enlazado
