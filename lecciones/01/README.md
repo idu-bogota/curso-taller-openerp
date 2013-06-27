@@ -111,3 +111,9 @@ Como ejemplo el diagrama UML ![Diagrama UML](curso_taller_openerp.png) se convie
     xmi2openerp ~/git/curso-taller-openerp/lecciones/01/curso_taller_openerp.xmi
 
 El comando creará la estructura básica del módulo que incluye modelos y vistas, las cuales puede entrar a modificar acordemente a sus necesidades.
+
+## Ejercicio propuesto
+
+Ahora cree en la herramienta modelio un diagrama UML como el presentado en la sección anterior, exporte el modelo a un archivo XMI y por último cree un proyecto PyDEV en eclipse que incluya los archivos generados por el script xmi2openerp.
+
+Cree un nuevo *Run Configuration* para correr el servidor openerp que incluya el parámetro *--addons-path* y este apunte a la carpeta con el código fuente de su proyecto.
