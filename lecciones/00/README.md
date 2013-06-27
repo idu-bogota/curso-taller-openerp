@@ -95,5 +95,10 @@ Instalar OpenERP 6.1
 
 ## Continuar con las lecciones del curso
 
-Ya con esto esta listo OpenERP y eclipse para continuar con el resto de las lecciones, El objetivo es ir creando nuestro módulo del taller en eclipse a medida que vamos avanzando de lección, cada lección tiene un README que da la teoria de la lección y una carpeta src donde puede tener el código de ejemplo para lección, el cual puede usar dentro de eclipse.
+Ya con esto esta listo OpenERP y eclipse para continuar con el resto de las lecciones, El objetivo es ir creando nuestro módulo del taller en eclipse a medida que vamos avanzando de lección, cada lección tiene un README que da la teoria de la lección y una carpeta src donde puede tener el código de ejemplo para lección, el cual puede usar dentro de eclipse. 
 
+Al final de cada lección existe un ejercicio propuesto el cual le ayudará a afianzar lo visto en la lección.
+
+## Ejercicio Propuesto
+
+Explore la instalación de openerp que realizó en las secciones anteriores y familiarícese con la interfaz y los diferentes componentes de la misma.
