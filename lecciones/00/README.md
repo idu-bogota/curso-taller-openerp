@@ -69,13 +69,21 @@ Instalar OpenERP 6.1
     *   En **Main Module** digite **/usr/bin/openerp-server**, este es el comando para iniciar el openerp
     *   En la pestaña **Arguments** en el campo **program arguments** ingrese:
 
-            -r openerp -w openerp --db_host=localhost --addons-path=${project_loc:NombreDeMiProyecto}
+            -r openerp -w openerp --db_host=localhost
 
         Estos son los parámetros que se pasarán al servidor de OpenERP
         * -r es el nombre del usuario de la base de datos
         * -w la clave asignada
-        * --addons-path indica al servidor donde buscar el código de módulos adicionales de OpenERP, en este caso le indicamos que use la carpeta del proyecto eclipse con la variable **${project_loc:NombreDeMiProyecto}** Nota: Recuerde cambiar NombreDeMiProyecto por el nombre del proyecto que usted recien creo.
     *   Luego haga click en el boton **Apply** y **Run**
+    *   Otro parámetro importante es *--addons-path* el cual indica al servidor donde buscar el código de módulos adicionales de OpenERP, podemos indicar que use la carpeta del proyecto eclipse con la variable **${project_loc:NombreDeMiProyecto}**, quedando el parámetro:
+
+            -r openerp -w openerp --db_host=localhost --addons-path=${project_loc:NombreDeMiProyecto}
+
+        Si uds adiciona este campo en este momento, al arrancar el servidor fallará indicando que la carpeta no es válida como addons-path, esto es porque aún no existen modulos openerp en el proyecto.
+    
+        **Nota**: Recuerde cambiar NombreDeMiProyecto por el nombre del proyecto que usted recien creo
+
+
 *   Abrir en el navegador: http://localhost:8069 y accederá a la interfaz de OpenERP
 *   Ahora puede crear una base de datos haciendo click en **Manage Databases**
      * Master Password: es el password de super adminsitrador de openerp por defecto *admin*
