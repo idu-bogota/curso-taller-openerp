@@ -54,3 +54,11 @@ Para desplegar los campos de los objetos de negocio se deben adicionar en las vi
 ## Tip
 
 El campo *active* tiene un significado especial en la plataforma por defecto la interfaz de listado oculta los registros que tengan el campo active en *False*
+
+## Ejercicio propuestos
+
+1. Cambie el label de los diferentes campos y vea como se actualiza la interfaz
+2. Adicione nuevos estados al campo selección
+3. Convierta los campos date y description como requeridos
+4. Adicione un texto de ayuda para cada uno de los campos
+5. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Luego adicione la vista necesaria para el nuevo objeto de negocio en el archivo xml *mi_modulo_view.xml* tomando como ejemplo la vista que ya existe.
