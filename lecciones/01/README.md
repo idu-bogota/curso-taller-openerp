@@ -96,6 +96,8 @@ El módulo de OpenERP tiene la siguiente estructura básica:
         db_password = False
         addons_path = /usr/share/pyshared/openerp/addons/,/opt/openerp-idu-addons/src
 
+    Igualmente se puede pasar el parametro *--addons-path=/ruta/addons* al iniciar el servidor de openerp
+
 1. Luego se reinicia el servidor y para que se registre el nuevo módulo en la base de datos se entra como administrador en la opción *configuración -> actualizar lista de módulos -> actualizar* (solo esta disponible si tiene la opción de interfaz extendida en sus preferencias de usuario). Esto hace que aparezca el nuevo módulo en el listado para ser instalado.
 
 1. Para instalar el módulo en la base de datos debe ingresar como administrador en la opción *Configuración -> módulos*, luego activa la opción *extra* y coloca el nombre del nuevo módulo a instalar y presiona enter, luego hace click en el botón *instalar*, la interfaz se recargará y el menú del módulo aparecerá en la interfaz.
