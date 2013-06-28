@@ -57,8 +57,21 @@ El campo *active* tiene un significado especial en la plataforma por defecto la 
 
 ## Ejercicio propuestos
 
+Tomando el código fuente disponible en la lección:
+
 1. Cambie el label de los diferentes campos y vea como se actualiza la interfaz
-2. Adicione nuevos estados al campo selección
-3. Convierta los campos date y description como requeridos
-4. Adicione un texto de ayuda para cada uno de los campos
-5. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Luego adicione la vista necesaria para el nuevo objeto de negocio en el archivo xml *mi_modulo_view.xml* tomando como ejemplo la vista que ya existe.
+2. Adicione nuevos estados al campo de tipo selección
+3. Convierta a requeridos los campos *date* y *description* y verifique en la interfaz el cambio
+4. Adicione un texto de ayuda para cada uno de los campos y verifique en la interfaz que se despliega
+5. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Ahora a través de la interfaz web de administración del OpenERP (cambiar la vista a extendida en las preferencias del usuario) ingrese a *Configuración >> Personalización >> Elementos del Menú >> Crear*, diligencie el formulario con los siguientes campos mínimos y guarde:
+
+    * Menú: Agregue el nombre del enlace en el menu a desplegar
+    * Menú padre: puede escoger un menu existente para adicionar un elemento de menú nuevo o dejarlo en blanco para que se cree un menú en la barra principal de navegación
+    * Acción: ir.acciones.acc_ventana. En el combobox de selección que aparece a continuación haga click en crear y diligencie los siguientes campos y guarde:
+
+        * Nombre de acción: Un nombre cualquiera para la acción, ej. listado de mi_modulo.mi_propia_tabla
+        * Objeto: coloque el nombre del nuevo objeto de negocio: mi_modulo.mi_propia_tabla
+
+    Recargue la página y el nuevo item del menú debe aparecer disponible desplegando un enlace a la vista de su objeto de negocio donde podrá listar, crear, modificar y consultar registros.
+
+    Aquí se ve como OpenERP permite la personalización a través de desarrollo del módulo o a través de la interfaz de administración.
