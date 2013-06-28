@@ -51,7 +51,7 @@ La estructura para la creación de una vista tipo listado es como la siguiente:
 
 * **string**: El título de la vista
 * **colors**: Se puede asignar un color de letra a los elementos que cumplan con una condición especifica
-* **editable**: Se puede indicar que el registro sea editable en el mismo listado
+* **editable**: Se puede indicar que el registro sea editable desde el mismo listado sin necesidad de abrir el objeto en un formulario
 
 
 ### Formulario
@@ -106,3 +106,9 @@ Esta vista permite desplegar los datos disponibles en una grafica.
 * atributo **group**: Se coloca en 1 para el campo a ser utilizado en el GROUP BY
 * atributo **operator**: Indica el tipo de operador de agregación a ser utilizado (+,*,**,min,max)
 
+## Ejercicios propuestos
+* Adicione a la vista tipo listado los campos de fecha del objeto de negocio *mi_modulo.mi_tabla*
+* Asigne nuevos colores a la vista de listado para los estados activo y cancelado del objeto de negocio *mi_modulo.mi_tabla*
+* Active y desactive la opción de edición de la vista tipo listado y verifique el cambio en la interfaz de usuario
+* Tomando el objeto de negocio realizado en la lección anterior *mi_modulo.mi_propia_tabla*, cree en el archivo *mi_modulo_view.xml* las vistas personalizadas para listado y formulario y el item del menú que permita llamarlas
+* Modifique la vista de gráfica de tipo *bar* a *pie* y los parámetros de agrupación y operadores de agregación, compruebe los cambios en la interfaz de usuario
