@@ -92,4 +92,9 @@ lo que equivale a:
     (name is 'ABC' AND (language is NOT english) AND (country is Belgium OR Germany))
 
 
+## Ejercicios propuestos
 
+* Abra el formulario del objeto de negocio *mi_modulo.mi_tabla_relacionada* y cree tres registros, cada uno con un valor diferente en el campo *state*. Luego entre al formulario de creación de objetos del tipo *mi_modulo.mi_tabla* y revise el campo *Tabla Relacionada*, porque solo aparece un registro en el listado?. 
+  En el mismo formulario de creación haga click en el icono carpeta azul que aparece en el campo *Tabla Relacionada*, aparecerán tres opciones abrir, buscar y crear, haga click en crear y diligencie el formulario, de click en guardar y revise el listado de registros del objeto *mi_modulo.mi_tabla_relacionada*, verá que puede crear registros desde diferentes partes de la aplicación.
+* Modifique el objeto de negocio *mi_modulo.mi_tabla* y haga que el campo *tabla_relacionada_id* permita seleccionar objetos con el estado *active* y *draft*.
+* Cree nuevamente el objeto de negocio *mi_modulo.mi_propia_tabla* de las lecciones anteriores y adicione una relación muchos a muchos al objeto de negocio *mi_modulo.mi_tabla_relacionada*
