@@ -80,3 +80,9 @@ Los parámetros que recibe el método de la clase que hace la restricción son:
 * **uid**: Es el ID del usuario actual
 * **ids**: Son los IDs de los objetos a los cuales se les va a aplicar la restricción
 * **context**: es Un diccionario que puede contener valores de configuración, por defecto se encuentra el idioma del usuario
+
+## Ejercicios propuestos
+
+* Haga que el ordenamiento sea por el campo *fecha*
+* Cree un nuevo registro e identifique los valores por defecto que son colocados, modifique el código para que el valor por defecto del campo *state* sea *active* y para el campo *description* cree un metodo que retorne como valor por defecto el texto *Lorem ipsum dolor sit amet, consectetur adipiscing elit*
+* Adicione una restricción para que el campo *quantity* no acepte valores menores a 10 y mayores a 100
