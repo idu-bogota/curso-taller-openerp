@@ -53,3 +53,17 @@ Más información relacionada con la herencia en las vistas puede ser encontrada
 
     El código de este módulo requiere que se encuentre instalado el módulo de CRM, para instalar este y otras dependencias, debe hacer la actualización del módulo manualmente. Si no lo hace aparecerá un error que indica que el Objeto *mi_modulo.mi_tabla_relacionada* no existe.
 
+## Ejercicios propuestos
+
+* A través del menú de OpenERP ingrese a *Ventas >> Address Book >> Clientes* seleccione uno de los registros que aparece listado y observe como se despliegan etiquetas como: *Puesto antes del nombre* y *Puesto despues del nombre*, así como la relación dget que muestra la relación de muchos a muchos *mi_tabla_ids*
+
+* Instale un módulo nuevo en el OpenERP a su elección, escoja una de los objetos de negocio creados por el nuevo módulo y extiendalo adicionando un nuevo campo y haciendo que este nuevo campo se despliegue en la interfaz.
+
+Para ver que objetos de negocio han sido creados puede **activar el modo de desarrollador**, solo necesita hacer click en el ícono (i) que aparece en la parte superior derecha de la interfaz (al lado izquierdo del enlace de *cerrar sesión*), se desplegará un cuadro de diálogo *acerca de*, en la parte superior derecha del cuadro de dialógo aparece el enlace *Activar modo de desarrollador* , haga click en el, la interfaz se recargará y ud podra ver que aparecen nuevos elementos en las vistas de los objetos de negocio. Cuando ud pasa el puntero del mouse sobre uno de los campos de los formularios de edición podrá observar un tooltip que indica valores como:
+
+* Nombre del campo
+* Objeto de negocio al que pertenece
+* Tipo del campo
+* Modificadores
+
+Con los datos desplegados ud ya tiene la información necesaria para poder realizar la extensión del módulo, sin tener que modificar el código fuente original.
