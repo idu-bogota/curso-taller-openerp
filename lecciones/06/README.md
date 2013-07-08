@@ -43,3 +43,11 @@ Se puede invocar acciones especificas del objeto de negocio a través de botones
 * **icon**: Indica el icono a utilizar en el botón
 * **states**: Indica los estados en los cuales el botón será desplegado.
 
+## Ejercicios propuestos
+
+* Abra el formulario del objeto de negocio *mi_modulo.mi_tabla* y cree un registro en la base de datos, cambie el valor del campo *state*, fijese en como el campo *Relacionada* cambia haciendose visible, requerido o de solo lectura. Igualmente note los cambios en la pestaña *Proveedores*. Ahora modifique la vista para que el campo *Descripción* sea obligatorio para el estado *active* y de solo lectura para el estado *cancelled*.
+
+* Ahora con el mismo registro creado en el paso anterior, haga click en el campo *activo* y vea como los campos *estado*, *Tabla Relacionada* y la pestaña *Proveedores* cambian. Ahora haga un método on_change_ para que cuando coloque un precio mayor de 100 el valor del campo *cantidad* sea 0 y el campo *estado* sea igual a 'draft', también despliegue un mensaje al usuario advirtiendole del cambio.
+
+* Continue con el registro ya creado y abra la pestaña *Fechas*, haga click en el botón *Poner la fecha del próximo lunes* y note lo que sucede (requiere tener conexión a internet ya que se esta invocando un servicio web RESTFUL). Ahora adicione un botón junto al campo *Cantidad* que cambie la cantidad a un valor aleatorio entre 10 y 100.
+
