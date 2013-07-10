@@ -40,8 +40,8 @@ Alternativamente puede instalar el plugin que descargo al instalar el módulo ba
 
 Luego procedemos a convertir el documento ODT en formato RML que va a ser el que finalmente OpenERP va a procesar, para esto ejecutamos el siguiente comando:
 
-    cd <directorio_addons de OpenERP>/base_report_designer/openerp_sxw2rml
-    python openerp_sxw2rml.py mi_reporte.odt > mi_modulo/report/mi_reporte.rml
+    cd ~/workspace/leccion08/mi_modulo/report/ #ingrese al directorio donde ud tenga almacenado el código del módulo del curso
+    python *<directorio_addons>*/base_report_designer/openerp_sxw2rml/openerp_sxw2rml.py mi_reporte.odt > mi_reporte.rml
 
 * El **directorio_addons** en una instalación normal utilizando el archivo .deb es: `/usr/share/pyshared/openerp/addons/`
 * **openerp_sxw2rml.py** es el script que convierte el documento .odt en .rml
@@ -97,4 +97,12 @@ El archivo debe ser referenciado en __openerp__.py para ser cargado en la actual
         "active" : False,
         "installable" : True,
     }
+
+## Ejercicios propuestos
+
+1. Ingrese a la vista de listado del objeto *mi_modulo.mi_tabla*, seleccione uno o varios de los registros que se despliegan haciendo click en el checkbox junto a cada registro, al hacer esto se va a desplegar un menú en la parte derecha de la interfaz, haga click en la opción 'Generar Reporte en PDF' y vea el reporte generado para los objetos seleccionados. Abra el archivo *mi_modulo/report/mi_reporte.rml* y modifiquelo para que se despliegue el campo *price*, ejecute nuevamente el reporte para ver el cambio realizado.
+
+2. Ahora utilizando LibreOffice abra el archivo *mi_modulo/report/mi_reporte.odt* y modifiquelo para que se despliegue el campo *quantity*, utilice el comando *openerp_sxw2rml.py* para crear nuevamente el archivo .rml con el nuevo cambio, sobreescriba el archivo existente *mi_modulo/report/mi_reporte.rml* y ejecute nuevamente el reporte para ver el cambio realizado.
+
+3. Ahora utilizando LibreOffice haga cambios de estilo en el reporte, adicione una imagen, utilice una tabla para presentar los datos, etc, actualice el .rml y ejecute nuevamente el reporte para ver los cambios.
 
