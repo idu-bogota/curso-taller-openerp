@@ -1,69 +1,94 @@
-## Objetos de Negocio
+Lección 02: Objetos de Negocio
+=============================
 
-En esta lección veremos la forma básica de crear objetos de negocio, en lecciones posteriores se verán otras opciones disponibles.
+Esta lección explica la forma básica de construir objetos de negocio y definición de campos.
+
+[TOC]
+
+Mi primer Objeto de Negocio
+---------------------------
 
 Cada objeto de negocio contiene campos y métodos. Para crear un objeto de negocio solo es necesario crear una clase que herede de osv.osv que es la clase ORM que se encarga de gestionar el acceso y almacenamiento en la base de datos.
 
-    class mi_modulo_mi_tabla(osv.osv):
-        _name = "mi_modulo.mi_tabla"
+Estructura básica de un objeto de negocio:
+
+    class mi_modulo_mi_objeto_de_negocio(osv.osv):
+        _name = "mi_modulo.mi_objeto_de_negocio"
         _columns = {
-            'name' : fields.char('name',size=255),
-            'description' : fields.char('description',size=255),
+            'nombre_campo_1' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
+            'nombre_campo_2' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
         }
-    mi_modulo_mi_tabla()
+    mi_modulo_mi_objeto_de_negocio()
 
-En el ejemplo anterior se crea el objeto de negocio con dos campos *name* y *description* ambos son de tipo carácter y de tamaño 255, estos campos serán almacenados automáticamente en la base de datos PostgreSQL como varchar(255) en la tabla mi_modulo_mi_tabla.
+Ejemplo:
 
-El campo *_name* indica que dentro de la plataforma OpenERP el objeto se llama *mi_modulo.mi_tabla*, este nombre será usado en varias partes a lo largo del desarrollo de módulos.
+	class biblioteca_libro(osv.osv):
+        _name = "biblioteca.libro"
+        _columns = {
+            'titulo' : fields.char('Titulo', help='Título del libro'),
+            'autor' : fields.char('Autor', help='Autor del libro'),
+        }
+    biblioteca_libro()
 
-## Definición de campos
+En este ejemplo se crea el objeto de negocio Libro que corresponde al módulo Bibloteca, el objeto esta compuesto por dos campos *titulo* y *autor* ambos son de tipo carácter, estos campos serán almacenados automáticamente en la base de datos PostgreSQL como *character varying* en la tabla **biblioteca_libro**.
 
-Para adicionar un campo en un objeto de negocio solo necesita adicionarlo en el diccionario llamado **_columns** en la definición de la clase de la siguiente manera:
+***_name*** indica que dentro de la plataforma OpenERP el objeto se llama **biblioteca.libro**.
 
-    _columns = {
-        'nombre_campo' : fields.tipo_campo('label del campo en la interfaz', otros_atributos ...),
-        ...,
-        ...,
-    }
+***_columns*** es el diccionario de campos que conforman el objeto de negocio.
 
-La definición de un campo puede tener estos atributos adicionales:
+Definición de campos
+--------------------
 
-* **required**: Indica si el campo es obligatorio o no
-* **readonly**: Indica si el campo es editable
-* **help**: Indica el texto que se despliega como ayuda
+Los campos que conformen el objeto de negocio se deben adicionar en el diccionario llamado **_columns**:
+
+	_columns = {
+            'nombre_campo_1' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
+            'nombre_campo_2' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
+            'nombre_campo_3': ......
+					.
+                    .
+                    .
+             'nombre_campo_n': ......
+        }
+
+Se puede definir atributos adicionales en el campo del objeto de negocio:
+
+* **help**: Indica el texto que se despliega como ayuda para el campo
 * **select**: Crea un index en la base de datos para el campo y agrega el campo en el formulario de busqueda
 
-## Tipos de datos
+###Tipos de datos
 
-Los tipos básicos de atributos disponibles para ser utilizados son:
+Los tipos de datos básicos como se puede definir un campo son:
 
-* Boolean: *fields.boolean('activo')*
-* Integer: *fields.integer('cantidad')*
-* Date: *fields.date('fecha')*
-* Datetime: *fields.datetime('fecha y hora')*
-* char: *fields.char('nombre', size = 255)*, **size** indica el tamaño del campo de texto
-* text: *fields.text('descripcion')*,
-* float: *fields.float('precio', digits = (10,4))*, **digits** indica la precisión del numero, sin precisión se maneja como un float
-* selection: *fields.selection([('draft','borrador'),('active','Activo'),('cancelled','Cancelado')], 'estado')*
-* binary: *fields.binary('foto', filters = '*.png')*
+* **Boolean:** *fields.boolean('etiqueta_del_campo')*
+* **Integer:** *fields.integer('etiqueta_del_campo')*
+* **Date:** *fields.date('etiqueta_del_campo')*
+* **Datetime:** *fields.datetime('etiqueta_del_campo')*
+* **char:** *fields.char('etiqueta_del_campo', size = 255)*, **size** indica el tamaño del campo de texto
+* **text:** *fields.text('etiqueta_del_campo')*,
+* **float:** *fields.float('etiqueta_del_campo', digits = (10,4))*, **digits** indica la precisión del numero, sin precisión se maneja como un float
+* **selection:** *fields.selection([('nombre_item_1','etiqueta_item_1'),('nombre_item_2','etiqueta_item_2'),('nombre_item_3','etiqueta_item_3')], 'etiqueta_del_campo')*
+* binary: *fields.binary('etiqueta_del_campo', filters = '*.png')*
 
-## Despliegue de los campos
+### Tips
+
+Los campos de tipo de dato Boolean, se define como etiqueta_del_campo **active**, el cual tiene un significado especial en la plataforma, por defecto la interfaz de listado oculta los registros que tengan el campo active en *False*.
+
+Desplegar objetos de negocio desde interfaz
+------------------------
 
 Para desplegar los campos de los objetos de negocio se deben adicionar en las vistas definidas para los objetos, solo es necesario indicar el nombre del campo a desplegar y el sistema se encarga de desplegar el elemento gráfico acorde al tipo de dato.
 
-## Tip
-
-El campo *active* tiene un significado especial en la plataforma por defecto la interfaz de listado oculta los registros que tengan el campo active en *False*
-
-## Ejercicio propuestos
+Ejercicio propuesto
+-------------------
 
 Tomando el código fuente disponible en la lección:
 
 1. Cambie el label de los diferentes campos y vea como se actualiza la interfaz
-2. Adicione nuevos estados al campo de tipo selección
-3. Convierta a requeridos los campos *date* y *description* y verifique en la interfaz el cambio
-4. Adicione un texto de ayuda para cada uno de los campos y verifique en la interfaz que se despliega
-5. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Ahora a través de la interfaz web de administración del OpenERP (cambiar la vista a extendida en las preferencias del usuario) ingrese a *Configuración >> Personalización >> Elementos del Menú >> Crear*, diligencie el formulario con los siguientes campos mínimos y guarde:
+1. Adicione nuevos estados al campo de tipo selección
+1. Convierta a requeridos los campos *date* y *description* y verifique en la interfaz el cambio
+1. Adicione un texto de ayuda para cada uno de los campos y verifique en la interfaz que se despliega
+1. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Ahora a través de la interfaz web de administración del OpenERP (cambiar la vista a extendida en las preferencias del usuario) ingrese a *Configuración >> Personalización >> Elementos del Menú >> Crear*, diligencie el formulario con los siguientes campos mínimos y guarde:
 
         * Menú: Agregue el nombre del enlace en el menu a desplegar
         * Menú padre: puede escoger un menu existente para adicionar un elemento de menú nuevo o dejarlo en blanco para que se cree un menú en la barra principal de navegación
