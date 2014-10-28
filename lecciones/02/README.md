@@ -70,6 +70,22 @@ Los tipos de datos básicos como se puede definir un campo son:
 * **selection:** *fields.selection([('nombre_item_1','etiqueta_item_1'),('nombre_item_2','etiqueta_item_2'),('nombre_item_3','etiqueta_item_3')], 'etiqueta_del_campo')*
 * binary: *fields.binary('etiqueta_del_campo', filters = '*.png')*
 
+Ejemplo:
+
+	class biblioteca_libro(osv.osv):
+        _name = "biblioteca.libro"
+        _columns = {
+            'active': fields.boolean('Active', help='Activo/Inactivo'),
+            'isbn': fields.char('ISBN', size = 255),
+            'titulo' : fields.char('Titulo', size = 255, help='Título del libro'),
+            'autor' : fields.char('Autor', size = 255, help='Autor del libro'),
+            'descripcion': fields.text('descripcion'),
+            'paginas': fields.integer('Paginas'),
+            'fecha': fields.date('Fecha', help='Fecha de publicación'),
+            'state': fields.selection([('draft', 'Draft'),('open', 'In Progress'),('cancel', 'Cancelled'),('done', 'Done'),('pending', 'Pending')],'State'),
+        }
+	biblioteca_libro()
+
 ### Tips
 
 Los campos de tipo de dato Boolean, se define como etiqueta_del_campo **active**, el cual tiene un significado especial en la plataforma, por defecto la interfaz de listado oculta los registros que tengan el campo active en *False*.
@@ -77,26 +93,31 @@ Los campos de tipo de dato Boolean, se define como etiqueta_del_campo **active**
 Desplegar objetos de negocio desde interfaz
 ------------------------
 
-Para desplegar los campos de los objetos de negocio se deben adicionar en las vistas definidas para los objetos, solo es necesario indicar el nombre del campo a desplegar y el sistema se encarga de desplegar el elemento gráfico acorde al tipo de dato.
+Para visualizar nuestro objeto de negocio desde la interfaz, lo primero es verificar que el módulo se encuentre instalado, para el ejemplo el módulo Biblioteca.
+
+Para crear un menú de acceso al objeto de negocio, debe ingresar por el menú:
+
+*Técnico --> Estructura de la base de datos --> Modelos*
+
+En Modelos, buscar modelo para Biblioteca, seleccionar el modelo biblioteca.libro, en este último click sobre el botón Crear un menú:
+
+* Nombre del menú: **Libro**
+* Menú padre: **Configuración/Configuración**
+
+El menú padre **Configuración/Configuración** es uno ya existente en la plataforma.
+
+Después de crear el menú, usted debe actualizar la platoforma y se activa el Menú padre Configuración y el submenú Libro.
+
+En el menú Libro, se crea por defecto dos tipos de vista, vista lista y vista formulario.
+
 
 Ejercicio propuesto
 -------------------
 
 Tomando el código fuente disponible en la lección:
 
-1. Cambie el label de los diferentes campos y vea como se actualiza la interfaz
-1. Adicione nuevos estados al campo de tipo selección
-1. Convierta a requeridos los campos *date* y *description* y verifique en la interfaz el cambio
-1. Adicione un texto de ayuda para cada uno de los campos y verifique en la interfaz que se despliega
-1. Cree un nuevo objeto de negocio llamado *mi_modulo.mi_propia_tabla* y adicione como mínimo 3 campos en la clase. Ahora a través de la interfaz web de administración del OpenERP (cambiar la vista a extendida en las preferencias del usuario) ingrese a *Configuración >> Personalización >> Elementos del Menú >> Crear*, diligencie el formulario con los siguientes campos mínimos y guarde:
-
-        * Menú: Agregue el nombre del enlace en el menu a desplegar
-        * Menú padre: puede escoger un menu existente para adicionar un elemento de menú nuevo o dejarlo en blanco para que se cree un menú en la barra principal de navegación
-        * Acción: ir.acciones.acc_ventana. En el combobox de selección que aparece a continuación haga click en crear y diligencie los siguientes campos y guarde:
-
-            * Nombre de acción: Un nombre cualquiera para la acción, ej. listado de mi_modulo.mi_propia_tabla
-            * Objeto: coloque el nombre del nuevo objeto de negocio: mi_modulo.mi_propia_tabla
-
-    Recargue la página y el nuevo item del menú debe aparecer disponible desplegando un enlace a la vista de su objeto de negocio donde podrá listar, crear, modificar y consultar registros.
-
-    Aquí se ve como OpenERP permite la personalización a través de desarrollo del módulo o a través de la interfaz de administración.
+1. Adicionar nuevos estados al campo de tipo selección
+1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega
+1. Adicionar los campos clasificacion, genero y editorial, tipo de campo char.
+1. Crear un nuevo objeto de negocio llamado *biblioteca.libro_prestamo* y adicione los campos fecha_prestamo tipo date, duración_prestamo tipo integer, fecha_regreso tipo date.
+1. Crear un menú acceso al objeto *biblioteca.libro_prestamo* que tenga como menú padre **Configuración/Configuración**. Recargue la página y el nuevo item del menú debe aparecer disponible desplegando un enlace a la vista de su objeto de negocio donde podrá listar, crear, modificar y consultar registros.
