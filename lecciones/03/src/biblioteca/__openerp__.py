@@ -1,12 +1,12 @@
 {
-    "name" : "mi_modulo",
+    "name" : "biblioteca",
     "version" : "3.0",
     "author" : "xx",
     "category" : "xx",
     "description" : "xx",
     "init_xml" : [],
     "depends" : ['base',],
-    "update_xml" : ['mi_modulo_view.xml',],
+    "update_xml" : ['biblioteca_view.xml',],
     "active" : False,
     "installable" : True,
 }
