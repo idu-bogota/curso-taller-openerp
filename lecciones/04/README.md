@@ -1,10 +1,12 @@
 Lección 04: Reglas Básicas y Restricciones
 ==========================================
 
+[TOC]
+
 Los objetos de negocio permite configuraciones adicionales que permite agregar reglas y restricciones para mantener la consistencia de los datos o cambiar el comportamiento de la plataforma.
 
 Ordenamiento por defecto: _order
--------------------------------------
+--------------------------------
 
 Para que los datos se organizen de manera diferente puede utilizar el atributo **_order** e indicar el nombre del campo a utilizarse para el ordenamiento (por defecto se organizan por *id*).
 
@@ -81,7 +83,7 @@ Los parámetros recibidos por el método de la clase son:
 * **uid**: Es el ID del usuario actual
 * **context**: Diccionario que puede contener valores de configuración, por defecto se encuentra el idioma del usuario
 
-[ver información de como definir un método en python](http://)
+[ver información de como definir un método en python](http://https://docs.python.org/2/tutorial/classes.html)
 
 Restricciones para el objeto de negocio: _constraints
 -----------------------------------------------------
