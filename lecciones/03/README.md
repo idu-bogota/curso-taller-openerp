@@ -1,6 +1,8 @@
 Lección 03: Vistas Básicas
 =============================
 
+[TOC]
+
 La forma de visualización de los objetos de negocio en OpenERP, es por medio de las vistas. La interfaz de usuario es creada dinámicamente utilizando la configuración definida en la base de datos, al crear un módulo la interfaz de usuario se crea a través de archivos XML que tienen los datos a ser insertados en la base de datos y que son cargados en el momento de instalarse el módulo.
 
 Existen diferentes tipos de vistas disponibles en OpenERP, las cuales puedes ser asociadas a un mismo objeto:
@@ -51,6 +53,7 @@ El tipo de vista lista o tree, se utiliza para visualizar el listado de registro
 
 * **string**: El título de la vista
 * **colors**: Se puede asignar un color de letra a los elementos que cumplan con una condición especifica
+* editable: Se puede indicar que el registro sea editable desde la vista tipo lista sin necesidad de abrir el objeto en un formulario.
 
 Ejemplo para la creación de una vista tipo lista:
 
@@ -58,7 +61,7 @@ Ejemplo para la creación de una vista tipo lista:
         <field name="name">biblioteca.libro.tree</field>
         <field name="model">biblioteca.libro</field>
         <field name="arch" type="xml">
-            <tree string="Biblioteca Libro" colors="blue:state=='draft'">
+            <tree string="Biblioteca Libro" colors="blue:state=='draft'" editable="top">
                 <field name="isbn"/>
                 <field name="titulo"/>
                 <field name="autor"/>
