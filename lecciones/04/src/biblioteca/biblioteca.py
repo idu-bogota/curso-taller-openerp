@@ -41,7 +41,7 @@ class biblioteca_libro(osv.osv):
         return is_valid_data
 
     _constraints = [
-        (_check_date,'Fecha debe ser anterior a la fecha actual',['fecha']),
+        (_check_fecha,'Fecha debe ser anterior a la fecha actual',['fecha']),
     ]
 
     def _random_precio(self, cr, uid, context = None):
@@ -50,8 +50,8 @@ class biblioteca_libro(osv.osv):
     _defaults = {
          'active': True,
          'state': 'draft',
-         'price': lambda *a: random(),
-         'quantity': _random_precio,
+         'paginas': lambda *a: random(),
+         'precio': _random_precio,
     }
 biblioteca_libro()
 
@@ -62,7 +62,7 @@ class biblioteca_libro_prestamo(osv.osv):
     _name = "biblioteca.libro_prestamo"
     _columns = {
         'fecha_prestamo': fields.date('Fecha de Préstamo'),
-        'duración_prestamo': fields.integer('días préstamo'),
+        'duracion_prestamo': fields.integer('días préstamo'),
         'fecha_regreso': fields.date('Fecha de Entrega'),
     }
 biblioteca_libro_prestamo()
