@@ -6,7 +6,7 @@ Guía para el desarrollo
 Lección objeto de negocio
 -------------------------
 1. Crear libro
-1. Crear un menu para desplegar los libros desde interfaz 
+1. Crear un menu para desplegar los libros desde interfaz
 
 Lección vistas básicas
 -----------------
@@ -22,7 +22,9 @@ Lección reglas básicas y restricciones
 
 Lección Busquedas, Filtros y Agrupamientos
 ------------------------------------------
-1. Para el libro
+1. Adición de busquedas en la vista tipo lista
+1. Adición de filtros en la vista tipo lista
+1. Adición de agrupamientos en la vista tipo lista
 
 Lección vista dinámica
 ----------------------

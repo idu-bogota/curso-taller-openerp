@@ -30,7 +30,7 @@ Las búsquedas son aplicadas en campos que no es posible definir su valor.
 Filtros
 -------
 
-Después de haber definido los criterios de búqueda, se pueden crear filtros, los cuales deben ir en la etiqueta <search> y por medio de un  <separator/>.
+Después de haber definido los criterios de búqueda, se pueden crear filtros, los cuales deben ir en la etiqueta <search> y por medio de un <separator/>.
 
 	<record model="ir.ui.view" id="biblioteca_libro_search">
 		<field name="name">biblioteca.libro.search</field>
@@ -73,4 +73,10 @@ En las búsquedas se puede crear agrupamientos:
 
 Ejercicios propuestos
 ---------------------
+
+1. Realizar la carga de datos ubicado en el archivo biblioteca_libro.csv
+1. Utilizar las busquedas, filtros y agrupamientos de la lección.
+1. Adicionar un nuevo criterio de búsqueda y verifique su funcionamiento.
+1. Adicionar un nuevo filtro y verifique su funcionamiento.
+1. Adicionar un nuevo agrupamiento y verifique su funcionamiento.
 
