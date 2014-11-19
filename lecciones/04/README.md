@@ -58,7 +58,7 @@ La forma básica de definir un valor por defecto es:
 
 	_defaults = {
         'active': True,
-        'state': 'draft',
+        'state': 'solicitud',
 	}
 
 Se puede definir valores por defecto que son resultado de la generación de un método:
@@ -71,7 +71,7 @@ Se puede definir valores por defecto que son resultado de la generación de un m
 
     _defaults = {
         'active': True,
-        'state': 'draft',
+        'state': 'solicitud',
         'precio': lambda *a: random(), #Genera un valor flotante aleatorio
         'paginas': _random_paginas, #Llama al método de la clase previamente definido
     }
@@ -144,6 +144,6 @@ Ejercicios propuestos
 
 * Definir en ordenamiendo del objeto de negocio por el campo **fecha**
 * Crear un nuevo registro donde verique los valores definidos por defecto.
-* Modificar el código para que el valor por defecto del campo **state** sea **In Progress**
+* Modificar el código para que el valor por defecto del campo **state** sea **Solicitud**
 * Modificar el código para que el campo **descripcion** cree un método que retorne como valor por defecto el texto ***Ingresar la descripción del libro***
 * Adicionar una restricción para que el campo **precio** no acepte valores menores a 1000 ni valores mayores a 500000

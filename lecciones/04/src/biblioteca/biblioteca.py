@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 ################################################################################
-#        ---  Objeto de negocio Libro
+#        ---  Objeto de negocio Libro / Lección 4
 ################################################################################
 class biblioteca_libro(osv.osv):
     _name = "biblioteca.libro"
@@ -19,7 +19,8 @@ class biblioteca_libro(osv.osv):
         'paginas': fields.integer('Paginas'),
         'fecha': fields.date('Fecha', help='Fecha de publicación'),
         'precio': fields.float('Precio',  digits = (10,4), help='Precio de compra'),
-        'state': fields.selection([('draft', 'Draft'),('open', 'In Progress'),('cancel', 'Cancelled'),('done', 'Done'),('pending', 'Pending')],'State'),
+        'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
+           ('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
         'clasificacion': fields.char('Clasificación', size = 255, help='Clasificación del libro'),
         'genero': fields.char('Género', size = 255, help='Género del libro'),
         'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
@@ -49,7 +50,7 @@ class biblioteca_libro(osv.osv):
 
     _defaults = {
          'active': True,
-         'state': 'draft',
+         'state': 'solicitud',
          'paginas': lambda *a: random(),
          'precio': _random_precio,
     }

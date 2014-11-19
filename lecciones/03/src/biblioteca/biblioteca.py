@@ -2,7 +2,7 @@
 from osv import fields, osv
 
 ################################################################################
-#        ---  Objeto de negocio Libro
+#        ---  Objeto de negocio Libro / Lección 3
 ################################################################################
 class biblioteca_libro(osv.osv):
     _name = "biblioteca.libro"
@@ -15,7 +15,8 @@ class biblioteca_libro(osv.osv):
         'paginas': fields.integer('Paginas'),
         'fecha': fields.date('Fecha', help='Fecha de publicación'),
         'precio': fields.float('Precio', help='Precio de compra'),
-        'state': fields.selection([('draft', 'Draft'),('open', 'In Progress'),('cancel', 'Cancelled'),('done', 'Done'),('pending', 'Pending')],'State'),
+        'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
+            ('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
         'clasificacion': fields.char('Clasificacion', size = 255, help='Clasificación del libro'),
         'genero': fields.char('Género', size = 255, help='Género del libro'),
         'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),

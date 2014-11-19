@@ -61,7 +61,7 @@ Ejemplo para la creación de una vista tipo lista:
         <field name="name">biblioteca.libro.tree</field>
         <field name="model">biblioteca.libro</field>
         <field name="arch" type="xml">
-            <tree string="Biblioteca Libro" colors="blue:state=='draft'" editable="top">
+            <tree string="Biblioteca Libro" colors="blue:state=='solicitud'" editable="top">
                 <field name="isbn"/>
                 <field name="titulo"/>
                 <field name="autor"/>
@@ -146,7 +146,7 @@ Ejercicios propuestos
 ---------------------
 
 * Adicione a la vista tipo lista el campo fecha del objeto de negocio *biblioteca.libro*
-* Asigne nuevos colores a la vista tipo lista para los estados activo y cancelado del objeto de negocio *biblioteca.libro*
+* Asigne nuevos colores a la vista tipo lista para los estados en **Proceso de compra** y **Catalogado** del objeto de negocio *biblioteca.libro*
 * Modifique la vista tipo gráfica de tipo *bar* a *pie* y los parámetros de agrupación y operadores de agregación, compruebe los cambios en la interfaz de usuario
 * Crear la vista tipo lista y tipo formulario para el objeto de negocio *biblioteca.libro_prestamo*.
 * Crear el item del menú para el objeto de negocio *biblioteca.libro_prestamo*.

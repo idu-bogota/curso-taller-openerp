@@ -41,8 +41,8 @@ Después de haber definido los criterios de búqueda, se pueden crear filtros, l
 				<field name="titulo" string="Título del libro"/>
 				<field name="autor" string="Nombre del autor del libro"/>
 				<separator/>
-				<filter name="state" string="Estado en progreso " domain="[('state','=','open')]" help="Estado del regristro En progreso " icon="terp-check"/>
-				 <filter name="state" string="Estado pendiente " domain="[('state','=','pending')]" help="Estado del regristro En progreso " icon="terp-check"/>
+				<filter name="state" string="En solicitud" domain="[('state','=','solicitud')]" help="Estado del regristro en solicitud" icon="terp-check"/>
+				 <filter name="state" string="En proceso de compra" domain="[('state','=','compra')]" help="Estado del regristro en proceso de compra" icon="terp-check"/>
 			</search>
 		</field>
 	</record>
