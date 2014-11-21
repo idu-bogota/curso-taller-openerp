@@ -1,53 +1,71 @@
-## Interfaz de usuario (II)
+Lección 06: Vista Dinámica
+==========================
 
-Vamos a ver como la interfaz puede cambiar dinámicamente utilizando los atributos **attrs** y **on_change**, también veremos como adicionar botones que realicen acciones especificas en el objeto de negocio.
+[TOC]
 
-### attrs
+on_change
+---------
 
-Este atributo permite que se cambie los valores definidos para *readonly*, *invisible* y *required* basado en los valores del formulario, de acuerdo a la regla del criterio pasado en el diccionadio.
+El atributo on_change permite ejecutar un método en el objeto de negocio cuando se realiza cualquier tipo de cambio sobre el valor del campo al cual se le asocia el atributo on_change.
 
-    <field name="tabla_relacionada_id" attrs="{'invisible': [('state', '=', 'draft')], 'required': [('state', '=', 'active')], 'readonly': [('state','=','cancelled')]}"/>
+La estructura para el uso del atributo es la siguiente:
 
-El ejemplo anterior hace que el campo *tabla_relacionada_id* no aparezca en el formulario cuando el *state* es *draft*; el campo va a ser obligatorio si el estado es *active* y quedará en modo solo lectura cuando el estado es *cancelled*
+	<field name="nombre_campo" on_change="nombre_metodo_a_ejecutar(nombre_parametro)"/>
 
-### on_change
-
-Este atributo permite ejecutar un método en el objeto de negocio cuando el valor del campo cambia. Solo debe referenciar el método a ser llamado y los parametros a ser pasados al método, como en el siguiente ejemplo:
+Para el uso del atributo se indica en nombre del campo al cual se le asocia el atributo on_change, se referencia el método a ser llamado y los parámetros a ser pasados al método. Ejemplo del código en la vista:
 
     <field name="active" on_change="onchange_active(active)"/>
 
-El método en el objeto de negocio recibe los valores pasados como parámetros y retornar un diccionario cambios en la interfaz, tal como lo muestra el siguiente ejemplo:
+El método recibe los valores de los campos indicados como parámetros y retorna un diccionario con nuevos valores asignados a los campos del objeto de negocio, reflejado como cambios en la interfaz. Ejemplo del código en el objeto de negocio:
 
     def onchange_active(self, cr, uid, ids, active):
         if not active:
-            return {'value': {'state': 'cancelled'} }
+            return {'value': {'state': 'baja'} }
         return {
             'warning': {'message': 'Cambiando el estado a "activo"'},
-            'value': {'state': 'active'},
-            'domain': {'tabla_relacionada_id': "[('state','=','active')]" },
+            'value': {'state': 'solicitud'},
         }
 
-* **value**: Este diccionario indica nuevos valores a ser asignados a otros campos del formulario
-* **warning**: Hace que se despliegue un mensaje en la interfaz
-* **domain**: El diccionario puede cambiar el valor del atributo *domain* de otro campo en el formulario
+* **value**: Diccionario con los nuevos valores a ser asignados a otros campos del formulario
+* **warning**: Despliegue de mensaje en la interfaz
 
-## Botones de acción
+attr
+----------
 
-Se puede invocar acciones especificas del objeto de negocio a través de botones en la interfaz de usuario. Para esto utilizamos la etiqueta `button`, como en el ejemplo acontinuación:
+La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs** así como el ya visto **on_change**. el atributo attrs permite que se cambie los valores definidos para *invisible*, *required* y *readonly*, basado en los valores del formulario, de acuerdo a la regla del criterio pasado en el diccionario.
 
-    <button name="next_monday_date" string="Poner la fecha del próximo lunes" type="object" icon="gtk-ok" states="active"/>
+### Invisible
 
-* **name**: Indica el nombre del método a llamar
-* **string**: Indica el label del botón
-* **type**: Indica el tipo del botón, para este caso el tipo es object, existen otros tipos adicionales usados para gestión de workflows y acciones.
-* **icon**: Indica el icono a utilizar en el botón
-* **states**: Indica los estados en los cuales el botón será desplegado.
+El atributo invisible permite dejar o no visible un campo en la vista. Ejemplo:
 
-## Ejercicios propuestos
+	<field name= "descripcion" attrs= "{'invisible': [('state', '=', 'baja')]}"/>
 
-* Abra el formulario del objeto de negocio *mi_modulo.mi_tabla* y cree un registro en la base de datos, cambie el valor del campo *state*, fijese en como el campo *Relacionada* cambia haciendose visible, requerido o de solo lectura. Igualmente note los cambios en la pestaña *Proveedores*. Ahora modifique la vista para que el campo *Descripción* sea obligatorio para el estado *active* y de solo lectura para el estado *cancelled*.
+En el ejemplo se indica que el campo descripción es visible en la vista si el estado del libro es **De baja**.
 
-* Ahora con el mismo registro creado en el paso anterior, haga click en el campo *activo* y vea como los campos *estado*, *Tabla Relacionada* y la pestaña *Proveedores* cambian. Ahora haga un método on_change_ para que cuando coloque un precio mayor de 100 el valor del campo *cantidad* sea 0 y el campo *estado* sea igual a 'draft', también despliegue un mensaje al usuario advirtiendole del cambio.
+### Required
 
-* Continue con el registro ya creado y abra la pestaña *Fechas*, haga click en el botón *Poner la fecha del próximo lunes* y note lo que sucede (requiere tener conexión a internet ya que se esta invocando un servicio web RESTFUL). Ahora adicione un botón junto al campo *Cantidad* que cambie la cantidad a un valor aleatorio entre 10 y 100.
+El atributo required permite indicar si el campo es o no obligatorio en la vista. Ejemplo:
 
+	<field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
+
+En el ejemplo se indica que el campo paginas es obligatorio en la vista, si el estado del libro es **Proceso de Compra**.
+
+### Readonly
+
+El atributo readonly permite indicar si el campo es o no se solo lectura en la vista. Ejemplo:
+
+	<field name="titulo" attrs="{'readonly': [('state','=','catalogado')]}"/>
+
+En el ejemplo se indica que el campo titulo es unicamente de lectura en la vista, si el estado del libro es Catalogado.
+
+Igualmente puede incluir todos los atributos en **attrs**. Ejemplo:
+
+    <field name="titulo" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('state','=','catalogado')]}"/>
+
+El ejemplo anterior hace que el campo titulo no aparezca en el formulario cuando el *state* es *baja*; el campo va a ser obligatorio si el estado es *compra* y quedará en modo solo lectura cuando el estado es *catalogado*
+
+Ejercicios propuestos
+---------------------
+
+1. Verificar los cambios en la vista al activar el atributo on_change del código ejemplo.
+1. Verificar los cambios en la vista según los atributos invisible, required y readonly del código ejemplo.
