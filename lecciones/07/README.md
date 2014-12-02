@@ -1,69 +1,125 @@
-## Extendiendo módulos
+Lección 07: Relaciones entre Objetos de Negocio
+===============================================
 
-Los módulos existentes se deben modificar a través del uso de la herencia no modificandolos directamente. Veremos como se puede hacer esta herencia a nivel de vistas y de objetos de negocios.
+[TOC]
 
-### Extensión de objetos de negocio
+Las aplicaciones comunes requieren que los datos esten relacionados, veremos a continuación como manejar las relaciones entre Objetos de Negocios, a través de nuevos tipos de campos one2many, many2one y many2many.
 
-Para extender un objeto de negocio, se debe crear una clase en nuestro módulo y utilizar el mismo nombre del objeto que se desea extender **_name**, junto el atributo **_inherit** que debe tener el mismo nombre del objeto que se desea extender. En el siguiente ejemplo se extenderá el objeto *res.partner* para adicionar la relación muchos a muchos que creamos en lecciones pasadas.
+Relaciones one2many
+-------------------
 
-    class res_partner(osv.osv):
-        _name = "res.partner"
-        _inherit = "res.partner"
+one2many hace referencia hacia un campo específico de un objeto de negocio, creando la relación iniciada por el campo many2one, permite que el objeto padre pueda acceder a todos los objetos relacionados. Su estructura es la siguiente:
 
-        _columns = {
-            'mi_tabla_ids': fields.many2many('mi_modulo.mi_tabla', 'mi_modulo_partner_rel', 'partner_id', 'mi_tabla_id', 'Mi Tabla'),
-        }
+	'nombre_campo_ids': fields.one2many('nombre_tabla_a_relacionar', 'nombre_campo_tabla_a_relacionar_id', 'Descripción del campo')
 
-Como se puede ver la herencia no se hace de la misma forma que la definida en Python, este tipo de herencia de clase es propia de OpenERP y su framework OpenObjects. Existen otro tipo de herencia *por prototipo* definida en el framework que puede ser revisada en [Libro de desarrollo de OpenERP](http://doc.openerp.com/v6.1/developer/03_modules_2.html#object-inheritance-inherit)
+Los parámetros recibidos por este campo son:
 
-Luego de definir la clase y su relación de herencia, se pueden adicionar más campos o modificar los existentes, asi como cambiar cualquier otro atributo de la clase simplemente redefiniendolo.
+* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
+* **nombre_campo_tabla_a_relacionar_id**: Nombre del campo que contiene la relación en la tabla relacionada.
 
-### Extensión de vistas
+Por convención el nombre del campo se le adiciona el sufijo **_ids**
 
-Para extender una vista, se define la vista del objeto tal como se hace para objetos nuevos y se adiciona el atributo **inherit_id** indicando el ID de la vista a extender. Luego de esto se puede cambiar la vista adicionando etiquetas nuevas para la vista ubicandolas antes, despues o remplazando ya existentes.
+Ejemplo (campo clasificacion_ids):
 
-    <!-- vista extendida de res.partner -->
-    <record model="ir.ui.view" id="mi_modulo_res_partner_form">
-        <field name="name">mi_modulo.res_partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <field name="name" position="before">
-                    <separator string="Puesto antes del nombre" colspan="10"/>
-                </field>
-                <field name="name" position="after">
-                        <separator string="Puesto despues del nombre" colspan="10"/>
-                        <field name="comment" />
-                        <newline />
-                </field>
-                <page string="Notes" position="replace">
-                    <page string="mi tabla">
-                        <field name="mi_tabla_ids" nolabel="1" />
-                    </page>
-                </page>
-          </field>
-    </record>
+	class biblioteca_libro(osv.osv):
+		_name = "biblioteca.libro"
+		_order= 'fecha'
+		_columns = {
+			'active': fields.boolean('Active', help='Activo/Inactivo'),
+			'isbn': fields.char('ISBN', size = 255, required=True,),
+			.
+			.
+			.
+			'clasificacion_ids': fields.one2many('biblioteca.libro_clasificacion', 'libro_id', 'Clasificación del libro'),
+			'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
+		}
 
-Más información relacionada con la herencia en las vistas puede ser encontrada en [el libro de desarrollo de OpenERP](http://doc.openerp.com/v6.1/developer/03_modules_3.html#inheritance-in-views)
+	biblioteca_libro()
 
-    ------------
-    | /!\ Nota |
-    ------------
 
-    El código de este módulo requiere que se encuentre instalado el módulo de CRM, para instalar este y otras dependencias, debe hacer la actualización del módulo manualmente. Si no lo hace aparecerá un error que indica que el Objeto *mi_modulo.mi_tabla_relacionada* no existe.
+Para adicionar el campo en la vista solo debe adicionarlo en la vista correspondiente como lo haría con cualquier otro campo usando la etiqueta `<field>`.
 
-## Ejercicios propuestos
+Para la relación uno a muchos se utiliza el tipo de campo *many2one* este campo crea la llave foranea entre las tablas de dos objetos de negocio.
 
-* A través del menú de OpenERP ingrese a *Ventas >> Address Book >> Clientes* seleccione uno de los registros que aparece listado y observe como se despliegan etiquetas como: *Puesto antes del nombre* y *Puesto despues del nombre*, así como la relación dget que muestra la relación de muchos a muchos *mi_tabla_ids*
+Relaciones many2one
+-------------------
 
-* Instale un módulo nuevo en el OpenERP a su elección, escoja una de los objetos de negocio creados por el nuevo módulo y extiendalo adicionando un nuevo campo y haciendo que este nuevo campo se despliegue en la interfaz.
+many2one hace referencia hacia un objeto de negocio, este campo crea la llave foranea entre las tablas de dos objetos de negocios. Su estructura es la siguiente:
 
-Para ver que objetos de negocio han sido creados puede **activar el modo de desarrollador**, solo necesita hacer click en el ícono (i) que aparece en la parte superior derecha de la interfaz (al lado izquierdo del enlace de *cerrar sesión*), se desplegará un cuadro de diálogo *acerca de*, en la parte superior derecha del cuadro de dialógo aparece el enlace *Activar modo de desarrollador* , haga click en el, la interfaz se recargará y ud podra ver que aparecen nuevos elementos en las vistas de los objetos de negocio. Cuando ud pasa el puntero del mouse sobre uno de los campos de los formularios de edición podrá observar un tooltip que indica valores como:
+	'nombre_campo_id': fields.many2one('nombre_tabla_a_relacionar', 'Descripción del campo', select= True, ondelete= 'cascade', domain="[('state','=','active')]" )
 
-* Nombre del campo
-* Objeto de negocio al que pertenece
-* Tipo del campo
-* Modificadores
+Los parámetros recibidos por este campo son:
 
-Con los datos desplegados ud ya tiene la información necesaria para poder realizar la extensión del módulo, sin tener que modificar el código fuente original.
+* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
+* **ondelete**: Indica como se manejará la eliminación del objeto padre, aquí los valores disponibles en la documentación de PostgreSQL (set null, cascade)
+* **domain**: Criterio que limita los objetos que serán relacionados, más adelante se dan mayores ejemplos del criterio de búsqueda.
+
+Ejemplo (campo libro_id):
+
+	class biblioteca_libro_clasificacion(osv.osv):
+		_name = "biblioteca.libro_clasificacion"
+		_columns = {
+			'name': fields.char('Clasificación'),
+			'libro_id': fields.many2one('biblioteca.libro','id del Libro',
+				select=True,
+				ondelete='cascade'
+			),
+		}
+
+	biblioteca_libro_clasificacion()
+
+
+Relaciones many2many
+--------------------
+
+many2many consiste en que un objeto de negocio A se relaciona con un objeto de negocio B y a su vez el objeto de negocio B se relaciona con el objeto de negocio A, de tal forma que al persistirse cualquier objeto también se persista la lista de objetos que posee. Su estructura es la siguiente:
+
+	'nombre_campo_ids': fields.many2one('nombre_tabla_a_relacionar', 'nombre_tabla_nueva', 'campo_id_en_A', 'campo_id_en_B', 'Descripción del campo')
+
+Los parámetros recibidos por este campo son:
+
+* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
+* **ondelete**: Indica como se manejará la eliminación del objeto padre, aquí los valores disponibles en la documentación de PostgreSQL (set null, cascade)
+* **domain**: Criterio que limita los objetos que serán relacionados, más adelante se dan mayores ejemplos del criterio de búsqueda.
+
+los parámetros a utilizar son:
+
+* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
+* **nombre_tabla_nueva**: Nombre de la tabla relación donde se almacena la relación muchos a muchos.
+* **campo_id_en_A**: Nombre del campo en la tabla relación donde se almacena el ID del objeto actual.
+* **campo_id_en_B**: Nombre del campo en la tabla relación donde se almacena el ID del objeto objetivo.
+
+Por convención el nombre del campo se le adiciona el sufijo **_ids**
+
+Ejemplo (campo genero_ids):
+
+	class biblioteca_libro(osv.osv):
+		_name = "biblioteca.libro"
+		_order= 'fecha'
+		_columns = {
+			'active': fields.boolean('Active', help='Activo/Inactivo'),
+			'isbn': fields.char('ISBN', size = 255, required=True,),
+			.
+			.
+			.
+			'genero_ids': fields.many2many('biblioteca.libro_genero','biblioteca_libro_clasificaciones',
+					'genero_id',
+					'libro_id',
+					'Género del Libro',
+			),
+			'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
+		}
+
+	biblioteca_libro()
+
+Para adicionar el campo en la vista solo debe adicionarlo en la vista correspondiente como lo haría con cualquier otro campo usando la etiqueta `<field>`.
+
+
+Ejercicios propuestos
+---------------------
+
+1. Verificar los cambios en los campos donde se aplicaron las relaciones. Ver código ejemlo.
+1. Crear el objeto de negocio editorial, con los campos name, pais.
+1. Crear vista y menú de acceso para el objeto de negocio editorial.
+1. Cambiar el tipo del campo editorial ubicaco en el objeto de negocio libro, por el tipo de campo many2many. Moficiar el nombre de campo a editorial_ids y crear la relación.
+1. Verifique en la vista los cambios realizados.

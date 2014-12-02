@@ -3,16 +3,16 @@ Guía para el desarrollo
 
 [TOC]
 
-Lección objeto de negocio
+Lección 02 objeto de negocio
 -------------------------
 1. Crear libro
 1. Crear un menu para desplegar los libros desde interfaz
 
-Lección vistas básicas
+Lección 03 vistas básicas
 -----------------
 1. Crear vistas para Libro (form, tree)
 
-Lección reglas básicas y restricciones
+Lección 04 reglas básicas y restricciones
 --------------------------------------
 1. required
 1. readonly
@@ -20,18 +20,18 @@ Lección reglas básicas y restricciones
 1. _defaults
 1. _sql_constraints
 
-Lección Busquedas, Filtros y Agrupamientos
+Lección 05 Busquedas, Filtros y Agrupamientos
 ------------------------------------------
 1. Adición de busquedas en la vista tipo lista
 1. Adición de filtros en la vista tipo lista
 1. Adición de agrupamientos en la vista tipo lista
 
-Lección vista dinámica
+Lección 06 vista dinámica
 ----------------------
 1. onchange
 1. attributes: invisible, required, readonly
 
-Lección relaciones entre objetos de negocio
+Lección 07 relaciones entre objetos de negocio
 -------------------------------------------
 1. many2one - clasificacion
 1. one2many - clasificacion
