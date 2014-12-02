@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+  <!--
+  =================================================================
+  Lección 6
+  =================================================================
+  -->
+
+  <!--
+  =================================================================
+   Vista Dinámica
+  =================================================================
+  -->
+  <record model="ir.ui.view" id="biblioteca_libro_search">
+      <field name="name">biblioteca.libro.search</field>
+      <field name="model">biblioteca.libro</field>
+      <field name="arch" type="xml">
+      <search string="Biblioteca Libro">
+          <field name="isbn" string="ISBN del libro"/>
+          <field name="titulo" string="Título del libro"/>
+          <field name="autor" string="Nombre del autor del libro"/>
+          <separator string="Estados"/>
+          <filter name="state" string="En Solicitud " domain="[('state','=','solicitud')]" help="Estado del regristro En progreso " icon="terp-check"/>
+          <filter name="state" string="En proceso de Compra" domain="[('state','=','compra')]" help="Estado del regristro En progreso " icon="terp-check"/>
+          <separator/>
+          <group expand="0" string="Group By...">
+          <filter string="Clasificación del Libro" icon="terp-folder-violet" domain="[]" context="{'group_by':'clasificacion_ids'}"/>
+          <filter string="Género del Libro" icon="terp-go-month" domain="[]" context="{'group_by':'genero_ids'}"/>
+          <filter string="Editorial" icon="terp-go-month" domain="[]" context="{'group_by':'editorial'}"/>
+          </group>
+      </search>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Vista tipo lista para biblioteca.libro
+  =================================================================
+  -->
+  <record model="ir.ui.view" id="biblioteca_libro_tree">
+      <field name="name">biblioteca.libro.tree</field>
+      <field name="model">biblioteca.libro</field>
+      <field name="arch" type="xml">
+      <tree string="Biblioteca Libro" colors="blue:state=='solicitud'" editable="top">
+          <field name="isbn"/>
+          <field name="titulo"/>
+          <field name="autor"/>
+          <field name="paginas"/>
+          <field name="state" invisible="1"/>
+      </tree>
+      </field>
+  </record>
+
+
+  <!--
+  =================================================================
+  Vista tipo formulario para biblioteca.libro
+  =================================================================
+  -->
+  <record model="ir.ui.view" id="biblioteca_libro_form">
+      <field name="name">biblioteca.libro.form</field>
+      <field name="model">biblioteca.libro</field>
+      <field name="arch" type="xml">
+          <form string="Biblioteca Libro">
+          <label string="Este es un formulario de prueba"/>
+          <separator string=""/>
+          <group string="Libros" colspan="4">
+              <field name="titulo" attrs="{'readonly': [('state','=','catalogado')]}"/>
+          </group>
+          <group string="Estado" colspan="4">
+              <field name="active" on_change="onchange_active(active)"/>
+              <field name="state"/>
+          </group>
+          <notebook colspan="4">
+              <page string="Detalles">
+              <field name="isbn"/>
+              <field name="autor"/>
+              <field name="descripcion" attrs="{'invisible': [('state', '=', 'baja')]}"/>
+              <newline/>
+              <field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
+              <field name="fecha"/>
+              </page>
+              <page string="Clasificación">
+              <group colspan="2">
+                <field name="clasificacion_ids"/>
+                <field name="genero_ids"/>
+              </group>
+              </page>
+          </notebook>
+          </form>
+    </field>
+  </record>
+
+  <!--
+  =================================================================
+  Vista tipo gráficos de datos para biblioteca.libro
+  =================================================================
+  -->
+  <record model="ir.ui.view" id="libro_graph">
+      <field name="name">libro.graph</field>
+      <field name="model">biblioteca.libro</field>
+      <field name="arch" type="xml">
+      <graph type="bar" orientation="horizontal" string="Gráfico">
+          <field name="state"/>
+          <field name="paginas" operator="min"/>
+      </graph>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Acción para biblioteca.libro
+  =================================================================
+  -->
+  <record model="ir.actions.act_window" id="action_libro">
+      <field name="name">Libro</field>
+      <field name="res_model">biblioteca.libro</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+  </record>
+
+  <!--
+  =================================================================
+  Menú para biblioteca.libro
+  =================================================================
+  -->
+  <menuitem id="menu_biblioteca_root" name="Biblioteca"/>
+  <menuitem id="menu_biblioteca" name="Biblioteca" parent="menu_biblioteca_root"/>
+  <menuitem id="menu_biblioteca_libro" parent="menu_biblioteca" name="Libro" action="action_libro"/>
+
+
+  <!--
+  ===================================================================================
+  Vista tipo lista para biblioteca.libro_genero
+  ===================================================================================
+  -->
+  <record id="biblioteca_libro_genero_list" model="ir.ui.view">
+      <field name="name">biblioteca.libro_genero.list</field>
+      <field name="model">biblioteca.libro_genero</field>
+      <field name="arch" type="xml">
+          <tree string="Género del Libro">
+              <field name="name"/>
+          </tree>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Vista tipo formulario para biblioteca.libro_genero
+  =================================================================
+  -->
+  <record id="biblioteca_libro_genero_form" model="ir.ui.view">
+      <field name="name">biblioteca.libro_genero.form</field>
+      <field name="model">biblioteca.libro_genero</field>
+      <field name="arch" type="xml">
+          <form string="Género" version="7.0">
+              <sheet>
+                  <group col="2 " colspan="2">
+                      <field name="name"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Acción para biblioteca.libro_genero
+  =================================================================
+  -->
+  <record model="ir.actions.act_window" id="action_libro_genero">
+      <field name="name">Genero</field>
+      <field name="res_model">biblioteca.libro_genero</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+  </record>
+
+  <!--
+  =================================================================
+  Menú para biblioteca.libro_genero
+  =================================================================
+  -->
+  <menuitem id="menu_biblioteca_libro_genero" parent="menu_biblioteca" name="Género" action="action_libro_genero"/>
+
+  <!--
+  ===================================================================================
+  Vista tipo lista para biblioteca.libro_clasificacion
+  ===================================================================================
+  -->
+  <record id="biblioteca_libro_genero_list" model="ir.ui.view">
+      <field name="name">biblioteca.libro_clasificacion.list</field>
+      <field name="model">biblioteca.libro_clasificacion</field>
+      <field name="arch" type="xml">
+          <tree string="Clasificación del Libro">
+              <field name="name"/>
+          </tree>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Vista tipo formulario para biblioteca.libro_clasificacion
+  =================================================================
+  -->
+  <record id="biblioteca_libro_clasificacion_form" model="ir.ui.view">
+      <field name="name">biblioteca.libro_clasificacion.form</field>
+      <field name="model">biblioteca.libro_clasificacion</field>
+      <field name="arch" type="xml">
+          <form string="Clasificación" version="7.0">
+              <sheet>
+                  <group col="2 " colspan="2">
+                      <field name="name"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <!--
+  =================================================================
+  Acción para biblioteca.libro_clasificacion
+  =================================================================
+  -->
+  <record model="ir.actions.act_window" id="action_libro_clasificacion">
+      <field name="name">Clasificacion</field>
+      <field name="res_model">biblioteca.libro_clasificacion</field>
+      <field name="view_type">tree</field>
+      <field name="view_mode">tree</field>
+  </record>
+
+  <!--
+  =================================================================
+  Menú para biblioteca.libro_clasificacion
+  =================================================================
+  -->
+  <menuitem id="menu_biblioteca_libro_clasificacion" parent="menu_biblioteca" name="Clasificación" action="action_libro_clasificacion"/>
+
+</data>
+</openerp>
