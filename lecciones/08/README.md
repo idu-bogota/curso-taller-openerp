@@ -1,108 +1,140 @@
-## Creación de Reportes en PDF
+Lección 08: Otros Widgets y Vistas
+==================================
 
-La creación de reportes en formato PDF es una utilidad bastante útil para tener una vista de impresión de los objetos de negocio, los pasos para crear un reporte en PDF son:
+[TOC]
 
-1. Instalar el módulo  base_report_designer
-1. Crear el template del reporte en OpenOffice
-1. Convertir el documento OpenOffice en un archivo RML (Report Markup Language)
-1. Crear la clase python que se va a encargar de generar el reporte
-1. Crear archivo XML para registrar el reporte en la base de datos
+Widgets
+-------
 
-### Instalar el módulo base_report_designer
+Widget es la clase base para todos los componentes visuales, un widget es un componente genérico dedicado a mostrar el contenido al usuario.
 
-Para instalar el módulo debe ingresar como administrador en la opción *Configuración -> módulos*, luego activa la opción *extra* y coloca el nombre *base_report_designer* y presiona enter, luego hace click en el botón *instalar*, la interfaz se recargará y se desplegará una ventana con información del módulo, incluido la opción de descargar un plugin para OpenOffice.
+Existen diferentes widgets:
 
-### Crear el template del reporte en OpenOffice
+**widget="one2many_list"**: Igual que one2many
+**widget="many2many_tags"**: Igual que many2many
+**widget="monetary"**: Permite visualizar el simbolo moneda
+**widget="mail_followers"**: Permite adicionar seguidores
+**widget="mail_thread"**: Mail a grupos
+**widget="statusbar"**: Muestra la barra de estado
+**widget="progressbar"**: Muestra la barra de progreso
+**widget="html"**: Muestra los campos HTML
+**widget="url"**: Muestra la url como un enlace
+**widget=”integer”**: Permite almacenar solo valores enteros
+**widget="image"**: Muestra el valor del campo como una imagen
+**widget="handle"**:
 
-Puede crear un documento en OpenOffice Writer con el formato que ud desee. Para indicar en donde debe colocarse los datos que vienen de la base de datos ud debe adicionar unas etiquetas especiales como en el ejemplo siguiente:
+Ejemplo de aplicación de widget:
 
-    [[ repeatIn(objects,'o') ]]
+	<field name="state" widget="statusbar"/>
 
-    Datos básicos
-    Nombre: [[ o.name ]]
-    Activo: [[ o.active ]]
-    Estado: [[ o.state ]]
 
-    Tabla Relacionada
-    Nombre: [[ o.tabla_relacionada_id.name ]]
-    Activa: [[ o.tabla_relacionada_id.active ]]
-    Estado: [[ o.tabla_relacionada_id.state ]]
+Vista tipo kanban
+-----------------
 
-* **[[ repeatIn(objects,'o') ]]**: Esta linea indica que va a iniciar el loop para generar la impresión de los objetos seleccionados, cada objeto seleccionado a ser impreso va a ser llamado 'o', ud puede cambiarlo por el nombre que le convenga.
+Las vistas tipo kanban permiten manejar información importante (campos principales) en imágenes o tarjetas, es util para poder identificar los registros de una forma más rápida y así agilizar la consulta sobre los datos.
 
-* **[[ o.field_name ]]**: Aquí se indica que va a obtener el valor del campo *'field_name'* del objeto *'o'*
+Ejemplo para la creación de una vista tipo kanban:
 
-Al finalizar guarde el documento en formato .odt
+	<record model="ir.ui.view" id="libro_kanban">
+	<field name="name">libro.kanban</field>
+	<field name="model">biblioteca.libro</field>
+	<field name="type">kanban</field>
+	<field name="arch" type="xml">
+	<kanban version="7.0" class="oe_background_grey">
+		<field name="titulo"/>
+		<field name="autor"/>
+		<field name="user_id"/>
+		<templates>
+			<t t-name="kanban-box">
+				<div class="oe_resource_vignette">
+					<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.state.value)} oe_kanban_card oe_kanban_global_click">
+						<div class="oe_kanban_project_avatars">
+							<img t-att-src="kanban_image('res.users', 'image', record.user_id.raw_value)"
+								t-att-title="record.user_id.value"
+								width="24" height="24"
+								class="oe_kanban_avatar"
+							/>
+						</div>
+					</div>
+					<div class="oe_resource_details">
+						<ul>
+						   <li><field name="state"/></li>
+						   <field name="titulo"/>
+						   <field name="autor"/>
+						 </ul>
+					</div>
+				</div>
+			</t>
+		</templates>
+	</kanban>
+	</field>
+	</record>
 
-Alternativamente puede instalar el plugin que descargo al instalar el módulo base_report_designer y este adicionará un menú que le asistirá en la creación del reporte.
+Para que la vista se despliegue es necesario adicionar en el action_libro el tipo de vista kanban.
 
-### Convertir el documento OpenOffice en un archivo RML
+	<record model="ir.actions.act_window" id="action_libro">
+	  <field name="name">Libro</field>
+	  <field name="res_model">biblioteca.libro</field>
+	  <field name="view_type">form</field>
+	  <field name="view_mode">tree,form,graph,kanban</field>
+	</record>
 
-Luego procedemos a convertir el documento ODT en formato RML que va a ser el que finalmente OpenERP va a procesar, para esto ejecutamos el siguiente comando:
 
-    cd ~/workspace/leccion08/mi_modulo/report/ #ingrese al directorio donde ud tenga almacenado el código del módulo del curso
-    python *<directorio_addons>*/base_report_designer/openerp_sxw2rml/openerp_sxw2rml.py mi_reporte.odt > mi_reporte.rml
+Vista tipo gantt
+----------------
 
-* El **directorio_addons** en una instalación normal utilizando el archivo .deb es: `/usr/share/pyshared/openerp/addons/`
-* **openerp_sxw2rml.py** es el script que convierte el documento .odt en .rml
+Las vistas tipo gantt permiten mostrar el tiempo planificado o transcurrido para el desarrollo de tareas o actividades, es una vista dinámica, se puede hacer click en cualquier parte del gráfico, arrastrar y soltar el objeto en otra ubicación.
 
-### Crear la clase python que se va a encargar de generar el reporte
 
-Dentro de la carpeta del módulo se crea un paquete llamado *report*, (esto es opcional, es solo una forma de mantener organizado el código fuente utilizando paquetes de python). Dentro de este paquete crea un módulo para el reporte y una clase como la siguiente:
+Ejemplo para la creación de una vista tipo gantt:
 
-    from report import report_sxw
+	<record id="biblioteca_libro_prestamo_gantt" model="ir.ui.view">
+		  <field name="name">biblioteca.libro_prestamo.gantt</field>
+		  <field name="model">biblioteca.libro_prestamo</field>
+		  <field eval="2" name="priority"/>
+		  <field name="arch" type="xml">
+			  <gantt date_start="fecha_prestamo" date_stop="fecha_regreso" string="Préstamos" default_group_by="libro_id">
+			  </gantt>
+		  </field>
+	</record>
 
-    class mi_reporte(report_sxw.rml_parse):
-        def __init__(self, cr, uid, name, context=None):
-            super(mi_reporte, self).__init__(cr, uid, name, context=context)
+Para que la vista se despliegue es necesario adicionar en el action_libro_prestamo el tipo de vista gantt.
 
-    report_sxw.report_sxw('report.mi_modulo.mi_reporte', 'mi_modulo.mi_tabla', 'addons/mi_modulo/report/mi_reporte.rml', parser=mi_reporte, header=True)
+	<record model="ir.actions.act_window" id="action_libro_prestamo">
+		  <field name="name">Prestamo</field>
+		  <field name="res_model">biblioteca.libro_prestamo</field>
+		  <field name="view_type">form</field>
+		  <field name="view_mode">tree,form,gantt</field>
+	</record>
 
-* Nuestra clase del reporte hereda de **report_sxw.rml_parse** y luego definimos el constructor heredando de la clase padre, esta clase puede tener código adicional para poder darle mayor lógica a la generación del reporte en caso de ser necesaria
+Vista tipo calendar
+-------------------
 
-* Luego instanciamos el objeto del reporte y pasamos los siguientes parámetros
-  * **report.mi_modulo.mi_reporte**: El nombre en el sistema del reporte
-  * **mi_modulo.mi_tabla**: El nombre del objeto de negocio de donde vamos a consultar los datos
-  * **addons/mi_modulo/report/mi_reporte.rml**: Ruta relativa del archivo RML
-  * **parser**: Es el nombre de la clase python que va a realizar el parser del documento RML
-  * **header**: Indica si se va o no a adicionar la cabecera que esta configurada para los reportes dentro de la base de datos
+Las vistas tipo calendar permiten visualizar la planificación en tiempo para el desarrollo de tareas o actividades, es una vista dinámica, se puede hacer click en cualquier parte del gráfico, arrastrar y soltar el objeto en otra ubicación.
 
-### Crear archivo XML para registrar el reporte en la base de datos
+Ejemplo para la creación de una vista tipo calendar:
 
-Se genera un archivo xml con el siguiente contenido:
+	<record id="biblioteca_libro_prestamo_calendar" model="ir.ui.view">
+		  <field name="name">biblioteca.libro_prestamo.calendar</field>
+		  <field name="model">biblioteca.libro_prestamo</field>
+		  <field eval="2" name="priority"/>
+		  <field name="arch" type="xml">
+			  <calendar color="libro_id" date_start="fecha_prestamo" date_stop="fecha_regreso" string="Informe de Préstamos">
+				  <field name="libro_id"/>
+			  </calendar>
+		  </field>
+	</record>
 
-    <?xml version="1.0" encoding="utf-8"?>
-    <openerp>
-        <data>
-            <report auto="False" id="mi_modulo_report_mi_reporte" model="mi_modulo.mi_tabla" name="mi_modulo.mi_reporte" rml="mi_modulo/report/mi_reporte.rml" string="Generar Reporte en PDF" />
-        </data>
-    </openerp>
+Para que la vista se despliegue es necesario adicionar en el action_libro_prestamo el tipo de vista calendar.
 
-Los parametros son auto explicativos, el valor de string es el nombre del enlace que va a aparecer en el menu de la derecha en la vista formulario de un objeto y en la vista de listado para generar el reporte (aparece luego de seleccionar uno o más objetos).
+	<record model="ir.actions.act_window" id="action_libro_prestamo">
+		  <field name="name">Prestamo</field>
+		  <field name="res_model">biblioteca.libro_prestamo</field>
+		  <field name="view_type">form</field>
+		  <field name="view_mode">tree,form,gantt,calendar</field>
+	</record>
 
-El archivo debe ser referenciado en __openerp__.py para ser cargado en la actualización del módulo
+Ejercicios propuestos
+---------------------
 
-    {
-        "name" : "mi_modulo",
-        "version" : "7.0",
-        "author" : "xx",
-        "category" : "xx",
-        "description" : "xx",
-        "init_xml" : [],
-        "depends" : ['base','crm'],
-        "update_xml" : [
-            'mi_modulo_view.xml',
-            'mi_modulo_reports.xml'
-        ],
-        "active" : False,
-        "installable" : True,
-    }
-
-## Ejercicios propuestos
-
-1. Ingrese a la vista de listado del objeto *mi_modulo.mi_tabla*, seleccione uno o varios de los registros que se despliegan haciendo click en el checkbox junto a cada registro, al hacer esto se va a desplegar un menú en la parte derecha de la interfaz, haga click en la opción 'Generar Reporte en PDF' y vea el reporte generado para los objetos seleccionados. Abra el archivo *mi_modulo/report/mi_reporte.rml* y modifiquelo para que se despliegue el campo *price*, ejecute nuevamente el reporte para ver el cambio realizado.
-
-2. Ahora utilizando LibreOffice abra el archivo *mi_modulo/report/mi_reporte.odt* y modifiquelo para que se despliegue el campo *quantity*, utilice el comando *openerp_sxw2rml.py* para crear nuevamente el archivo .rml con el nuevo cambio, sobreescriba el archivo existente *mi_modulo/report/mi_reporte.rml* y ejecute nuevamente el reporte para ver el cambio realizado.
-
-3. Ahora utilizando LibreOffice haga cambios de estilo en el reporte, adicione una imagen, utilice una tabla para presentar los datos, etc, actualice el .rml y ejecute nuevamente el reporte para ver los cambios.
-
+1. Verificar las diferentes vistas creadas.

@@ -11,6 +11,7 @@ Lección 02 objeto de negocio
 Lección 03 vistas básicas
 -----------------
 1. Crear vistas para Libro (form, tree)
+1. Vista graph
 
 Lección 04 reglas básicas y restricciones
 --------------------------------------
@@ -38,21 +39,20 @@ Lección 07 relaciones entre objetos de negocio
 1. many2many - genero
 1. Ejercicio: editorial
 
-Leccion Otros Widgets y vistas
+Leccion 08 Otros Widgets y vistas
 ---------------
 1. many2many_tags
 1. kanban
 1. gantt
-1. graph
 1. calendar
 
-Lección navegar registros
+Lección 09 navegar registros
 -------------------------
 1. search
 1. browse
 1. read
 
-Extensión de módulos base
+Lección 10 Extensión de módulos base
 -------------------------
 1. Extender ej. Adicionar prestamos en res.partner
 
