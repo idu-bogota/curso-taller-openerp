@@ -1,3 +1,8 @@
+[[
+title: Lección 09: Navegar Registros
+author: STRT Grupo I+D+I
+]]
+
 Lección 09: Navegar Registros
 =============================
 
@@ -29,6 +34,10 @@ El dominio de búsqueda puede ser una combinación que use 3 operadores lógicos
 
 Ejemplo de aplicación del método search:
 
+	libros_pool = self.pool.get('biblioteca.libro')
+	libros_ids = libros_pool.search(cr, uid,[('state','=','compra')], context=context)
+
+En este ejemplo el método search realiza una búsqueda por todos los registros del objeto *biblioteca.libro* y cuando un registro coincida con el criterio de búsqueda 'state','=','compra', el id del registro se almacenará en libros_ids.
 
 Método Browse
 -------------
@@ -41,7 +50,11 @@ El método browse obtiene registros como objetos permitiendo utilizar la notaci�
 
 Ejemplo de aplicación browse:
 
+	libros_pool = self.pool.get('biblioteca.libro')
+	libros_ids = libros_pool.search(cr, uid,[('state','=','compra')], context=context)
+	libros_records = libros_pool.browse(cr, uid, libros_ids, context=context)
 
+En este ejemplo el método browse obtiene los registros que correspondan a los ids almacenados en libros_ids, estos registros se almacenan en libros_records.
 
 Método Read
 -----------
@@ -56,6 +69,8 @@ Obtiene una lista de los valores de los campos fields de los registros ids, devu
 
 Ejemplo de aplicación read:
 
+	libros_pool = self.pool.get('biblioteca.libro')
+	libros_ids = libros_pool.search(cr, uid,[('state','=','compra')], context=context)
+	libros_records = libros_pool.read(cr, uid, libros_ids, ['titulo','autor'])
 
-Ejercicios propuestos
----------------------
+En este ejemplo del método read obtiene una lista de los valores de los campos *'titulo', 'autor'* de los registros que coincidan con los ids almacenados en libros_ids, esta lista se almacena en libros_records como un diccionario con nombre y valor de los campos indicados.
