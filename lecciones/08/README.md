@@ -10,7 +10,6 @@ Widget es la clase base para todos los componentes visuales, un widget es un com
 
 Existen diferentes widgets:
 
-**widget="one2many_list"**: Igual que one2many
 **widget="many2many_tags"**: Igual que many2many
 **widget="monetary"**: Permite visualizar el simbolo moneda
 **widget="mail_followers"**: Permite adicionar seguidores
@@ -21,7 +20,7 @@ Existen diferentes widgets:
 **widget="url"**: Muestra la url como un enlace
 **widget=”integer”**: Permite almacenar solo valores enteros
 **widget="image"**: Muestra el valor del campo como una imagen
-**widget="handle"**:
+**widget="handle"**: Permite organizar un listado de registros y almacenar la posición en un campo con el nombre **sequence**.
 
 Ejemplo de aplicación de widget:
 
