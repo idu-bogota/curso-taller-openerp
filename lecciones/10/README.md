@@ -8,8 +8,8 @@ Lección 10: Extensión de Módulos Base
 
 [TOC]
 
-Herencia de objetos
--------------------
+Extender Objetos
+----------------
 
 Los objetos de negocio pueden heredar de un módulo base, esta herencia se puede utilizar para modificar, extender, utilizar métodos.
 
@@ -66,8 +66,8 @@ Se adiciona el campo 'user_id' al objeto biblioteca.libro_prestamo:
 
 Con este ejemplo relacionamos el objeto de negocio res.users con los préstamos de los libros. Se extieden el objeto res.users y se le adiciona el campo prestamo_id.
 
-Herencia de vistas
-------------------
+Extender Vistas
+---------------
 
 También podemos heredar vistas, al igual que se puede heredar objetos. Parámetros:
 

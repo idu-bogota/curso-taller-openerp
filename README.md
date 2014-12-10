@@ -55,10 +55,11 @@ Lección 09 navegar registros
 
 Lección 10 Extensión de módulos base
 -------------------------
-1. Extender ej. Adicionar prestamos en res.partner
+1. Extender un Objeto
+1. Extender una Vista
 
-Lección Wizards
----------------
+Lección 11 Wizards
+------------------
 1. Wizard para el Prestamo
 
 Lección campos y atributos avanzados
