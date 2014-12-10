@@ -48,7 +48,8 @@ Leccion 08 Otros Widgets y vistas
 
 Lección 09 navegar registros
 -------------------------
-1. search
+1. Añadir un botón a la vista formulario
+2. search
 1. browse
 1. read
 

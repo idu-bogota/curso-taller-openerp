@@ -13,7 +13,7 @@ Herencia de objetos
 
 Los objetos de negocio pueden heredar de un módulo base, esta herencia se puede utilizar para modificar, extender, utilizar métodos.
 
-**Estructura de definición **
+**Estructura de definición**
 
 	_inherit = 'nombre_objeto_base_a_heredar'
 
@@ -48,6 +48,79 @@ Ejemplo:
 		}
 	nombre_clase()
 
+**Ejemplo de aplicación**:
+
+	class res_users(osv.osv):
+		_inherit = "res.users"
+		_columns = {
+		   'prestamo_id'  : fields.one2many('biblioteca.libro_prestamo', 'user_id', 'Préstamos'),
+		}
+
+	res_users()
+
+Se adiciona el campo 'user_id' al objeto biblioteca.libro_prestamo:
+
+	'user_id': fields.many2one('res.users', 'Usuario solicitante',
+                help= 'Usuario que solicita el préstamo'
+        ),
+
+Con este ejemplo relacionamos el objeto de negocio res.users con los préstamos de los libros. Se extieden el objeto res.users y se le adiciona el campo prestamo_id.
 
 Herencia de vistas
 ------------------
+
+También podemos heredar vistas, al igual que se puede heredar objetos. Parámetros:
+
+* ***inherid_id***: ID de la vista ha heredar. La '<carpetapadre> es la primera carpeta que se encuentra en ADDONS, en la cuál se encuentra el fichero xml, en el que está definida la vista.
+
+**Estructura de definición**
+
+	<record model="ir.ui.view" id="nombre_form_inherit">
+		<field name="name">nombre.form.inherit</field>
+		<field name="model">nombre</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="carpetapadre.idVistaPadre" />
+		<field name="arch" type="xml">
+			<field name="campoareemplazar" position="after">
+			<field name="nuevocampo" />
+		 </field>
+		 <notebook position="inside">
+			 <page string="texto para la nueva pestaña">
+				 <group col="2" colspan="2">
+					<separator string="texto del separador" colspan="2"/>
+					<field name="nuevocampo2"/>
+					<field name="nuevocampo3" nolabel="1"/>
+				 </group>
+			 </page>
+		</notebook>
+		</field>
+	</record>
+
+
+id es el nuevo identificador de la nueva vista. Por definición manejar el nombre del id terminado en 'form_view_inh' para identificar que es una vista heredada.
+
+**Ejemplo de aplicación**:
+
+	<record id="res_users_form_inherit" model="ir.ui.view">
+		<field name="name">res.users.form.inherit</field>
+		<field name="model">res.users</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="base.view_users_form"/>
+		<field name="arch" type="xml">
+		<page string="Access Rights" position="after">
+			<page string="Detalles Adicionales">
+			   <group col="2">
+				  <field name="prestamo_id"/>
+				</group>
+			 </page>
+		</page>
+		</field>
+	</record>
+
+En este ejemplo se extiende la vista base.view_users_form y se adiciona el nuevo campo prestamo_id.
+
+Ejercicios propuestos
+---------------------
+
+1. Revisar la extensión del objeto y la vista realizada en la lección.
+1. Consultar los préstamos realizados por los usuarios, igresando al menú usuarios ubicado en configuración, pestaña detalles adicionales.
