@@ -1,3 +1,8 @@
+[[
+title: Lección 08: Otros Widgets y Vistas
+author: STRT Grupo I+D+I
+]]
+
 Lección 08: Otros Widgets y Vistas
 ==================================
 
