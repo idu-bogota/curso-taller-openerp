@@ -69,6 +69,14 @@
               </header>
               <label string="Este es un formulario de prueba"/>
               <separator string=""/>
+              <div class="oe_button_box oe_right">
+                  <button name="obtener_promedio_prestamo_metodo_read"
+                      string="Promedio de Préstamo (read)" type="object"
+                  />
+                  <button name="obtener_promedio_prestamo_metodo_browse"
+                      string="Promedio de Préstamo (browse)" type="object"
+                  />
+              </div>
               <group string="Libros" colspan="4">
                   <field name="titulo" attrs="{'readonly': [('state','=','catalogado')]}"/>
               </group>
@@ -77,12 +85,14 @@
               </group>
               <notebook colspan="4">
                   <page string="Detalles">
-                      <field name="isbn"/>
-                      <field name="autor"/>
-                      <field name="descripcion" attrs="{'invisible': [('state', '=', 'baja')]}"/>
-                      <newline/>
-                      <field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
-                      <field name="fecha"/>
+                     <group colspan="2">
+                        <field name="isbn"/>
+                        <field name="autor"/>
+                        <field name="descripcion" attrs="{'invisible': [('state', '=', 'baja')]}"/>
+                        <newline/>
+                        <field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
+                        <field name="fecha"/>
+                    </group>
                   </page>
                   <page string="Clasificación">
                       <group colspan="2">
@@ -96,6 +106,10 @@
                       </group>
                   </page>
               </notebook>
+              <footer>
+                  <button name="confirmar_compra" states="solicitud" string="Confirmar proceso de Compra" icon="gtk-execute"/>
+                  <button special="cancel" string="Cancelar Solicitud" states="solicitud"/>
+              </footer>
           </form>
     </field>
   </record>

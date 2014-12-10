@@ -4,7 +4,7 @@ from random import randint, random
 from datetime import datetime
 
 ################################################################################
-#        ---  Objeto de negocio Libro / Lección 8
+#        ---  Objeto de negocio Libro / Lección 9
 ################################################################################
 class biblioteca_libro(osv.osv):
     _name = "biblioteca.libro"
@@ -20,7 +20,10 @@ class biblioteca_libro(osv.osv):
         'precio': fields.float('Precio',  digits = (10,4), help='Precio de compra'),
         'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
             ('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
-        'clasificacion_ids': fields.one2many('biblioteca.libro_clasificacion', 'libro_id', 'Clasificación del libro'),
+        'clasificacion_ids': fields.many2one('biblioteca.libro_clasificacion','Clasificación',
+            select=True,
+            ondelete='cascade'
+        ),
         'genero_ids': fields.many2many('biblioteca.libro_genero','biblioteca_libro_clasificaciones',
                 'genero_id',
                 'libro_id',
@@ -70,6 +73,41 @@ class biblioteca_libro(osv.osv):
            'value': {'state': 'solicitud'},
        }
 
+    def _get_name(self, cr, uid, ids, field, args, context=None):
+        res = {}
+        records = self.pool.get('plan_contratacion_idu.item').browse(cr, uid, ids, context=context)
+        for record in records:
+            res[record['id']] = "[{4}-{0}-{1}] {2} / {3} ({5})".format(record.dependencia_id.abreviatura,
+                 record.id,
+                 record.tipo_proceso_id.name,
+                 record.tipo_proceso_seleccion_id.name,
+                 record.plan_id.vigencia,
+                 record.state,
+             )
+        return res
+
+    def obtener_promedio_prestamo_metodo_read(self,cr,uid,ids,context=None):
+        prestamo_ids = self.read(cr, uid, ids, ['prestamo_ids'], context=context)
+        prestamo_pool = self.pool.get('biblioteca.libro_prestamo')
+        prestamo_records = prestamo_pool.read(cr, uid, prestamo_ids[0]['prestamo_ids'], ['fecha_prestamo', 'fecha_regreso'], context=context)
+        tiempo_total = 0
+        for record in prestamo_records:
+            tiempo_dias = (datetime.strptime(record['fecha_regreso'],'%Y-%m-%d') - datetime.strptime(record['fecha_prestamo'],'%Y-%m-%d')).days
+            tiempo_total = tiempo_total + tiempo_dias
+        raise osv.except_osv('Promedio de tiempo de préstamo','{0} días'.format(tiempo_total))
+        return True
+
+    def obtener_promedio_prestamo_metodo_browse(self,cr,uid,ids,context=None):
+        prestamo_ids = self.read(cr, uid, ids, ['prestamo_ids'], context=context)
+        prestamo_pool = self.pool.get('biblioteca.libro_prestamo')
+        prestamo_records = prestamo_pool.browse(cr, uid, prestamo_ids[0]['prestamo_ids'], context=context)
+        tiempo_total = 0
+        for record in prestamo_records:
+            tiempo_dias = (datetime.strptime(record['fecha_regreso'],'%Y-%m-%d') - datetime.strptime(record['fecha_prestamo'],'%Y-%m-%d')).days
+            tiempo_total = tiempo_total + tiempo_dias
+        raise osv.except_osv('Promedio de tiempo de préstamo','{0} días'.format(tiempo_total))
+        return True
+
 biblioteca_libro()
 
 ################################################################################
@@ -77,6 +115,7 @@ biblioteca_libro()
 ################################################################################
 class biblioteca_libro_prestamo(osv.osv):
     _name = "biblioteca.libro_prestamo"
+
     _columns = {
         'libro_id': fields.many2one('biblioteca.libro','id del Libro',
             select=True,
@@ -88,6 +127,7 @@ class biblioteca_libro_prestamo(osv.osv):
         'state': fields.selection([('prestado', 'Préstado'),('en_mora', 'En mora'),
             ('entregado', 'Entregado')],'State'),
     }
+
 biblioteca_libro_prestamo()
 
 ################################################################################
@@ -108,13 +148,11 @@ class biblioteca_libro_clasificacion(osv.osv):
     _name = "biblioteca.libro_clasificacion"
     _columns = {
         'name': fields.char('Clasificación'),
-        'libro_id': fields.many2one('biblioteca.libro','id del Libro',
-            select=True,
-            ondelete='cascade'
-        ),
+       'libro_id': fields.one2many('biblioteca.libro', 'clasificacion_ids', 'Clasificación del libro'),
     }
 
     _sql_constraints = [
         ('unique_name','unique(name)','El nombre debe ser único'),
     ]
+
 biblioteca_libro_clasificacion()
