@@ -62,7 +62,7 @@ Lección 11 Wizards
 ------------------
 1. Wizard para el Prestamo
 
-Lección campos y atributos avanzados
+Lección 12 Campos y atributos avanzados
 --------------------------
 1. related
 1. domain
