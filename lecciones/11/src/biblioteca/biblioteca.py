@@ -4,7 +4,7 @@ from random import randint, random
 from datetime import datetime
 
 ################################################################################
-#        ---  Objeto de negocio Libro / Lección 9
+#        ---  Objeto de negocio Libro / Lección 11
 ################################################################################
 class biblioteca_libro(osv.osv):
     _name = "biblioteca.libro"

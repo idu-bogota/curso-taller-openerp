@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+    <!-- View Form Wizard -->
+    <record id="view_biblioteca_wizard_radicar_prestamo" model="ir.ui.view">
+        <field name="name">Radicar Prestamo</field>
+        <field name="model">biblioteca.wizard.radicar_prestamo</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Radicar Prestamo" version="7.0">
+                <group col="4">
+                    <field name="libro_id" colspan="4" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_radicar" string="Radicar solicitud" type="object" class="oe_highlight" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action  -->
+    <record id="action_biblioteca_wizard_radicar_prestamo" model="ir.actions.act_window">
+        <field name="name">Radicar Prestamo</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">biblioteca.wizard.radicar_prestamo</field>
+        <field name="src_model">biblioteca.wizard.radicar_prestamo</field>
+        <field name="view_id" ref="view_biblioteca_wizard_radicar_prestamo"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</data>
+</openerp>

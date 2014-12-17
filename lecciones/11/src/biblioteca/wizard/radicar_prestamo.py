@@ -22,15 +22,15 @@ from openerp.osv import osv, fields
 from openerp import netsvc
 
 
-class biblioteca_libro_wizard_prestamo(osv.osv_memory):
+class biblioteca_wizard_radicar_prestamo(osv.osv_memory):
     """
     Wizard para radicar un préstamo al libro
     """
-    _name = "biblioteca_libro.wizard.prestamo"
+    _name = "biblioteca.wizard.radicar_prestamo"
     _description = "Permite radicar un prestamo"
 
     _columns={
-            'libro_id': fields.many2one('biblioteca.libro_prestamo','Item a cambiar/eliminar',
+            'libro_id': fields.many2one('biblioteca.libro_prestamo','Codigo préstamo',
                  required=False,
                  readonly=True,
              ),
@@ -63,4 +63,4 @@ class biblioteca_libro_wizard_prestamo(osv.osv_memory):
             'type': 'ir.actions.act_window',
         }
 
-biblioteca_libro_wizard_prestamo()
+biblioteca_wizard_radicar_prestamo()
