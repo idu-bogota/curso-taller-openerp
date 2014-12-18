@@ -314,6 +314,7 @@
               <field name="state"/>
               <field name="user_id"/>
               <field name="fecha_prestamo"/>
+              <field name="duracion_prestamo"/>
               <field name="fecha_regreso"/>
           </tree>
       </field>

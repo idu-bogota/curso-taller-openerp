@@ -8,8 +8,11 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Radicar Prestamo" version="7.0">
-                <group col="4">
-                    <field name="libro_id" colspan="4" readonly="1"/>
+                <group colspan="2">
+                    <field name="libro_id" readonly="1"/>
+                    <field name="user_id"/>
+                    <field name="fecha_prestamo"/>
+                    <field name="duracion_prestamo"/>
                 </group>
                 <footer>
                     <button name="action_radicar" string="Radicar solicitud" type="object" class="oe_highlight" />

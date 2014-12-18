@@ -28,7 +28,7 @@ Los campos related se utiliza cuando el campo es una referencia de un id de otra
 * **id_busqueda**: nombre de campo id de referencia del objeto de negocio relacionado para realizar la búsqueda.
 * **campo_busqueda**: nombre del campo de referencia, el cual devuelve el valor de ese campo según la busqueda realizada por el id_busqueda en el objeto de negocio a relacionar.
 * **type**: Tipo del campo related. Tipo de relación para el campo related con el objeto de negocio.
-* **relation**: Nombre del objeto de negocio al cual se aplica la relación con el camṕo tipo related.
+* **relation**: Nombre del objeto de negocio al cual se aplica la relación con el campo tipo related.
 * **string**: Texto para el campo tipo related.
 * **store**: Este puede ser definida como True o False, segun lo requerido, con este valor estamos indicando si el valor devuelto por campo_busqueda es almacenado o no en la base de datos.
 
@@ -64,6 +64,12 @@ Un campo funcional es un campo cuyo valor se calcula mediante una función, en l
             method= True,
             string= "Texto del campo"
 	)
+
+* **_nombre_metodo**: nombre del método creado para realizar el calculo.
+* **type**: Tipo del campo funtion. Tipo de relación para el campo function con el objeto de negocio obj.
+* **obj**: objeto de negocio al cual se aplica la relacion con el campo function.
+* **method**: True.
+* **string**: Texto para el campo tipo function.
 
 **Ejemplo de aplicación**:
 

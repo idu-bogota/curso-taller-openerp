@@ -131,6 +131,13 @@ class biblioteca_libro_prestamo(osv.osv):
         ),
     }
 
+    def create (self,cr,uid,vals,context=None):
+        """
+        Crea el prestamo
+        """
+        id = super(biblioteca_libro_prestamo,self).create(cr,uid,vals,context=context)
+        return id
+
 biblioteca_libro_prestamo()
 
 ################################################################################

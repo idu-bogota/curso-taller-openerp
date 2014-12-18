@@ -30,10 +30,18 @@ class biblioteca_wizard_radicar_prestamo(osv.osv_memory):
     _description = "Permite radicar un prestamo"
 
     _columns={
-            'libro_id': fields.many2one('biblioteca.libro_prestamo','Codigo préstamo',
-                 required=False,
-                 readonly=True,
-             ),
+        'libro_id': fields.many2one('biblioteca.libro_prestamo','Codigo préstamo',
+             required=False,
+             readonly=True,
+         ),
+        'fecha_prestamo': fields.date('Fecha de Préstamo'),
+        'duracion_prestamo': fields.integer('días préstamo',
+             required= True,
+        ),
+        'user_id': fields.many2one('res.users', 'Usuario solicitante',
+             required= True,
+             help= 'Usuario que solicita el préstamo'
+        ),
     }
 
     _defaults = {
@@ -44,12 +52,14 @@ class biblioteca_wizard_radicar_prestamo(osv.osv_memory):
         context['prestamo_actual'] = True
         form_id = ids and ids[0] or False
         form = self.browse(cr, uid, form_id, context=context)
-        prestamo_pool = self.pool.get('biblioteca_libro.prestamo')
+        prestamo_pool = self.pool.get('biblioteca.libro_prestamo')
         vals = {
             'libro_id': form.libro_id.id,
             'state': 'prestado',
+            'fecha_prestamo': form.fecha_prestamo,
+            'duracion_prestamo': form.duracion_prestamo,
+            'user_id': form.user_id.id
         }
-
         id = prestamo_pool.create(cr, uid, vals, context=context)
         return self.redirect_to_prestamo_view(cr, uid, id, context=context)
 
@@ -58,7 +68,7 @@ class biblioteca_wizard_radicar_prestamo(osv.osv_memory):
             'name': 'Radicar Prestamo',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'biblioteca_libro.prestamo',
+            'res_model': 'biblioteca.libro_prestamo',
             'res_id': int(id),
             'type': 'ir.actions.act_window',
         }
