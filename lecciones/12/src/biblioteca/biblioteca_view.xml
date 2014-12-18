@@ -70,6 +70,9 @@
               <label string="Este es un formulario de prueba"/>
               <separator string=""/>
               <div class="oe_button_box oe_right">
+                  <button name="%(biblioteca.action_biblioteca_wizard_radicar_prestamo)d" string="Radicar Préstamo"
+                                type="action" icon="gtk-ok" context="{'libro_id': id}"
+                  /> 
                   <button name="obtener_promedio_prestamo_metodo_read"
                       string="Promedio de Préstamo (read)" type="object"
                   />
@@ -309,6 +312,7 @@
       <field name="arch" type="xml">
           <tree string="Prestamo">
               <field name="state"/>
+              <field name="titulo"/>
               <field name="user_id"/>
               <field name="fecha_prestamo"/>
               <field name="fecha_regreso"/>
@@ -329,8 +333,10 @@
               <sheet>
                   <group col="2 " colspan="2">
                       <field name="state"/>
+                      <field name="titulo" readonly="1"/>
                       <field name="user_id"/>
                       <field name="fecha_prestamo"/>
+                      <field name="duracion_prestamo"/>
                       <field name="fecha_regreso"/>
                   </group>
               </sheet>

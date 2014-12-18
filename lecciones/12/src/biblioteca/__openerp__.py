@@ -1,12 +1,16 @@
 {
     "name" : "biblioteca",
-    "version" : "3.0",
-    "author" : "xx",
-    "category" : "xx",
-    "description" : "xx",
+    "version" : "1.0",
+    "author" : "IDU STRT Grupo I+D+I",
+    "category" : "Curso",
+    "description" : "Módulo ejemplo para trasferencia de conocimiento",
     "init_xml" : [],
     "depends" : ['base',],
-    "update_xml" : ['biblioteca_view.xml',],
+    "data" : [
+        'wizard/radicar_prestamo_view.xml',
+        'biblioteca_view.xml',
+    ],
     "active" : False,
     "installable" : True,
+    'auto_install': False,
 }

@@ -34,6 +34,15 @@ Los campos related se utiliza cuando el campo es una referencia de un id de otra
 
 **Ejemplo de aplicación**:
 
+	'titulo': fields.related(
+		'libro_id','titulo',
+		 type="char",
+		 string="Titulo",
+		 store=False,
+		 readonly=True
+	),
+
+En este ejemplo se crea el campo titulo de tipo related el cual devuelve el titulo del libro según el valor del campo libro_id.
 
 Domain
 ------

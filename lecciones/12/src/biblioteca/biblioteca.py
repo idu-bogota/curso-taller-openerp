@@ -4,7 +4,7 @@ from random import randint, random
 from datetime import datetime
 
 ################################################################################
-#        ---  Objeto de negocio Libro / Lección 9
+#        ---  Objeto de negocio Libro / Lección 11
 ################################################################################
 class biblioteca_libro(osv.osv):
     _name = "biblioteca.libro"
@@ -37,7 +37,7 @@ class biblioteca_libro(osv.osv):
     }
 
     _sql_constraints = [
-        ('unique_name','unique(name)','El nombre debe ser único'),
+        ('unique_name','unique(titulo)','El nombre debe ser único'),
     ]
 
     def _check_fecha(self, cr, uid, ids, context = None):
@@ -121,6 +121,13 @@ class biblioteca_libro_prestamo(osv.osv):
             select=True,
             ondelete='cascade'
         ),
+        'titulo': fields.related(
+            'libro_id','titulo',
+             type="char",
+             string="Titulo",
+             store=False,
+             readonly=True
+        ),
         'fecha_prestamo': fields.date('Fecha de Préstamo'),
         'duracion_prestamo': fields.integer('días préstamo'),
         'fecha_regreso': fields.date('Fecha de Entrega'),
@@ -130,6 +137,13 @@ class biblioteca_libro_prestamo(osv.osv):
                 help= 'Usuario que solicita el préstamo'
         ),
     }
+
+    def create (self,cr,uid,vals,context=None):
+        """
+        Crea el prestamo
+        """
+        id = super(biblioteca_libro_prestamo,self).create(cr,uid,vals,context=context)
+        return id
 
 biblioteca_libro_prestamo()
 
