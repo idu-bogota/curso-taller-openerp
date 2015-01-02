@@ -1,9 +1,8 @@
-from osv import fields, osv
+# -*- coding: utf-8 -*-
+from openerp import models, fields
 
-class mi_modulo_mi_tabla(osv.osv):
+class mi_modulo_mi_tabla(models.Model):
     _name = "mi_modulo.mi_tabla"
-    _columns = {
-        'name' : fields.char('nombre',size=255),
-        'description' : fields.char('descripcion',size=255),
-    }
-mi_modulo_mi_tabla()
+
+    name = fields.Char('Nombre', size=25)
+    description = fields.Char('Descripción', size=255)

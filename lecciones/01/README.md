@@ -1,19 +1,18 @@
 ## Estructura básica de un módulo
 
-El módulo de OpenERP tiene la siguiente estructura básica:
+El módulo de Odoo tiene la siguiente estructura básica:
 
-    \-- addons
-       \-- mi_modulo
-         |-- __init__.py
-         |-- __openerp__.py
-         |-- mi_modulo.py
-         |-- mi_modulo_view.xml
+    └── mi_modulo
+        ├── __init__.py
+        ├── mi_modulo.py
+        ├── mi_modulo_view.xml
+        └── __openerp__.py
 
-* **`__init__.py`**: Define el paquete python. El archivo incluye los modulos que hacen parte del paquete.
+* **`__init__.py`**: Define el paquete python. El archivo incluye los módulos que hacen parte del paquete.
 
         import mi_modulo
 
-* **`__openerp__.py`**: Define los metadatos del modulo openerp.
+* **`__openerp__.py`**: Define los metadatos del modulo Odoo. En la documentación de referencia de Odoo puede encontrar [mayor información de como definir un módulo](https://www.odoo.com/documentation/8.0/reference/module.html)
 
         {
             "name" : "mi_modulo",
@@ -21,99 +20,107 @@ El módulo de OpenERP tiene la siguiente estructura básica:
             "author" : "xx",
             "category" : "xx",
             "description" : "xx",
-            "init_xml" : [],
-            "depends" : ['base',],
-            "update_xml" : ['mi_modulo_view.xml',],
-            "active" : False,
+            "data" : ['mi_modulo_view.xml',],
             "installable" : True,
         }
 
-    * **name**: Nombre del módulo en OpenERP
-    * **init_xml**: Archivos xml/csv a ser cargados en el momento de la instalación del módulo, veremos más adelante archivos que pueden ser cargados (ej. datos, vistas, flujos de trabajo)
-    * **depends**: Listar los módulos que deben estar instalados en el sistema previamente
-    * **update_xml**:  Archivos xml/csv a ser cargados en el momento de la actualización del módulo (ej. datos, vistas, flujos de trabajo)
+    * **name**: Nombre del módulo en Odoo
+    * **data**: Archivos xml/csv a ser cargados en el momento de la instalación/actualización del módulo, veremos más adelante archivos que pueden ser cargados (ej. datos, vistas, flujos de trabajo)
+    * **depends**: Lista los módulos que deben estar instalados en el sistema previamente
 
-* **`mi_modulo.py`**: Módulo python que contiene los objetos de negocio de nuestro módulo
+* **`mi_modulo.py`**: Módulo python que contiene los objetos de negocio de nuestro módulo. Ejemplo:
 
-        from osv import fields, osv
+        # -*- coding: utf-8 -*-
+        from openerp import models, fields
 
-        class mi_modulo_mi_tabla(osv.osv):
+        class mi_modulo_mi_tabla(models.Model):
             _name = "mi_modulo.mi_tabla"
-            _columns = {
-                'name' : fields.char('nombre',size=255),
-                'description' : fields.char('descripcion',size=255),
-            }
-        mi_modulo_mi_tabla()
 
-* **`mi_modulo_view.xml`**: Archivo XML que contiene la definición de las vistas y menús a ser cargados
+            name = fields.Char('Nombre', size=25)
+            description = fields.Char('Descripción', size=255)
+
+
+* **`mi_modulo_view.xml`**: Archivo XML que contiene la definición de las vistas, acciones y menús a ser desplegados. Ejemplo:
 
         <?xml version="1.0"?>
         <openerp>
         <data>
-            <record model="ir.ui.view" id="mi_modulo_mi_tabla_form">
-                <field name="name">mi_modulo.mi_tabla.form</field>
-                    <field name="model">mi_modulo.mi_tabla</field>
-                    <field name="type">form</field>
-                    <field name="arch" type="xml">
-                        <form string="mi_modulo mi_tabla">
-                            <field name="name"/>
-                            <field name="description"/>
-                        </form>
-                  </field>
-            </record>
-            <record model="ir.ui.view" id="mi_modulo_mi_tabla_tree">
-                <field name="name">mi_modulo.mi_tabla.tree</field>
+            <record model="ir.ui.view" id="mi_tabla_form">
                 <field name="model">mi_modulo.mi_tabla</field>
-                <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string="mi_modulo mi_tabla">
+                    <form>
+                        <group>
+                         <field name="name"/>
+                         <field name="description"/>
+                        </group>
+                    </form>
+              </field>
+            </record>
+            <record model="ir.ui.view" id="mi_tabla_tree">
+                <field name="model">mi_modulo.mi_tabla</field>
+                <field name="arch" type="xml">
+                    <tree>
                         <field name="name"/>
                         <field name="description"/>
                     </tree>
                 </field>
             </record>
-            <record model="ir.actions.act_window" id="action_mi_tabla_seq">
-                <field name="name">Mi Tabla</field>
+            <record model="ir.actions.act_window" id="mi_tabla_action">
+                <field name="name">Tabla</field>
                 <field name="res_model">mi_modulo.mi_tabla</field>
-                <field name="view_type">form</field>
                 <field name="view_mode">tree,form</field>
             </record>
-            <menuitem id="menu_mi_modulo_module" name="Mi Modulo"/>
-            <menuitem id="menu_mi_modulo_tables" name="Mi Modulo" parent="menu_mi_modulo_module"/>
-            <menuitem id="menu_mi_modulo_mi_tabla" parent="menu_mi_modulo_tables" name="Mi Tabla" action="action_mi_tabla_seq"/>
+            <menuitem id="menu_root" name="Mi Módulo"/>
+            <menuitem id="menu_mi_modulo" name="Mi Módulo" parent="menu_root"/>
+            <menuitem id="menu_mi_modulo_mi_tabla" parent="menu_mi_modulo" name="Mi Tabla" action="mi_tabla_action"/>
         </data>
         </openerp>
 
+La estructura y nombre de archivos puede ajustarse de acuerdo a las preferencias del desarrollador, lo importante es ajustar las referencias a los archivos a cargarse en el momento de la instalación en el archivo __openerp__.py, por ejemplo:
+
+    mi-carpeta-de-modulos
+    ├── nombre_modulo
+    │   ├── __init__.py
+    │   ├── models
+    │   │   ├── __init__.py
+    │   │   └── nombre_modulo.py
+    │   ├── __openerp__.py
+    │   └── views
+    │       └── nombre_modulo.xml
+    ├── otro_modulo
+    │   ├── __init__.py
+    │   ├── models.py
+    │   ├── __openerp__.py
+    │   └── views.xml
+    └── mi_modulo
+        ├── __init__.py
+        ├── __openerp__.py
+        ├── mi_modulo.py
+        └── mi_modulo_view.xml
 
 ## Instalación del módulo
 
-1. Para instalar el módulo este debe estar disponible en la carpeta addons de openerp, se pueden utilizar varias carpetas addons en una instalación de OpenERP, las carpetas se definen en el archivo de configuración *openerp-server.conf* en el parametro *addons_path*, ejemplo:
+1. Para instalar el módulo este debe estar disponible en la carpeta addons del servidor Odoo, se pueden utilizar varias carpetas addons en una instalación de Odoo, las carpetas se definen en el archivo de configuración */etc/odoo/openerp-server.conf* en el parametro *addons_path*, ejemplo:
 
         [options]
         db_host = False
         db_port = False
         db_user = openerp
         db_password = False
-        addons_path = /usr/share/pyshared/openerp/addons/,/opt/openerp-idu-addons/src
+        addons_path = /usr/lib/python2.7/dist-packages/openerp/addons,/opt/mi-carpeta-de-modulos
 
-    Igualmente se puede pasar el parametro *--addons-path=/ruta/addons* al iniciar el servidor de openerp
+    Igualmente se puede pasar el parametro *--addons-path=/ruta/addons* al iniciar el servidor de Odoo
 
-1. Luego se reinicia el servidor y para que se registre el nuevo módulo en la base de datos se entra como administrador en la opción *configuración -> actualizar lista de módulos -> actualizar* (solo esta disponible si tiene la opción de interfaz extendida en sus preferencias de usuario). Esto hace que aparezca el nuevo módulo en el listado para ser instalado.
+1. Luego se reinicia el servidor
 
-1. Para instalar el módulo en la base de datos debe ingresar como administrador en la opción *Configuración -> módulos*, luego activa la opción *extra* y coloca el nombre del nuevo módulo a instalar y presiona enter, luego hace click en el botón *instalar*, la interfaz se recargará y el menú del módulo aparecerá en la interfaz.
+1. Busca el nuevo módulo creado en *Configuración > Módulos locales*, si no aparece en el listado luego de buscarlo por el nombre es porque debe registrar el nuevo módulo en la base de datos ya creada, para esto entra como administrador a la opción *Configuración -> Módulos -> Actualizar lista de módulos -> Actualizar* (Si no aparece la opción debe ingresar a *Configuración > Usuarios > Administrador* y en la pestaña de *Permisos de Acceso* activar la opción *Características técnicas* y luego recargar la página).
 
-## Generación de un módulo a partir de un diagrama UML
-
-Actualmente se encuentra en desarrollo la herramienta [xmi2openerp](https://github.com/andresc1125/xmi2openerp) que permite la generación de módulos OpenERP a partir de un modelo XMI. La herramienta se ha probado con modelos realizados con la herramienta [Modelio](http://www.modelio.org/).
-
-Como ejemplo el diagrama UML ![Diagrama UML](curso_taller_openerp.png) se convierte en un módulo OpenERP con el siguiente comando:
-
-    xmi2openerp ~/git/curso-taller-openerp/lecciones/01/curso_taller_openerp.xmi
-
-El comando creará la estructura básica del módulo que incluye modelos y vistas, las cuales puede entrar a modificar acordemente a sus necesidades.
+1. Para instalar el módulo solo debe hacer clic en instalar en el módulo.
 
 ## Ejercicio propuesto
 
-Ahora cree en la herramienta modelio un diagrama UML como el presentado en la sección anterior, exporte el modelo a un archivo XMI y por último cree un proyecto PyDEV en eclipse que incluya los archivos generados por el script xmi2openerp.
+1. Cree un nuevo proyecto PyDev en eclipse y use el código disponible en la carpeta *$RUTA_CURSO_TALLER/lecciones/01/src/*
 
-Cree un nuevo *Run Configuration* para correr el servidor openerp que incluya el parámetro *--addons-path* y este apunte a la carpeta con el código fuente de su proyecto.
+1. Cree un nuevo perfil de ejecución de Odoo a través de  *Run > Run Configurations* que incluya el parámetro *--addons-path* y este apunte a la carpeta donde esta el código del proyecto creado en eclipse.
+
+1. Instale el módulo en la base de datos de Odoo que creó en la lección anterior.

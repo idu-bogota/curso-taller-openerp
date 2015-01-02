@@ -4,9 +4,7 @@
     "author" : "xx",
     "category" : "xx",
     "description" : "xx",
-    "init_xml" : [],
     "depends" : ['base',],
-    "update_xml" : ['mi_modulo_view.xml',],
-    "active" : False,
+    "data" : ['mi_modulo_view.xml',],
     "installable" : True,
 }

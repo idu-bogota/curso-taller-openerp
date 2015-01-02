@@ -69,7 +69,7 @@ Instalar Odoo 8.0
             -r openerp -w openerp --db_host=localhost --addons-path=${project_loc:NombreDeMiProyecto}
 
         Si uds adiciona este campo en este momento, al arrancar el servidor fallará indicando que la carpeta no es válida como addons-path, esto es porque aún no existen modulos Odoo en el proyecto.
-    
+
         **Nota**: Recuerde cambiar NombreDeMiProyecto por el nombre del proyecto que usted acaba de crear
 
 *   Abrir en el navegador: http://localhost:8069 y accederá a la interfaz de OpenERP
