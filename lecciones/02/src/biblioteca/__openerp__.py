@@ -1,12 +1,12 @@
 {
-    "name" : "biblioteca",
-    "version" : "2.0",
-    "author" : "xx",
-    "category" : "xx",
-    "description" : "xx",
-    "init_xml" : [],
-    "depends" : ['base',],
-    "update_xml" : [],
-    "active" : False,
+    "name" : "Biblioteca",
+    "version" : "1.0",
+    "author" : "idu-bogota",
+    "category" : "biblioteca",
+    "description" : "Módulo para la gestión de bibliotecas",
+    "depends" : [
+        'base',
+    ],
+    "data" : [],
     "installable" : True,
 }
