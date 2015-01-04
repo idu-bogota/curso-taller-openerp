@@ -1,124 +1,133 @@
-Lección 02: Objetos de Negocio
-=============================
+Lección 02: Modelos Odoo
+========================
 
-Esta lección explica la forma básica de construir objetos de negocio y definición de campos.
+Esta lección explica la forma básica de construir Modelos Odoo y definir sus campos.
 
 [TOC]
 
-Mi primer Objeto de Negocio
----------------------------
+Mi primer Modelo Odoo
+---------------------
 
-Cada objeto de negocio contiene campos y métodos. Para crear un objeto de negocio solo es necesario crear una clase que herede de osv.osv que es la clase ORM que se encarga de gestionar el acceso y almacenamiento en la base de datos.
+Cada Modelo contiene campos y métodos. Para crear un modelo solo es necesario crear una clase python que herede de **models.Model**, models.Model es la clase base que se encarga de servir como [ORM - Object Relational Mapping](http://es.wikipedia.org/wiki/Mapeo_objeto-relacional) y gestiona el acceso y almacenamiento de datos en PostgreSQL.
 
 Estructura básica de un objeto de negocio:
 
     class mi_modulo_mi_objeto_de_negocio(osv.osv):
-        _name = "mi_modulo.mi_objeto_de_negocio"
-        _columns = {
-            'nombre_campo_1' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
-            'nombre_campo_2' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
-        }
-    mi_modulo_mi_objeto_de_negocio()
+        _name = 'mi_modulo.mi_objeto_de_negocio'
+        _description = 'descripción del objeto de negocio'
+
+        nombre_campo_1 = fields.tipo_dato(parametros),
+        nombre_campo_2 = fields.tipo_dato(parametros),
 
 Ejemplo:
 
-	class biblioteca_libro(osv.osv):
-        _name = "biblioteca.libro"
-        _columns = {
-            'titulo' : fields.char('Titulo', help='Título del libro'),
-            'autor' : fields.char('Autor', help='Autor del libro'),
-        }
-    biblioteca_libro()
+    class biblioteca_libro(models.Model):
+        _name = 'biblioteca.libro'
+        _description = 'Contiene la información de libros'
 
-En este ejemplo se crea el objeto de negocio Libro que corresponde al módulo Bibloteca, el objeto esta compuesto por dos campos *titulo* y *autor* ambos son de tipo carácter, estos campos serán almacenados automáticamente en la base de datos PostgreSQL como *character varying* en la tabla **biblioteca_libro**.
+        name = fields.Char('Titulo', size=255, help='Título del libro')
+        active = fields.Boolean('Active', help='Activo/Inactivo')
 
-***_name*** indica que dentro de la plataforma OpenERP el objeto se llama **biblioteca.libro**.
+En este ejemplo se crea el objeto de negocio Libro que corresponde al módulo Bibloteca, el objeto esta compuesto por dos campos *name* y *active*, esta definición va a crear una tabla **biblioteca_libro** en la base de datos PostgreSQL para almacenar todos los registros de este objeto de negocio.
 
-***_columns*** es el diccionario de campos que conforman el objeto de negocio.
+- **_name** indica el nombre con el cual se va a hacer referencia a este objeto de negocio la plataforma OpenERP el objeto se llama **biblioteca.libro**.
+
+- **_description** contiene la descripción del Modelo como forma de documentar el mismo. No usar Tíldes o carácteres especiales en esta sección.
 
 Definición de campos
 --------------------
 
-Los campos que conformen el objeto de negocio se deben adicionar en el diccionario llamado **_columns**:
+Los campos que hace parte del Modelo se definen como atributos de la clase python y son instancias del módulo python **fields.Field**. Al crear un campo en el Modelo puede definir los siguientes atributos básicos:
 
-	_columns = {
-            'nombre_campo_1' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
-            'nombre_campo_2' : fields.tipo_dato('etiqueta_del_campo', help='descripcion del campo'),
-            'nombre_campo_3': ......
-					.
-                    .
-                    .
-             'nombre_campo_n': ......
-        }
+* **string:** Etiqueta/label que se despliega en la interfaz de usuario
+* **help:** Ayuda que se despliega en la interfaz como un tooltip
+* **readonly:** Indica que el campo es de solo lectura, por defecto *False*
+* **required:** Indica que el campo es obligatorio, por defecto *False*
+* **index:** Crea un [indice en la base de datos](http://es.wikipedia.org/wiki/%C3%8Dndice_%28base_de_datos%29), por defecto *False*
 
-Se puede definir atributos adicionales en el campo del objeto de negocio:
-
-* **help**: Indica el texto que se despliega como ayuda para el campo
-* **select**: Crea un index en la base de datos para el campo y agrega el campo en el formulario de busqueda
+Puede consultar [mayor información acerca de los campos que se pueden crear en Odoo](https://www.odoo.com/documentation/8.0/reference/orm.html#fields) en la documentación de referencia del sitio de Odoo.
 
 ###Tipos de datos
 
-Los tipos de datos básicos como se puede definir un campo son:
+Odoo permite crear diferentes tipos de campos en un Modelo, los básicos son:
 
-* **Boolean:** *fields.boolean('etiqueta_del_campo')*
-* **Integer:** *fields.integer('etiqueta_del_campo')*
-* **Date:** *fields.date('etiqueta_del_campo')*
-* **Datetime:** *fields.datetime('etiqueta_del_campo')*
-* **char:** *fields.char('etiqueta_del_campo', size = 255)*, **size** indica el tamaño del campo de texto
-* **text:** *fields.text('etiqueta_del_campo')*,
-* **float:** *fields.float('etiqueta_del_campo', digits = (10,4))*, **digits** indica la precisión del numero, sin precisión se maneja como un float
-* **selection:** *fields.selection([('nombre_item_1','etiqueta_item_1'),('nombre_item_2','etiqueta_item_2'),('nombre_item_3','etiqueta_item_3')], 'etiqueta_del_campo')*
-* binary: *fields.binary('etiqueta_del_campo', filters = '*.png')*
+- fields.Char(string=None, otros_parametros)
+- fields.Boolean(string=None, otros_parametros)
+- fields.Integer(string=None, otros_parametros)
+- fields.Float(string=None, digits=None, otros_parametros)
+- fields.Text(string=None, otros_parametros)
+- fields.Selection(selection=None, string=None, otros_parametros)
+- fields.Html(string=None, otros_parametros)
+- fields.Date(string=None, otros_parametros)
+- fields.Datetime(string=None, otros_parametros)
 
 Ejemplo:
 
-	class biblioteca_libro(osv.osv):
-        _name = "biblioteca.libro"
-        _columns = {
-            'active': fields.boolean('Active', help='Activo/Inactivo'),
-            'isbn': fields.char('ISBN', size = 255),
-            'titulo' : fields.char('Titulo', size = 255, help='Título del libro'),
-            'autor' : fields.char('Autor', size = 255, help='Autor del libro'),
-            'descripcion': fields.text('descripcion'),
-            'paginas': fields.integer('Paginas'),
-            'fecha': fields.date('Fecha', help='Fecha de publicación'),
-            'precio': fields.float('Precio', help='Precio de compra'),
-            'state': fields.selection([('draft', 'Draft'),('open', 'In Progress'),('cancel', 'Cancelled'),('done', 'Done'),('pending', 'Pending')],'State'),
-        }
-	biblioteca_libro()
+    class biblioteca_libro(models.Model):
+        _name = 'biblioteca.libro'
+        _description = 'Contiene la información de libros'
 
-### Tips
+        name = fields.Char('Titulo', size=255, help='Título del libro')
+        active = fields.Boolean('Active', help='Activo/Inactivo')
+        descripcion = fields.Text('Descripción')
+        fecha_publicacion = fields.Date('Fecha', help='Fecha de publicación')
+        precio = fields.Float('Precio', help='Precio de compra', digits=(10,2))
+        state = fields.Selection(
+            [
+                ('solicitud', 'Solicitado'),
+                ('en_compra', 'Proceso de compra'),
+                ('adquirido', 'Adquirido'),
+                ('catalogado', 'Catalogado'),
+                ('baja', 'De baja')
+            ],
+            'Estado',
+        )
 
-Los campos de tipo de dato Boolean, se define como etiqueta_del_campo **active**, el cual tiene un significado especial en la plataforma, por defecto la interfaz de listado oculta los registros que tengan el campo active en *False*.
+### Tip
 
-Desplegar objetos de negocio desde interfaz
-------------------------
+El campo llamado **active** tiene un significado especial en la plataforma, por defecto la interfaz que lista los registros del Modelo no muestra los registros que tengan el valor de active igual a *False*.
 
-Para visualizar nuestro objeto de negocio desde la interfaz, lo primero es verificar que el módulo se encuentre instalado, para el ejemplo el módulo Biblioteca.
+Desplegar Modelos en la interfaz
+--------------------------------
 
-Para crear un menú de acceso al objeto de negocio, debe ingresar por el menú:
+1. Para visualizar un Modelo en la interfaz web, lo primero que se requiere es instalar el módulo donde esta el código del Modelo (o actualizar si el módulo ya estaba instalado y tiene cambios en el código), siguiendo las instrucciones de la lección anterior y usando el código de ejemplo de la lección.
 
-*Técnico --> Estructura de la base de datos --> Modelos*
+1. Luego se requiere crear una entrada de menú (menu item) que permita acceder al Modelo, para esto debe
 
-En Modelos, buscar modelo para Biblioteca, seleccionar el modelo biblioteca.libro, en este último click sobre el botón Crear un menú:
+    1. Ingresar a *Técnico >> Estructura de la base de datos >> Modelos*, en esta página se despliega un listado de todos los Modelos instalados en Odoo.
+    1. Buscar y seleccionar el Modelo **biblioteca.libro**, en la página del Modelo se despliega la metadata que almacena Odoo acerca del Modelo creado a través del código python
+    1. Al final de la página aparece un botón llamado **Crear un menú**, hacer clic en él y llenar el formulario con los siguientes datos:
 
-* Nombre del menú: **Libro**
-* Menú padre: **Configuración/Configuración**
+        * Nombre del menú: **Libro**
+        * Menú padre: **Configuración/Configuración**
 
-El menú padre **Configuración/Configuración** es uno ya existente en la plataforma.
+	El menú padre **Configuración/Configuración** es uno ya existente en la plataforma, se puede usar uno cualquiera de los que existe o crear uno nuevo.
 
-Después de crear el menú, usted debe actualizar la platoforma y se activa el Menú padre Configuración y el submenú Libro.
-
-En el menú Libro, se crea por defecto dos tipos de vista, vista lista y vista formulario.
+	1. Recargar la página, luego de esto podrá observar que se despliega el submenú *Configuración* y el menú item *Libro*. Al hacer click en él se despliega el listado de libros y el botón para crear un nuevo registro. Estas vistas son autogeneradas, más adelante en el taller se indica como construir las vistas con código XML.
 
 
 Ejercicio propuesto
 -------------------
 
-Tomando el código fuente disponible en la lección:
+Tomando como base el código fuente disponible en la lección:
 
+1. Revisar la metadata que almacena Odoo para los Modelos y Campos de los módulos instalados.
+1. Explore la base de datos PostgreSQL utilizando el programa *pgadmin3*, busque y revise la tabla *biblioteca_libro*
 1. Adicionar nuevos estados al campo de tipo selección
-1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega
-1. Adicionar los campos clasificacion, genero y editorial, tipo de campo char.
-1. Crear un nuevo objeto de negocio llamado *biblioteca.libro_prestamo* y adicione los campos fecha_prestamo tipo date, duración_prestamo tipo integer, fecha_regreso tipo date.
-1. Crear un menú acceso al objeto *biblioteca.libro_prestamo* que tenga como menú padre **Configuración/Configuración**. Recargue la página y el nuevo item del menú debe aparecer disponible desplegando un enlace a la vista de su objeto de negocio donde podrá listar, crear, modificar y consultar registros.
+1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
+1. Adicionar los campos:
+
+    - isbn tipo char tamaño 13
+    - paginas tipo integer
+    - fecha_compra tipo date
+    - nombre_autor tipo char tamaño 255
+
+1. Crear un nuevo Modelo llamado **biblioteca.libro_prestamo** y adicione los campos:
+
+   -  fecha_prestamo tipo datetime
+   -  duracion_prestamo tipo integer
+   -  fecha_regreso tipo datetime.
+
+1. Crear un menú de acceso al objeto **biblioteca.libro_prestamo** que tenga como menú padre **Configuración/Configuración**.
+1. Adicione, modifique y elimine registros para el Modelo **biblioteca.libro**, revise que pasa cuando el campo active esta en True o en False.
+1. Explore la base de datos utilizando el programa *pgadmin3*, busque y revise como ha cambiado la tabla *biblioteca_libro* luego de los cambios realizados en el módulo.

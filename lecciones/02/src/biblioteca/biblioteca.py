@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
-from osv import fields, osv
+from openerp import models, fields
 
 
-################################################################################
-#        ---  Objeto de negocio Libro
-################################################################################
-class biblioteca_libro(osv.osv):
-        _name = "biblioteca.libro"
-        _columns = {
-            'active': fields.boolean('Active', help='Activo/Inactivo'),
-            'isbn': fields.char('ISBN', size = 255),
-            'titulo' : fields.char('Titulo', size = 255, help='Título del libro'),
-            'autor' : fields.char('Autor', size = 255, help='Autor del libro'),
-            'descripcion': fields.text('descripcion'),
-            'paginas': fields.integer('Paginas'),
-            'fecha': fields.date('Fecha', help='Fecha de publicación'),
-            'precio': fields.float('Precio', help='Precio de compra'),
-            'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
-		('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
-        }
-biblioteca_libro()
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+    _description = 'Contiene la informacion de libros en la biblioteca'
+
+    name = fields.Char('Titulo', size=255, help='Título del libro')
+    active = fields.Boolean('Active', help='Activo/Inactivo')
+    descripcion = fields.Text('Descripción')
+    fecha_publicacion = fields.Date('Fecha', help='Fecha de publicación')
+    precio = fields.Float('Precio', help='Precio de compra', digits=(10,2))
+    state = fields.Selection(
+        [
+            ('solicitud', 'Solicitado'),
+            ('en_compra', 'Proceso de compra'),
+            ('adquirido', 'Adquirido'),
+            ('catalogado', 'Catalogado'),
+            ('baja', 'De baja')
+        ],
+        'Estado',
+    )

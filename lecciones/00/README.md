@@ -9,7 +9,7 @@
 
 *   Instalar el software que necesitaremos para el taller
 
-        sudo apt-get install eclipse wget
+        sudo apt-get install eclipse pgadmin3
 
 Instalar Odoo 8.0
 --------------------
