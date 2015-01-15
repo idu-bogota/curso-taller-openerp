@@ -12,21 +12,25 @@ Cada Modelo contiene campos y métodos. Para crear un modelo solo es necesario c
 
 Estructura básica de un objeto de negocio:
 
-    class mi_modulo_mi_objeto_de_negocio(osv.osv):
-        _name = 'mi_modulo.mi_objeto_de_negocio'
-        _description = 'descripción del objeto de negocio'
+```python
+class mi_modulo_mi_objeto_de_negocio(osv.osv):
+    _name = 'mi_modulo.mi_objeto_de_negocio'
+    _description = 'descripción del objeto de negocio'
 
-        nombre_campo_1 = fields.tipo_dato(parametros),
-        nombre_campo_2 = fields.tipo_dato(parametros),
+    nombre_campo_1 = fields.tipo_dato(parametros),
+    nombre_campo_2 = fields.tipo_dato(parametros),
+```
 
 Ejemplo:
 
-    class biblioteca_libro(models.Model):
-        _name = 'biblioteca.libro'
-        _description = 'Contiene la información de libros'
+```python
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+    _description = 'Contiene la información de libros'
 
-        name = fields.Char('Titulo', size=255, help='Título del libro')
-        active = fields.Boolean('Active', help='Activo/Inactivo')
+    name = fields.Char('Titulo', size=255, help='Título del libro')
+    active = fields.Boolean('Active', help='Activo/Inactivo')
+```
 
 En este ejemplo se crea el objeto de negocio Libro que corresponde al módulo Bibloteca, el objeto esta compuesto por dos campos *name* y *active*, esta definición va a crear una tabla **biblioteca_libro** en la base de datos PostgreSQL para almacenar todos los registros de este objeto de negocio.
 
