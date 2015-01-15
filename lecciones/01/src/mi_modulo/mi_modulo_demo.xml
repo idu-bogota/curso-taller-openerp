@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+    <record model="mi_modulo.mi_tabla" id="dato_demo_1">
+        <field name="name">demo 1</field>
+        <field name="description">Esto es un dato que se carga al instalar el módulo en una base de datos configurada con datos de ejemplo</field>
+    </record>
+    <record model="mi_modulo.mi_tabla" id="dato_demo_2">
+        <field name="name">demo 2</field>
+        <field name="description">Esto es un dato que se carga al instalar el módulo en una base de datos configurada con datos de ejemplo</field>
+    </record>
+</data>
+</openerp>
