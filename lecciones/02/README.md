@@ -120,7 +120,6 @@ Tomando como base el código fuente disponible en la lección:
 1. Revisar la metadata que almacena Odoo para los Modelos y Campos de los módulos instalados.
 1. Explore la base de datos PostgreSQL utilizando el programa *pgadmin3*, busque y revise la tabla *biblioteca_libro*, hacer una captura de pantalla para tenerlo como referencia y poder comparar la tabla luego de realizar los cambios de los siguientes ejercicios de esta lección.
 1. Adicionar nuevos estados al campo de tipo selección *state*: solicitado, proceso de compra, adquirido.
-1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
 1. Adicionar los campos:
 
    - isbn tipo char tamaño 13
@@ -128,6 +127,7 @@ Tomando como base el código fuente disponible en la lección:
    - fecha_compra tipo date
    - nombre_autor tipo char tamaño 255
 
+1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
 1. Crear un nuevo Modelo llamado **biblioteca.libro_prestamo** y adicione los campos:
 
    -  fecha_prestamo tipo datetime
