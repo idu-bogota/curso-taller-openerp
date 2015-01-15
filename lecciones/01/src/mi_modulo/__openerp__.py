@@ -14,7 +14,8 @@
     ],
     "installable" : True,
     "description" : """
-# Módulo lección 01
+Módulo lección 01
+=================
 
 Este módulo muestra la estructura básica para crear un módulo en Odoo.
 
