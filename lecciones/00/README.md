@@ -48,29 +48,31 @@ Instalar Odoo 8.0
 
 ## Crear un proyecto y configurar el entorno para ejecutar Odoo
 
-*   En eclipse crear un nuevo proyecto PyDEV, si no se encuentra configurado el entorno de python eclipse le preguntará si desea auto configurarlo, ud debe hacer click en el botón **auto config** y aceptar los valores por defecto.
-*   Ingrese a través del menú a la opción **Run > Run configurations**
-*   Haga click en el icono (parte superior izquierda) **New Launch Configuration**
-    *   En **Name** digite **servidor OpenERP**
-    *   En **Project** seleccione el nombre del nuevo proyecto
-    *   En **Main Module** digite **/usr/bin/openerp-server**, este es el comando para iniciar el openerp
-    *   En la pestaña **Arguments** en el campo **program arguments** ingrese:
+-   En eclipse crear un nuevo proyecto PyDEV, si no se encuentra configurado el entorno de python eclipse le preguntará si desea auto configurarlo, ud debe hacer click en el botón **auto config** y aceptar los valores por defecto.
+-   Ingrese a través del menú a la opción **Run > Run configurations**
+-   Haga click en el icono (parte superior izquierda) **New Launch Configuration**
+    -   En **Name** digite **servidor Odoo**
+    -   En **Project** seleccione el nombre del nuevo proyecto
+    -   En **Main Module** digite **/usr/bin/openerp-server**, este es el comando para iniciar el openerp
+    -   En la pestaña **Arguments** en el campo **program arguments** ingrese:
 
             -r odoo -w odoo --db_host=localhost
 
         Estos son los parámetros que se pasarán al servidor de Odoo
 
-        * -r es el nombre del usuario para conectarse a PostgreSQL
-        * -w la clave asignada para conectarse a PostgreSQL
+        - -r es el nombre del usuario para conectarse a PostgreSQL
+        - -w la clave asignada para conectarse a PostgreSQL
 
-    *   Luego haga click en el boton **Apply** y **Run**
-    *   Otro parámetro importante es **--addons-path** el cual indica al servidor donde buscar el código de módulos adicionales de OpenERP, podemos indicar que use la carpeta del proyecto eclipse con la variable **${project_loc:NombreDeMiProyecto}**, quedando el parámetro:
+    -   Luego haga click en el boton **Apply** y **Run**
+    -   Otro parámetro importante es **--addons-path** el cual indica al servidor donde buscar el código de módulos adicionales de OpenERP, podemos indicar que use la carpeta del proyecto eclipse con la variable **${project_loc:NombreDeMiProyecto}**, quedando el parámetro:
 
             -r openerp -w openerp --db_host=localhost --addons-path=${project_loc:NombreDeMiProyecto}
 
         Si uds adiciona este campo en este momento, al arrancar el servidor fallará indicando que la carpeta no es válida como addons-path, esto es porque aún no existen modulos Odoo en el proyecto.
 
         **Nota**: Recuerde cambiar NombreDeMiProyecto por el nombre del proyecto que usted acaba de crear
+        
+        [Mayor información acerca de los parámetros de arranque del servidor Odoo](https://www.odoo.com/documentation/8.0/reference/cmdline.html#running-the-server)
 
 *   Abrir en el navegador: http://localhost:8069 y accederá a la interfaz de OpenERP
 *   Ahora puede crear una base de datos haciendo click en **Manage Databases**
