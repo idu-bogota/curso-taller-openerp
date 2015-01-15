@@ -181,7 +181,8 @@ Actualizar un módulo
 
 - Cuando se esta desarrollado se requiere constantemente actualizar los módulos sobre los que se trabaja, para esto se puede adicionar como parámetro de inicio del servidor Odoo el argumento `--update=nombre_modulo` o `-u nombre_modulo`. En eclipse adicionar este argumento en el Run Configuration que este utilizando. Esto ejecutará la atualización automática del módulo cada vez que reinicia el Odoo server, evitando hacer la actualización a través de la interfaz web como se mostró en el paso anterior.
 
-## Ejercicio propuesto
+Ejercicio propuesto
+-------------------
 
 1. Cree un nuevo proyecto PyDev en eclipse y use el código disponible en la carpeta *$RUTA_CURSO_TALLER/lecciones/01/src/*
 
