@@ -135,6 +135,8 @@ Como se ve en el sección anterior un archivo XML se puede usar para cargar dato
     - atributo **`name`**: Indica el nombre del campo en la base de datos en el cual se va a almacenar el valor
     - atributo **`ref`**: Se indica el ID utilizado en otro registro en este archivo XML o en alguno creado en otro módulo. Para otro módulo o archivo XML debe indicarse el id incluyendo el nombre del módulo ej. `otro_modulo.id_del_objeto`
 
+[mayor información acerca de como cargar datos en Odoo](https://www.odoo.com/documentation/8.0/reference/data.html)
+
 Instalación del módulo
 ----------------------
 
