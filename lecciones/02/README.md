@@ -47,7 +47,7 @@ Los campos que hace parte del Modelo se definen como atributos de la clase pytho
 
 Puede consultar [mayor información acerca de los campos que se pueden crear en Odoo](https://www.odoo.com/documentation/8.0/reference/orm.html#fields) en la documentación de referencia del sitio de Odoo.
 
-###Tipos de datos
+### Tipos de datos
 
 Odoo permite crear diferentes tipos de campos en un Modelo, los básicos son:
 
@@ -97,13 +97,12 @@ Desplegar Modelos en la interfaz
     1. Ingresar a *Técnico >> Estructura de la base de datos >> Modelos*, en esta página se despliega un listado de todos los Modelos instalados en Odoo.
     1. Buscar y seleccionar el Modelo **biblioteca.libro**, en la página del Modelo se despliega la metadata que almacena Odoo acerca del Modelo creado a través del código python
     1. Al final de la página aparece un botón llamado **Crear un menú**, hacer clic en él y llenar el formulario con los siguientes datos:
+       - Nombre del menú: **Libro**
+       - Menú padre: **Configuración/Configuración**
 
-        * Nombre del menú: **Libro**
-        * Menú padre: **Configuración/Configuración**
+    El menú padre **Configuración/Configuración** es uno ya existente en la plataforma, se puede usar uno cualquiera de los que existe o crear uno nuevo.
 
-	El menú padre **Configuración/Configuración** es uno ya existente en la plataforma, se puede usar uno cualquiera de los que existe o crear uno nuevo.
-
-	1. Recargar la página, luego de esto podrá observar que se despliega el submenú *Configuración* y el menú item *Libro*. Al hacer click en él se despliega el listado de libros y el botón para crear un nuevo registro. Estas vistas son autogeneradas, más adelante en el taller se indica como construir las vistas con código XML.
+    1. Recargar la página, luego de esto podrá observar que se despliega el submenú *Configuración* y el menú item *Libro*. Al hacer click en él se despliega el listado de libros y el botón para crear un nuevo registro. Estas vistas son autogeneradas, más adelante en el taller se indica como construir las vistas con código XML.
 
 
 Ejercicio propuesto
@@ -117,10 +116,10 @@ Tomando como base el código fuente disponible en la lección:
 1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
 1. Adicionar los campos:
 
-    - isbn tipo char tamaño 13
-    - paginas tipo integer
-    - fecha_compra tipo date
-    - nombre_autor tipo char tamaño 255
+   - isbn tipo char tamaño 13
+   - paginas tipo integer
+   - fecha_compra tipo date
+   - nombre_autor tipo char tamaño 255
 
 1. Crear un nuevo Modelo llamado **biblioteca.libro_prestamo** y adicione los campos:
 
