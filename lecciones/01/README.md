@@ -173,9 +173,9 @@ Actualizar un módulo
 
 - Cuando los **cambios son solo en archivos XML** se puede hacer la actualización a través de la interfaz web de administración del Odoo. Para esto debe:
 
-    1. Ingresar a *Configuración > Módulos locales*
-    1. Buscar el módulo a actualizar por el nombre
-    1. Hacer click en el botón **Actualizar**
+  1. Ingresar a *Configuración > Módulos locales*
+  1. Buscar el módulo a actualizar por el nombre
+  1. Hacer click en el botón **Actualizar**
 
 - Cuando se esta desarrollado se requiere constantemente actualizar los módulos sobre los que se trabaja, para esto se puede adicionar como parámetro de inicio del servidor Odoo el argumento `--update=nombre_modulo` o `-u nombre_modulo`. En eclipse adicionar este argumento en el Run Configuration que este utilizando. Esto ejecutará la atualización automática del módulo cada vez que reinicia el Odoo server, evitando hacer la actualización a través de la interfaz web como se mostró en el paso anterior.
 
