@@ -112,8 +112,8 @@ Ejercicio propuesto
 Tomando como base el código fuente disponible en la lección:
 
 1. Revisar la metadata que almacena Odoo para los Modelos y Campos de los módulos instalados.
-1. Explore la base de datos PostgreSQL utilizando el programa *pgadmin3*, busque y revise la tabla *biblioteca_libro*
-1. Adicionar nuevos estados al campo de tipo selección
+1. Explore la base de datos PostgreSQL utilizando el programa *pgadmin3*, busque y revise la tabla *biblioteca_libro*, hacer una captura de pantalla para tenerlo como referencia y poder comparar la tabla luego de realizar los cambios de los siguientes ejercicios de esta lección.
+1. Adicionar nuevos estados al campo de tipo selección *state*: solicitado, proceso de compra, adquirido.
 1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
 1. Adicionar los campos:
 
@@ -126,7 +126,7 @@ Tomando como base el código fuente disponible en la lección:
 
    -  fecha_prestamo tipo datetime
    -  duracion_prestamo tipo integer
-   -  fecha_regreso tipo datetime.
+   -  fecha_devolucion tipo datetime.
 
 1. Crear un menú de acceso al objeto **biblioteca.libro_prestamo** que tenga como menú padre **Configuración/Configuración**.
 1. Adicione, modifique y elimine registros para el Modelo **biblioteca.libro**, revise que pasa cuando el campo active esta en True o en False.

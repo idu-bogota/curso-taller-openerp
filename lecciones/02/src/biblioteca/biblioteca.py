@@ -10,12 +10,9 @@ class biblioteca_libro(models.Model):
     active = fields.Boolean('Active', help='Activo/Inactivo')
     descripcion = fields.Text('Descripción')
     fecha_publicacion = fields.Date('Fecha', help='Fecha de publicación')
-    precio = fields.Float('Precio', help='Precio de compra', digits=(10,2))
+    precio = fields.Float('Precio', help='Precio de compra', digits=(10, 2))
     state = fields.Selection(
         [
-            ('solicitud', 'Solicitado'),
-            ('en_compra', 'Proceso de compra'),
-            ('adquirido', 'Adquirido'),
             ('catalogado', 'Catalogado'),
             ('baja', 'De baja')
         ],
