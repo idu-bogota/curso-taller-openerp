@@ -1,36 +1,58 @@
 # -*- coding: utf-8 -*-
-from osv import fields, osv
+from openerp import models, fields
 
-################################################################################
-#        ---  Objeto de negocio Libro / Lección 3
-################################################################################
-class biblioteca_libro(osv.osv):
-    _name = "biblioteca.libro"
-    _columns = {
-        'active': fields.boolean('Active', help='Activo/Inactivo'),
-        'isbn': fields.char('ISBN', size = 255),
-        'titulo' : fields.char('Titulo', size = 255, help='Título del libro'),
-        'autor' : fields.char('Autor', size = 255, help='Autor del libro'),
-        'descripcion': fields.text('descripcion'),
-        'paginas': fields.integer('Paginas'),
-        'fecha': fields.date('Fecha', help='Fecha de publicación'),
-        'precio': fields.float('Precio', help='Precio de compra'),
-        'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
-            ('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
-        'clasificacion': fields.char('Clasificacion', size = 255, help='Clasificación del libro'),
-        'genero': fields.char('Género', size = 255, help='Género del libro'),
-        'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
-    }
-biblioteca_libro()
 
-################################################################################
-#        ---  Objeto de negocio libro_prestamo
-################################################################################
-class biblioteca_libro_prestamo(osv.osv):
-    _name = "biblioteca.libro_prestamo"
-    _columns = {
-        'fecha_prestamo': fields.date('Fecha de Préstamo'),
-        'duración_prestamo': fields.integer('días préstamo'),
-        'fecha_regreso': fields.date('Fecha de Entrega'),
-    }
-biblioteca_libro_prestamo()
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+    _description = 'Informacion de libro de la biblioteca'
+
+    name = fields.Char('Titulo', size=255, help='Título del libro')
+    active = fields.Boolean('Active', help='Activo/Inactivo')
+    descripcion = fields.Text('Descripción')
+    fecha_publicacion = fields.Date('Fecha', help='Fecha de publicación')
+    precio = fields.Float('Precio', help='Precio de compra', digits=(10, 2))
+    state = fields.Selection(
+        [
+            ('solicitud', 'Solicitado'),
+            ('en_compra', 'Proceso de compra'),
+            ('adquirido', 'Adquirido'),
+            ('catalogado', 'Catalogado'),
+            ('baja', 'De baja')
+        ],
+        'Estado',
+        help='Estado actual del libro en el catálogo'
+    )
+    isbn = fields.Char(
+        'ISBN', size=255,
+        help="International Standard Book Number",
+    )
+    paginas = fields.Integer(
+        'Número de Páginas',
+        help="Número de páginas que tiene el libro",
+    )
+    fecha_compra = fields.Date(
+        'Fecha de compra',
+        help="Fecha en la que se realizó la compra del libro",
+    )
+    nombre_autor = fields.Char(
+        'Nombre del Autor', size=255,
+        help="Nombre completo del autor",
+    )
+
+
+class biblioteca_prestamo(models.Model):
+    _name = 'biblioteca.prestamo'
+    _description = 'Informacion de prestamo de libros'
+
+    fecha = fields.Datetime(
+        'Fecha del prestamo',
+        help="Fecha en la que se presta el libro",
+    )
+    duracion_dias = fields.Integer(
+        'Duración del prestamo(días)',
+        help="Número días por los cuales se presta el libro",
+    )
+    fecha_devolucion = fields.Datetime(
+        'Fecha devolución',
+        help="Fecha de devolución del libro",
+    )
