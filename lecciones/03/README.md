@@ -180,7 +180,7 @@ Tomando como base el código fuente disponible en la lección:
 
 - Adiciones varios registros en el menú *Libros*. :white_up_pointing_index: Cuando esta en la vista formulario de un registro puede hacer click en la opción que aparece en la parte superior central *Más >> Duplicar*, para crear una copia del registro actual.
 - Cambie el estado de algunos registros a *solicitud* o *catalogado* y vea como cambia de colores el listado de libros.
-- Adicione a la vista tipo listado del Modelo *biblioteca.libro* el campo fecha.
+- Adicione a la vista tipo listado del Modelo *biblioteca.libro* el campo `fecha_publicacion`.
 - Asigne nuevos colores a la vista tipo listado para los estados en *Proceso de compra* y *De baja* del Modelo *biblioteca.libro*
 - Ingrese al menú *Biblioteca >> Catálogo >> Editar precios* y edite los precios de los libros.
 	- Haga clic en el botón crear y adicione un nuevo registro
