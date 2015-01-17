@@ -9,15 +9,15 @@ class biblioteca_libro(models.Model):
     name = fields.Char('Titulo', size=255, help='Título del libro')
     active = fields.Boolean('Active', help='Activo/Inactivo')
     descripcion = fields.Text('Descripción')
-    fecha_publicacion = fields.Date('Fecha', help='Fecha de publicación')
-    precio = fields.Float('Precio', help='Precio de compra', digits=(10, 2))
+    fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación')
+    precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2))
     state = fields.Selection(
         [
             ('solicitud', 'Solicitado'),
-            ('en_compra', 'Proceso de compra'),
+            ('en_compra', 'Proceso de Compra'),
             ('adquirido', 'Adquirido'),
             ('catalogado', 'Catalogado'),
-            ('baja', 'De baja')
+            ('baja', 'De Baja')
         ],
         'Estado',
         help='Estado actual del libro en el catálogo'
@@ -31,7 +31,7 @@ class biblioteca_libro(models.Model):
         help="Número de páginas que tiene el libro",
     )
     fecha_compra = fields.Date(
-        'Fecha de compra',
+        'Fecha de Compra',
         help="Fecha en la que se realizó la compra del libro",
     )
     nombre_autor = fields.Char(
@@ -45,14 +45,14 @@ class biblioteca_prestamo(models.Model):
     _description = 'Informacion de prestamo de libros'
 
     fecha = fields.Datetime(
-        'Fecha del prestamo',
+        'Fecha del Prestamo',
         help="Fecha en la que se presta el libro",
     )
     duracion_dias = fields.Integer(
-        'Duración del prestamo(días)',
+        'Duración del Prestamo(días)',
         help="Número días por los cuales se presta el libro",
     )
     fecha_devolucion = fields.Datetime(
-        'Fecha devolución',
+        'Fecha Devolución',
         help="Fecha de devolución del libro",
     )
