@@ -128,10 +128,10 @@ Tomando como base el código fuente disponible en la lección:
    - nombre_autor tipo char tamaño 255
 
 1. Adicionar un texto de ayuda para cada uno de los campos que no lo tenga y verifique en la interfaz que se despliega.
-1. Crear un nuevo Modelo llamado **biblioteca.libro_prestamo** y adicione los campos:
+1. Crear un nuevo Modelo llamado **biblioteca.prestamo** y adicione los campos:
 
-   -  fecha_prestamo tipo datetime
-   -  duracion_prestamo tipo integer
+   -  fecha tipo datetime
+   -  duracion_dias tipo integer
    -  fecha_devolucion tipo datetime.
 
 1. Crear un menú de acceso al objeto **biblioteca.libro_prestamo** que tenga como menú padre **Configuración/Configuración**.
