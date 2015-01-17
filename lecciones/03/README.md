@@ -3,12 +3,9 @@ Lección 03: Vistas Básicas
 
 [TOC]
 
-Para ingresar, actualizar, eliminar y desplegar registros para los Modelos definidos en Odoo se hace uso de la interfaz web, esta interfaz
-se define a través de vistas.
+Para ingresar, actualizar, eliminar y desplegar registros para los Modelos definidos en Odoo se hace uso de la interfaz web, esta interfaz se define a través de vistas.
 
-Al crear un módulo la interfaz de usuario se define a través de archivos XML, estos archivos son cargados en la base de datos en el
-momento de instalarse el módulo. La interfaz web es creada dinámicamente utilizando la configuración de vistas para cada Modelo disponible en la base de datos
-a partir de los archivos XML instalados.
+Al crear un módulo la interfaz de usuario se define a través de archivos XML, estos archivos son cargados en la base de datos en el momento de instalarse el módulo. La interfaz web es creada dinámicamente utilizando la configuración de vistas para cada Modelo disponible en la base de datos a partir de los archivos XML instalados.
 
 Existen diferentes tipos de vistas disponibles en OpenERP, un Modelo puede tener asociadas varias vistas, las vistas básicas son:
 
@@ -16,11 +13,7 @@ Existen diferentes tipos de vistas disponibles en OpenERP, un Modelo puede tener
 - tree: listado/árbol
 - search: búsqueda
 
-Cada tipo de vista permite una presentación diferente de los datos almacenados.
-Para el despliegue de las vistas se utiliza comunmente un enlace desde el menú de opciones de la interfaz web,
-estos menús son creados en conjunto con las vistas en el XML y cargadas posteriormente a la base de datos. En la lección anterior creamos
-un menú item directamente en la base de datos, pero para poder replicar este item en otras instalaciones de Odoo, es necesario que exista
-la definición del menú en el código de un módulo.
+Cada tipo de vista permite una presentación diferente de los datos almacenados. Para el despliegue de las vistas se utiliza comunmente un enlace desde el menú de opciones de la interfaz web, estos menús son creados en conjunto con las vistas en el XML y cargadas posteriormente a la base de datos. En la lección anterior creamos un menú item directamente en la base de datos, pero para poder replicar este item en otras instalaciones de Odoo, es necesario que exista la definición del menú en el código de un módulo.
 
 Definición de una vista
 -----------------------
@@ -94,72 +87,112 @@ Los formularios permiten creación y/o edición de registros, cada formulario pu
 - **`label`**: Crea una etiqueta de texto
 - **`group`**: Permite agrupar elementos y opcionalmente asignar una etiqueta
     - atributo **`colspan`**: Indica el número de columnas que va a tomar el grupo
-    - atributo **`col`**: Indica el número de columnas que el elemento va a contener para organizar los elementos incluidos en el grupo
-- **`sheet`**: Permite agrupar los elementos de un formulario dentro de una margen y bordes.
-- **`header`**: Permite organizar una cabecera donde incluir botones de acción y desplegar el estado del objeto
+    - atributo **`col`**: Indica el número de columnas que el elemento va a contener para organizar los elementos incluidos en el grupo. Por defecto un grupo tiene dos columnas.
+- **`sheet`**: Permite agrupar los elementos de un formulario dentro de un recuadro que emula una página impresa, dandole margen al formlario.
+- **`header`**: Permite organizar una cabecera donde incluir botones de acción y desplegar el estado del objeto.
+- **`HTML Tags`**: También se pueden adicionar tags HTML para personalizar la estructura de la vista.
+- **`field`**: Despliega o permite la edición del dato del registro para un campo especifico del Modelo.
+    - atributo **`name`**: Obligatorio. Indica el nombre del campo en el modelo.
+    - atributo **`widget`**: Permite indicar que el campo tenga una visualización diferente a la predefinida. Algunos widgets son: `statusbar`, `progressbar`, `selection`
+    - atributo **`class`**: Indica una clase CSS usada para darle estilo al campo. Algunas clases predefinidas son: `oe_inline`, `oe_left`, `oe_right`, `oe_read_only`, `oe_edit_only`, `oe_no_button`, `oe_avatar`.
+
+[Más información acerca de la definición de vistas tipo formulario](https://www.odoo.com/documentation/8.0/reference/views.html#forms)
 
 Ejemplo para la creación de una vista tipo formulario:
 
-	<record model="ir.ui.view" id="biblioteca_libro_form">
+    <record model="ir.ui.view" id="libro_form">
         <field name="name">biblioteca.libro.form</field>
         <field name="model">biblioteca.libro</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="1"/>
+                </header>
                 <sheet>
-                </sheet>
-                <label string="Este es un formulario de prueba"/>
-                <group string="Libros" colspan="2">
-                    <field name="name"/>
-                </group>
-                <group string="Estado" colspan="2">
-                    <field name="active"/>
-                    <field name="state"/>
-                </group>
-                <notebook colspan="4">
-                    <page string="Detalles">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Título" />
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <separator string="Detalles"/>
+                    <group>
                         <field name="isbn"/>
-                        <field name="autor"/>
-                        <field name="descripcion"/>
-                        <newline />
+                        <field name="nombre_autor"/>
                         <field name="paginas"/>
-                    </page>
-                    <page string="Fechas">
-                        <field name="fecha"/>
-                    </page>
-                </notebook>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="descripcion" placeholder="Descripción del libro"/>
+                        </page>
+                        <page string="Fechas">
+                            <group>
+                                <label string="Fechas importantes en la gestión del libro" colspan="2" class="oe_read_only"/>
+                                <field name="fecha_compra"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>
 
-Vista tipo Gráfica
-------------------
+Window Actions y Menu Items
+---------------------------
 
-Esta vista permite desplegar los datos disponibles en una grafica. Cada vista gráfica puede ser definida utilizando los siguientes elementos básicos:
+Los Actions indican a Odoo como debe responder frente a una acción del usuario, existen varios tipos de actions, el más utilizado es el Window Action, el cual define que modelo se va a desplegar, que vistas van a estar disponibles y la configuración general de las mismas. Para generar un action utilizamos el `record` para el model `ir.actions.act_window` a continuación se listan los atributos más relevantes para configurar el action:
 
-* atributo **`type`**: Indica el tipo de gráfica a utilizarse (pie, bar), por defecto pie
-* atributo **`orientation`**: Indica la orientación de las barras (horizontal, vertical)
-* **`field`**: Se debe ingresar como mínimo dos campos field (eje X, eje Y, eje Z), un tercero es opcional 3
-* atributo **`group`**: Se coloca en 1 para el campo a ser utilizado en el GROUP BY
-* atributo **`operator`**: Indica el tipo de operador de agregación a ser utilizado (+,*,**,min,max)
+- **`name`**: Un nombre para el action, se utiliza para desplegarse en la interfaz web.
+- **`res_model`**: Se indica el nombre del Modelo del cual se va a presentar la información.
+- **`view_type`**: Cuando se abre el tipo de vista listado, este parámetro indica si este se abre como un listado normal `form` o como un árbol desplegable `tree`.
+- **`view_mode`**: Indica los tipos de vista que van a estar disponibles.
+- **`limit`**: Se indica cuantos registros se van a desplegar en los listados. Por defecto se despliegan 80.
+- **`view_id`**: Se puede indicar el ID de una vista especifica para ser desplegada.
 
-Ejemplo para la creación de una vista tipo gráfico:
+[Más información acerca de la definición de window actions](https://www.odoo.com/documentation/8.0/reference/actions.html#window-actions-ir-actions-act-window)
 
-    <record model="ir.ui.view" id="libro_graph">
-        <field name="name">libro.graph</field>
-        <field name="model">biblioteca.libro</field>
-        <field name="arch" type="xml">
-            <graph type="bar" orientation="horizontal" string="Gráfico">
-                <field name="state"/>
-                <field name="paginas" operator="min"/>
-            </graph>
-        </field>
+Ejemplo para la creación de un action a ser utilizado en el menú:
+
+    <record model="ir.actions.act_window" id="libro_action">
+        <field name="name">Catálogo de Libros</field>
+        <field name="res_model">biblioteca.libro</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="limit">10</field>
     </record>
+
+La estructura de menús se define al igual que las vistas usando un documento XML. Para este caso vamos a usar el tag `menuitem`.
+
+- atributo **`id`**: Identificador del menuitem para ser referenciado en otros menuitems
+- atributo **`name`**: Indica el nombre a desplegarse en el menú.
+- atributo **`parent`**: Indica el ID de otro menuitem que va a ser el item padre de este menu, esto permite generar el árbol de navegación. Si no tiene padre, el menuitem va a aparecer en la barra superior de navegación.
+- atributo **`action`**: Indica el ID de una acción que va a ser ejecutada. Esta acción indica que Modelo va a ser desplegado y que vistas se van a incluir.
+
+Acontinuación un ejemplo de como crear menú para ul módulo:
+
+    <menuitem id="biblioteca_nav_menu" name="Biblioteca"/>
+    <menuitem id="biblioteca_menu" name="Cátalogo" parent="biblioteca_nav_menu"/>
+    <menuitem id="biblioteca_libro_menu" parent="biblioteca_menu" name="Libros" action="libro_action"/>
 
 Ejercicios propuestos
 ---------------------
 
-* Adicione a la vista tipo lista el campo fecha del objeto de negocio *biblioteca.libro*
-* Asigne nuevos colores a la vista tipo lista para los estados en **Proceso de compra** y **Catalogado** del objeto de negocio *biblioteca.libro*
-* Modifique la vista tipo gráfica de tipo *bar* a *pie* y los parámetros de agrupación y operadores de agregación, compruebe los cambios en la interfaz de usuario
-* Crear la vista tipo lista y tipo formulario para el objeto de negocio *biblioteca.libro_prestamo*.
-* Crear el item del menú para el objeto de negocio *biblioteca.libro_prestamo*.
+Tomando como base el código fuente disponible en la lección:
+
+- Adiciones varios registros en el menú *Libros*. :white_up_pointing_index: Cuando esta en la vista formulario de un registro puede hacer click en la opción que aparece en la parte superior *más >> duplicar*, para crear una copia del registro actual.
+- Cambie el estado de algunos registros a *solicitud* o *catalogado* y vea como cambia de colores el listado de libros.
+- Adicione a la vista tipo listado del Modelo *biblioteca.libro* el campo fecha.
+- Asigne nuevos colores a la vista tipo listado para los estados en **Proceso de compra** y **De baja** del Modelo *biblioteca.libro*
+- Ingrese al menú *Biblioteca >> Catálogo >> Editar precios* y edite los precios de los libros.
+	- Haga clic en el botón crear y adicione un nuevo registro
+	- Modifique la vista con el id `precio_libro_tree` y coloque `editable="bottom"`
+	- Actualice y cree un nuevo registro. Nota la diferencia?
+- Ingrese al menú *Configuración >> Técnico >> Interfaz de usuario >> Elementos menú*, búsque los menus creados para el módulo y revise los datos que se almacenan en la base de datos a partir del XML.
+- Ingrese al menú *Configuración >> Técnico >> Interfaz de usuario >> Vistas*, búsque las vistas creadas para el Modelo *biblioteca.libro* y revise los datos que se almacenan en la base de datos a partir del XML.
+- Ingrese al menú *Configuración >> Técnico >> Acciones >> Acciones de ventana*, búsque las acciones creadas para el Modelo *biblioteca.libro* y revise los datos que se almacenan en la base de datos a partir del XML.
+- Active el **modo desarrollador**, ingresando a la opción *Acerca de Odoo* que se despliega en el menú de la parte superior derecha en la barra negra de navegación donde dice *Administrador*.
+	- Abra la vista listado del Modelo *biblioteca.libro*, en la parte superior del formulario, abajo del menú de navegación verá que aparece un campo de selección que dice *Depurar vista#xx*, haga clic y seleccione la opción *Editar TreeVista*.
+	- En el cuadro de dialogo que se despliega puede observar que aparece la vista definida, modifique el campo en la pestaña *estructura* y adicione el campo `<field name="fecha_publicacion"/>`
+	- Guarde y cierre el cuadro de diálogo y recargue la página. Verá que la interfaz se actualiza basado en el dato actualizado de la base de datos.
+	- Ahora reinicie el servidor Odoo en el eclipse y note como los cambios que hizo en la base de datos se reversan luego de actualizado el módulo.
+- Crear el item del menú para el Modelo *biblioteca.libro_prestamo*
+- Cree las vistas tree y form para el Modelo *biblioteca.libro_prestamo*
