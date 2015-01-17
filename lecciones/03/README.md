@@ -178,10 +178,10 @@ Ejercicios propuestos
 
 Tomando como base el código fuente disponible en la lección:
 
-- Adiciones varios registros en el menú *Libros*. :white_up_pointing_index: Cuando esta en la vista formulario de un registro puede hacer click en la opción que aparece en la parte superior *más >> duplicar*, para crear una copia del registro actual.
+- Adiciones varios registros en el menú *Libros*. :white_up_pointing_index: Cuando esta en la vista formulario de un registro puede hacer click en la opción que aparece en la parte superior central *Más >> Duplicar*, para crear una copia del registro actual.
 - Cambie el estado de algunos registros a *solicitud* o *catalogado* y vea como cambia de colores el listado de libros.
 - Adicione a la vista tipo listado del Modelo *biblioteca.libro* el campo fecha.
-- Asigne nuevos colores a la vista tipo listado para los estados en **Proceso de compra** y **De baja** del Modelo *biblioteca.libro*
+- Asigne nuevos colores a la vista tipo listado para los estados en *Proceso de compra* y *De baja* del Modelo *biblioteca.libro*
 - Ingrese al menú *Biblioteca >> Catálogo >> Editar precios* y edite los precios de los libros.
 	- Haga clic en el botón crear y adicione un nuevo registro
 	- Modifique la vista con el id `precio_libro_tree` y coloque `editable="bottom"`
@@ -194,5 +194,5 @@ Tomando como base el código fuente disponible en la lección:
 	- En el cuadro de dialogo que se despliega puede observar que aparece la vista definida, modifique el campo en la pestaña *estructura* y adicione el campo `<field name="fecha_publicacion"/>`
 	- Guarde y cierre el cuadro de diálogo y recargue la página. Verá que la interfaz se actualiza basado en el dato actualizado de la base de datos.
 	- Ahora reinicie el servidor Odoo en el eclipse y note como los cambios que hizo en la base de datos se reversan luego de actualizado el módulo.
-- Crear el item del menú para el Modelo *biblioteca.libro_prestamo*
-- Cree las vistas tree y form para el Modelo *biblioteca.libro_prestamo*
+- Crear el item del menú para el Modelo *biblioteca.prestamo*
+- Cree las vistas tree y form para el Modelo *biblioteca.prestamo*
