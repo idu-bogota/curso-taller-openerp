@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields
-
+from openerp import models, fields, api
+import random
 
 class biblioteca_libro(models.Model):
     _name = 'biblioteca.libro'
     _description = 'Informacion de libro de la biblioteca'
 
+    def _precio_aleatorio(self):
+        return random.random()
+
     name = fields.Char('Titulo', size=255, help='Título del libro')
-    active = fields.Boolean('Active', help='Activo/Inactivo')
+    active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
     descripcion = fields.Text('Descripción')
-    fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación')
-    precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2))
+    fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+    precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio)
     state = fields.Selection(
         [
             ('solicitud', 'Solicitado'),
@@ -38,7 +41,6 @@ class biblioteca_libro(models.Model):
         'Nombre del Autor', size=255,
         help="Nombre completo del autor",
     )
-
 
 class biblioteca_prestamo(models.Model):
     _name = 'biblioteca.prestamo'

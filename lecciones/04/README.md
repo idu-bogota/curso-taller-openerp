@@ -1,94 +1,52 @@
-Lección 04: Reglas Básicas y Restricciones
-==========================================
+Lección 04: Reglas Básicas y Restricciones en Modelos
+=====================================================
 
 [TOC]
 
-Los objetos de negocio permite configuraciones adicionales que permite agregar reglas y restricciones para mantener la consistencia de los datos o cambiar el comportamiento de la plataforma.
+Los Modelos en Odoo permiten configuraciones adicionales que agregan reglas que permiten manejar la consistencia de los datos basado en las necesidades de la aplicación.
 
-Ordenamiento por defecto: _order
---------------------------------
+Campos requeridos, de solo lectura y valores por defecto
+--------------------------------------------------------
 
-Para que los datos se organizen de manera diferente puede utilizar el atributo **_order** e indicar el nombre del campo a utilizarse para el ordenamiento (por defecto se organizan por *id*).
+Cada campo puede ser definido como requerido, de solo lectura o asignarsele un valor por defecto, un campo del Modelo puede asignarsele uno o varios de estos atributos. A continuación un ejemplo:
 
-    class biblioteca_libro(osv.osv):
-        _name = "biblioteca.libro"
-        _order= 'name'
-        .
-        .
-        .
-        }
-	biblioteca_libro()
+    ```python
+    import random
 
-Campos requeridos: required
----------------------------
+    class biblioteca_libro(models.Model):
+        _name = 'biblioteca.libro'
 
-En la definición de campos el atributo requiered se define para indicar si el campo es requerido o no en la creación de un registro en el objeto de negocio. True inica que el campo es requerido y False que el campo es no requerido.
+        def _precio_aleatorio(self):
+            return random.random()
 
-Si no se define el atributo required en el campo, por defecto toma el valor de required = False.
+		name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
+		active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+		fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+		precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
+		nombre_autor = fields.Char('Nombre del Autor', size=255,help="Nombre completo del autor")
 
-	_columns = {
-        'active': fields.boolean('Active', help='Activo/Inactivo'),
-        'isbn': fields.char('ISBN', size = 255, required=True),
-			.
-            .
-            .
-    }
-
-Campos de solo lectura: readonly
---------------------------------
-
-En la definición de campos el atributo readonly se define para indicar si el campo puede o no ser editable por el usuario. True campo no editable y False campo editable.
-
-Si no se define el atributo readonly en el campo, por defecto toma el valor de readonly = False.
-
-	_columns = {
-        'active': fields.boolean('Active', help='Activo/Inactivo', readonly=True),
-			.
-            .
-            .
-    }
+    ```
 
 
-Valores por defecto: _defaults
-------------------------------
+- Atributo `required` se usa para indicar si el **campo es obligatorio** o no en la creación/edición de un registro en el Modelo. True indica que el campo es requerido y False que el campo es no requerido.
 
-Los objetos pueden ser cargados con valores por defecto usando el diccionario **_defaults**
+    Si no se define el atributo required en el campo, por defecto toma el valor de required = False.
 
-La forma básica de definir un valor por defecto es:
+    En la interfaz web el campo va a tener un fondo de color azul claro que va a indicar que el campo es obligarotio
 
-	_defaults = {
-        'active': True,
-        'state': 'solicitud',
-	}
 
-Se puede definir valores por defecto que son resultado de la generación de un método:
+- Atributo `readonly` se usa para indicar si el campo **puede o no ser editable** por el usuario. use True si el campo es no editable y False que pueda ser editable.
 
-	def _random_paginas(self, cr, uid, context = None):
-        """
-        Método de la clase para generar un valor entero aleatorio
-        """
-        return randint(5,100)
+    Si no se define el atributo readonly en el campo, por defecto toma el valor de readonly = False.
 
-    _defaults = {
-        'active': True,
-        'state': 'solicitud',
-        'precio': lambda *a: random(), #Genera un valor flotante aleatorio
-        'paginas': _random_paginas, #Llama al método de la clase previamente definido
-    }
 
-En este diccionario se adiciona como llave el nombre del campo y como valor lo que deseamos sea el valor por defecto o una función que hace el cálculo del mismo. Se pueden utilizar funciones lambda o métodos de la clase. Debe recordar que los métodos de la clase deben estar previamente definidos para poder utilizarlos.
+- Atributo `default` se usa para indicar el valor por defecto que va a tener el campo cuando se cree un registro nuevo. Se puede indicar el valor a tomarse o una función que retornaría el valor por defecto a utilizarse. En este diccionario se adiciona como llave el nombre del campo y como valor lo que deseamos sea el valor por defecto o una función que hace el cálculo del mismo. Se pueden utilizar funciones lambda o métodos de la clase. Debe recordar que los métodos de la clase deben estar previamente definidos para poder utilizarlos. [Más información acerca de valores por defecto](https://www.odoo.com/documentation/8.0/howtos/backend.html#default-values)
 
-Los parámetros recibidos por el método de la clase son:
-* **cr**: Es el cursor de la BD
-* **uid**: Es el ID del usuario actual
-* **context**: Diccionario que puede contener valores de configuración, por defecto se encuentra el idioma del usuario
 
-[ver información de como definir un método en python](http://https://docs.python.org/2/tutorial/classes.html)
+Restricciones de Modelo: @api.constrains
+----------------------------------------
 
-Restricciones para el objeto de negocio: _constraints
------------------------------------------------------
-
-Las restricciones tipo _constraints se utiliza para programar validaciones para el usuario, estas son definidas por métodos de la clase.
+Si se desea que los Modelos tengan restricciones que se validen antes de almacenar los registros, estas son definidas por métodos de la clase donde se utiliza el decorador @api.constrains.
 
 	def _check_date(self, cr, uid, ids, context = None):
         is_valid_data = True
@@ -108,23 +66,10 @@ Las restricciones tipo _constraints se utiliza para programar validaciones para 
         (_check_date,'Fecha debe ser anterior a la fecha actual',['date','datetime']),
         ]
 
-Las restricciones por métodos de la clase se definen como un arreglo de tuplas que contienen:
+Restricciones SQL: _sql_constraints
+-----------------------------------
 
-* método a ser invocado
-* El mensaje de error a ser desplegado en caso de que se viole la restricción
-* Campos que van a invocar la revisión de la restricción, el método se llama solo cuando estos campos son modificados
-
-Los parámetros que recibe el método de la clase que hace la restricción son:
-
-* **cr**: Es el cursor de la BD
-* **uid**: Es el ID del usuario actual
-* **ids**: Son los IDs de los objetos a los cuales se les va a aplicar la restricción
-* **context**: es Un diccionario que puede contener valores de configuración, por defecto se encuentra el idioma del usuario
-
-Restricciones para el objeto de negocio: _sql_constraints
----------------------------------------------------------
-
-Otro tipo de restricción que se puede utilizar para programar validaciones para el usuario es _sql_constraints.
+Otro tipo de restricción que se puede utilizar para programar validaciones es a través del diccionario _sql_constraints, donde se pueden adicionar restricciones programadas con sentencias SQL.
 
     _sql_constraints = [
         ('unique_isbn','unique(isbn)','El ISBN debe ser único'),
@@ -134,15 +79,14 @@ Otro tipo de restricción que se puede utilizar para programar validaciones para
 
 Las restricciones SQL se definen como un arreglo de tuplas que contienen:
 
-* nombre de la restricción
-* restricción SQL a aplicar
+* Nombre de la restricción
+* Restricción SQL a aplicar
 * El mensaje de error a ser desplegado en caso de que se viole la restricción
 
 
 Ejercicios propuestos
 ---------------------
 
-* Definir en ordenamiendo del objeto de negocio por el campo **fecha**
 * Crear un nuevo registro donde verique los valores definidos por defecto.
 * Modificar el código para que el valor por defecto del campo **state** sea **Solicitud**
 * Modificar el código para que el campo **descripcion** cree un método que retorne como valor por defecto el texto ***Ingresar la descripción del libro***

@@ -60,6 +60,7 @@
                         <field name="nombre_autor"/>
                         <field name="paginas"/>
                         <field name="active"/>
+                        <field name="precio"/>
                     </group>
                     <notebook>
                         <page string="Descripción">
