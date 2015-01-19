@@ -10,22 +10,22 @@ Campos requeridos, de solo lectura y valores por defecto
 
 Cada campo puede ser definido como requerido, de solo lectura o asignarsele un valor por defecto, un campo del Modelo puede asignarsele uno o varios de estos atributos. A continuación un ejemplo:
 
-    ```python
+```python
 
-    import random
+import random
 
-    class biblioteca_libro(models.Model):
-        _name = 'biblioteca.libro'
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
 
-        def _precio_aleatorio(self):
-            return random.random()
+    def _precio_aleatorio(self):
+        return random.random()
 
-        name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
-        active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
-        fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
-        precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
+    name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
+    active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+    fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+    precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
 
-    ```
+```
 
 
 - Atributo `required` se usa para indicar si el **campo es obligatorio** o no en la creación/edición de un registro en el Modelo. True indica que el campo es requerido y False que el campo es no requerido.
