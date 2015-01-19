@@ -3,32 +3,31 @@ Guía para el desarrollo
 
 [TOC]
 
-Lección 02 objeto de negocio
+Lección 02 Crear Modelos
 -------------------------
 1. Crear libro
 1. Crear un menu para desplegar los libros desde interfaz
 
-Lección 03 vistas básicas
+Lección 03 Adicionar vistas básicas
 -----------------
 1. Crear vistas para Libro (form, tree)
-1. Vista graph
 
-Lección 04 reglas básicas y restricciones
---------------------------------------
+Lección 04 Adicionar Restricciones
+----------------------------------
 1. required
 1. readonly
-1. _constraints
-1. _defaults
+1. default
+1. @constraints
 1. _sql_constraints
 
-Lección 05 Busquedas, Filtros y Agrupamientos
-------------------------------------------
+Lección 05 Dominios, Busquedas, Filtros y Agrupamientos
+--------------------------------------------------------
 1. Adición de busquedas en la vista tipo lista
 1. Adición de filtros en la vista tipo lista
 1. Adición de agrupamientos en la vista tipo lista
 
-Lección 06 vista dinámica
-----------------------
+Lección 06 vistas dinámicas
+---------------------------
 1. onchange
 1. attributes: invisible, required, readonly
 
@@ -45,11 +44,12 @@ Leccion 08 Otros Widgets y vistas
 1. kanban
 1. gantt
 1. calendar
+1. Vista graph
 
 Lección 09 navegar registros
 -------------------------
 1. Añadir un botón a la vista formulario
-2. search
+1. search
 1. browse
 1. read
 
