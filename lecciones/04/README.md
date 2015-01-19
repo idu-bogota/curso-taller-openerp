@@ -19,11 +19,10 @@ Cada campo puede ser definido como requerido, de solo lectura o asignarsele un v
         def _precio_aleatorio(self):
             return random.random()
 
-		name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
-		active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
-		fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
-		precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
-		nombre_autor = fields.Char('Nombre del Autor', size=255,help="Nombre completo del autor")
+                name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
+                active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+                fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+                precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
 
     ```
 
@@ -48,7 +47,7 @@ Restricciones de Modelo: @api.constrains
 
 Si se desea que los Modelos tengan restricciones que se validen antes de almacenar los registros, estas son definidas por métodos de la clase donde se utiliza el decorador @api.constrains.
 
-	def _check_date(self, cr, uid, ids, context = None):
+        def _check_date(self, cr, uid, ids, context = None):
         is_valid_data = True
         present = datetime.now()
         for obj in self.browse(cr,uid,ids,context=None):
