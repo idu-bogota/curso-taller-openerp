@@ -11,6 +11,7 @@ Campos requeridos, de solo lectura y valores por defecto
 Cada campo puede ser definido como requerido, de solo lectura o asignarsele un valor por defecto, un campo del Modelo puede asignarsele uno o varios de estos atributos. A continuación un ejemplo:
 
     ```python
+
     import random
 
     class biblioteca_libro(models.Model):
@@ -19,10 +20,10 @@ Cada campo puede ser definido como requerido, de solo lectura o asignarsele un v
         def _precio_aleatorio(self):
             return random.random()
 
-                name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
-                active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
-                fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
-                precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
+        name = fields.Boolean('Active', help='Activo/Inactivo', required=True)
+        active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+        fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+        precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
 
     ```
 
