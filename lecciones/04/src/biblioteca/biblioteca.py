@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api
+from openerp.exceptions import ValidationError
+from datetime import datetime
 import random
 
 class biblioteca_libro(models.Model):
@@ -41,6 +43,15 @@ class biblioteca_libro(models.Model):
         'Nombre del Autor', size=255,
         help="Nombre completo del autor",
     )
+
+    @api.one
+    @api.constrains('fecha_publicacion','fecha_compra')
+    def _check_fechas(self):
+        present = datetime.now()
+        if self.fecha_compra and datetime.strptime(self.fecha_compra, '%Y-%m-%d') > present:
+            raise ValidationError("Fecha de compra incorrecta")
+        if self.fecha_publicacion and datetime.strptime(self.fecha_publicacion, '%Y-%m-%d') > present:
+            raise ValidationError("Fecha de publicación incorrecta")
 
 class biblioteca_prestamo(models.Model):
     _name = 'biblioteca.prestamo'

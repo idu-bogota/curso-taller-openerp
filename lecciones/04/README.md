@@ -11,7 +11,6 @@ Campos requeridos, de solo lectura y valores por defecto
 Cada campo puede ser definido como requerido, de solo lectura o asignarsele un valor por defecto, un campo del Modelo puede asignarsele uno o varios de estos atributos. A continuación un ejemplo:
 
 ```python
-
 import random
 
 class biblioteca_libro(models.Model):
@@ -46,25 +45,27 @@ class biblioteca_libro(models.Model):
 Restricciones de Modelo: @api.constrains
 ----------------------------------------
 
-Si se desea que los Modelos tengan restricciones que se validen antes de almacenar los registros, estas son definidas por métodos de la clase donde se utiliza el decorador @api.constrains.
+Si se desea que los Modelos tengan restricciones que sean verificadas antes de almacenar los registros, estas se deben definir como métodos de la clase donde se utiliza el decorador @api.constrains.
 
-        def _check_date(self, cr, uid, ids, context = None):
-        is_valid_data = True
+```python
+from openerp.exceptions import ValidationError
+import datetime
+
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+
+    @api.one
+    @api.constrains('fecha_publicacion','fecha_compra')
+    def _check_fechas(self):
         present = datetime.now()
-        for obj in self.browse(cr,uid,ids,context=None):
-            if not obj.date or not obj.datetime:
-                continue
+        if self.fecha_compra and self.fecha_compra > present:
+            raise ValidationError("Fecha de compra incorrecta")
+        if self.fecha_publicacion and self.fecha_publicacion > present:
+            raise ValidationError("Fecha de publicación incorrecta")
 
-            date = datetime.strptime(obj.date, '%Y-%m-%d')
-            date_time = datetime.strptime(obj.datetime, '%Y-%m-%d %H:%M:%S')
-            if(date > present or date_time > present):
-                is_valid_data = False
 
-        return is_valid_data
+```
 
-    _constraints = [
-        (_check_date,'Fecha debe ser anterior a la fecha actual',['date','datetime']),
-        ]
 
 Restricciones SQL: _sql_constraints
 -----------------------------------
