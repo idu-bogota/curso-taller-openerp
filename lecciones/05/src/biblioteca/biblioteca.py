@@ -47,6 +47,18 @@ class biblioteca_libro(models.Model):
         'Nombre del Autor', size=255,
         help="Nombre completo del autor",
     )
+    clasificacion = fields.Char(
+        'Clasificación', size=255,
+        help='Clasificación del libro',
+    )
+    genero = fields.Char(
+        'Género', size=255,
+        help='Género del libro',
+    )
+    editorial = fields.Char(
+        'Editorial', size=255,
+        help='Editorial del libro',
+    )
 
     @api.one
     @api.constrains('fecha_publicacion','fecha_compra')
