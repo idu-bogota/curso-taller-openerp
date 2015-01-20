@@ -30,6 +30,7 @@ class biblioteca_libro(models.Model):
     isbn = fields.Char(
         'ISBN', size=255,
         help="International Standard Book Number",
+        copy=False
     )
     paginas = fields.Integer(
         'Número de Páginas',
@@ -52,6 +53,10 @@ class biblioteca_libro(models.Model):
             raise ValidationError("Fecha de compra incorrecta")
         if self.fecha_publicacion and datetime.strptime(self.fecha_publicacion, '%Y-%m-%d') > present:
             raise ValidationError("Fecha de publicación incorrecta")
+
+    _sql_constraints = [
+        ('unique_isbn','unique(isbn)','El ISBN debe ser único'),
+    ]
 
 class biblioteca_prestamo(models.Model):
     _name = 'biblioteca.prestamo'
