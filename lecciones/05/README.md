@@ -1,5 +1,5 @@
 Lección 05: Dominios, Busquedas, Filtros y Agrupamientos
-==============================================
+========================================================
 
 [TOC]
 
@@ -39,7 +39,7 @@ El dominio sería:
 Búsquedas
 ---------
 
-La búsquedas (search) permiten visualizar los registros resultantes de la aplicación de una búsqueda, la cual puede ser indicada por el valor específico de uno o varios campos. Las búsquedas utilizan la vista de tipo lista para desplegar los registros resultantes. Cada parámetro de búsqueda puede ser definido utilizando los siguientes elementos básicos:
+Las búsquedas (search) permiten visualizar los registros resultantes de la aplicación de una búsqueda, la cual puede ser indicada por el valor específico de uno o varios campos. Las búsquedas utilizan la vista de tipo lista para desplegar los registros resultantes. Cada parámetro de búsqueda puede ser definido utilizando los siguientes elementos básicos:
 
 * **name**: Nombre del campo por el cual se realiza la búsqueda
 * **string**: El título de la búsqueda
