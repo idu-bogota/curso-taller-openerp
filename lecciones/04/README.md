@@ -23,23 +23,26 @@ class biblioteca_libro(models.Model):
     active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
     fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
     precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio, readonly=True)
+    isbn = fields.Char('ISBN', size=255, help="International Standard Book Number", copy=False)
 
 ```
 
 
-- Atributo `required` se usa para indicar si el **campo es obligatorio** o no en la creación/edición de un registro en el Modelo. True indica que el campo es requerido y False que el campo es no requerido.
+- Atributo **`required`** se usa para indicar si el **campo es obligatorio** o no en la creación/edición de un registro en el Modelo. True indica que el campo es requerido y False que el campo es no requerido.
 
     Si no se define el atributo required en el campo, por defecto toma el valor de required = False.
 
     En la interfaz web el campo va a tener un fondo de color azul claro que va a indicar que el campo es obligarotio
 
 
-- Atributo `readonly` se usa para indicar si el campo **puede o no ser editable** por el usuario. use True si el campo es no editable y False que pueda ser editable.
+- Atributo **`readonly`** se usa para indicar si el campo **puede o no ser editable** por el usuario. use True si el campo es no editable y False que pueda ser editable.
 
     Si no se define el atributo readonly en el campo, por defecto toma el valor de readonly = False.
 
 
-- Atributo `default` se usa para indicar el valor por defecto que va a tener el campo cuando se cree un registro nuevo. Se puede indicar el valor a tomarse o una función que retornaría el valor por defecto a utilizarse. En este diccionario se adiciona como llave el nombre del campo y como valor lo que deseamos sea el valor por defecto o una función que hace el cálculo del mismo. Se pueden utilizar funciones lambda o métodos de la clase. Debe recordar que los métodos de la clase deben estar previamente definidos para poder utilizarlos. [Más información acerca de valores por defecto](https://www.odoo.com/documentation/8.0/howtos/backend.html#default-values)
+- Atributo **`default`** se usa para indicar el valor por defecto que va a tener el campo cuando se cree un registro nuevo. Se puede indicar el valor a tomarse o una función que retornaría el valor por defecto a utilizarse. En este diccionario se adiciona como llave el nombre del campo y como valor lo que deseamos sea el valor por defecto o una función que hace el cálculo del mismo. Se pueden utilizar funciones lambda o métodos de la clase. Debe recordar que los métodos de la clase deben estar previamente definidos para poder utilizarlos. [Más información acerca de valores por defecto](https://www.odoo.com/documentation/8.0/howtos/backend.html#default-values)
+
+- Atributo **`copy`** se usa para indicar que cuando se duplique un registro el campo debe o no ser copiado. `copy=False` evita que se copie, por defecto el valor es `True`
 
 
 Restricciones de Modelo: @api.constrains
@@ -66,7 +69,6 @@ class biblioteca_libro(models.Model):
 
 ```
 
-
 Restricciones SQL: _sql_constraints
 -----------------------------------
 
@@ -85,10 +87,25 @@ Las restricciones SQL se definen como un arreglo de tuplas que contienen:
 * El mensaje de error a ser desplegado en caso de que se viole la restricción
 
 
+Si la base de datos ya tiene datos que violan la restricción, esta no va a crearse, ni aplicarse. Cuando esto pase, va a aparecer un error en el log del servidor como el siguiente:
+
+    2015-01-20 13:34:29,959 10290 INFO nombre_basedatos openerp.modules.module: module biblioteca: creating or updating database tables
+    2015-01-20 13:34:30,009 10290 WARNING nombre_basedatos openerp.models.schema: Table 'biblioteca_libro': unable to add 'unique(isbn)' constraint !
+    If you want to have it, you should update the records and execute manually:
+    ALTER TABLE "biblioteca_libro" ADD CONSTRAINT "biblioteca_libro_unique_isbn" unique(isbn)
+
+Para aplicar la restricción SQL ud debe corregir los datos primero, para este caso eliminando los ISBN duplicados y actualizar nuevamente el módulo.
+
 Ejercicios propuestos
 ---------------------
 
-* Crear un nuevo registro donde verique los valores definidos por defecto.
-* Modificar el código para que el valor por defecto del campo **state** sea **Solicitud**
-* Modificar el código para que el campo **descripcion** cree un método que retorne como valor por defecto el texto ***Ingresar la descripción del libro***
-* Adicionar una restricción para que el campo **precio** no acepte valores menores a 1000 ni valores mayores a 500000
+Utilizando el código de la lección:
+
+- Crear un nuevo registro y verificar que los campos `active`, `fecha_publicacion` y `precio` se llenan con el valor por defecto indicado en el código.
+- Modificar el código para que el campo `fecha_compra` tenga un valor por defecto.
+- Modificar el código para que el valor por defecto del campo `state` sea *Solicitud*
+- Modificar el código para que el campo `nombre_autor` tenga un valor por defecto generado aleatoriamente utilizando [generador de nombres en python] (https://pypi.python.org/pypi/names/)
+- Cambie el atributo `copy` del campo `name` a *False*, verifique que sucede cuando se utiliza la opción de *Más >> Duplicar* en la vista formulario de un registro de libro. Revise nuevamente dejando `copy` con el valor de *True*
+- Verifique que no puede crear/editar un libro y asignar un ISBN ya utilizado por otro libro. Ajuste los datos para poder activar la restricción si esta no fue aplicada.
+- Adicionar una restricción utilizando el decorador `@api.constraints` para que el campo `paginas` no acepte valores menores a 0 ni valores mayores a 5000
+- Utilizando `_sql_constraints` adicione un constraint para que el campo `precio` no acepte valores negativos. Ver [sentencia SQL soportada por posgreSQL para CHECK](http://www.postgresql.org/docs/9.4/static/ddl-constraints.html)
