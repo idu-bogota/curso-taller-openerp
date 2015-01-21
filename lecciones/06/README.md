@@ -62,6 +62,15 @@ class biblioteca_libro(models.Model):
 
 ```
 
+Si no se desea que se llame el onchange en una vista en particular puede adicionar en la vista:
+
+	<field name="NOMBRE_DEL_CAMPO" on_change="0"/>
+
+Mayor información del uso de onchange en:
+
+- https://www.odoo.com/documentation/8.0/reference/orm.html#onchange-updating-ui-on-the-fly
+- https://www.odoo.com/documentation/8.0/howtos/backend.html#onchange
+
 attrs
 -----
 
