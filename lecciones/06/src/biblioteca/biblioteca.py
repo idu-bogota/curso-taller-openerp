@@ -1,77 +1,117 @@
 # -*- coding: utf-8 -*-
-from osv import fields, osv
-from random import randint, random
+from openerp import models, fields, api
+from openerp.exceptions import ValidationError
 from datetime import datetime
+import random
+import names
 
-################################################################################
-#        ---  Vista Dinámica / Lección 6
-################################################################################
-class biblioteca_libro(osv.osv):
-    _name = "biblioteca.libro"
-    _order= 'fecha'
-    _columns = {
-        'active': fields.boolean('Active', help='Activo/Inactivo'),
-        'isbn': fields.char('ISBN', size = 255, required=True,),
-        'titulo' : fields.char('Titulo', size = 255, help='Título del libro'),
-        'autor' : fields.char('Autor', size = 255, help='Autor del libro'),
-        'descripcion': fields.text('descripcion'),
-        'paginas': fields.integer('Paginas'),
-        'fecha': fields.date('Fecha', help='Fecha de publicación'),
-        'precio': fields.float('Precio',  digits = (10,4), help='Precio de compra'),
-        'state': fields.selection([('solicitud', 'Solicitado'),('compra', 'Proceso de compra'),
-            ('adquirido', 'Adquirido'),('catalogado', 'Catalogado'),('baja', 'De baja')],'State'),
-        'clasificacion': fields.char('Clasificación', size = 255, help='Clasificación del libro'),
-        'genero': fields.char('Género', size = 255, help='Género del libro'),
-        'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
-    }
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+    _description = 'Informacion de libro de la biblioteca'
 
     _sql_constraints = [
-        ('unique_name','unique(name)','El nombre debe ser único'),
+        ('unique_isbn','unique(isbn)','El ISBN debe ser único'),
+        ('precio_positivo','CHECK (precio >= 0)','El precio debe ser un valor positivo'),
     ]
 
-    def _check_fecha(self, cr, uid, ids, context = None):
-        is_valid_data = True
+    def _precio_aleatorio(self):
+        return random.random()
+
+    name = fields.Char('Titulo', size=255, help='Título del libro')
+    active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+    descripcion = fields.Text('Descripción')
+    fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
+    precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio)
+    state = fields.Selection(
+        [
+            ('solicitud', 'Solicitado'),
+            ('en_compra', 'Proceso de Compra'),
+            ('adquirido', 'Adquirido'),
+            ('catalogado', 'Catalogado'),
+            ('baja', 'De Baja')
+        ],
+        'Estado',
+        help='Estado actual del libro en el catálogo',
+        default='solicitud',
+    )
+    isbn = fields.Char(
+        'ISBN', size=255,
+        help="International Standard Book Number",
+        copy=False
+    )
+    paginas = fields.Integer(
+        'Número de Páginas',
+        help="Número de páginas que tiene el libro",
+    )
+    fecha_compra = fields.Date(
+        'Fecha de Compra',
+        help="Fecha en la que se realizó la compra del libro",
+        default=fields.Date.today
+    )
+    nombre_autor = fields.Char(
+        'Nombre del Autor', size=255,
+        help="Nombre completo del autor",
+        default=names.get_full_name,
+    )
+    clasificacion = fields.Char(
+        'Clasificación', size=255,
+        help='Clasificación del libro',
+    )
+    genero = fields.Char(
+        'Género', size=255,
+        help='Género del libro',
+    )
+    editorial = fields.Char(
+        'Editorial', size=255,
+        help='Editorial del libro',
+    )
+
+    @api.one
+    @api.constrains('fecha_publicacion','fecha_compra')
+    @api.onchange('fecha_publicacion','fecha_compra')
+    def _check_fechas(self):
         present = datetime.now()
-        for obj in self.browse(cr,uid,ids,context=None):
-            if not obj.fecha:
-                continue
-            date = datetime.strptime(obj.fecha, '%Y-%m-%d')
-            if(date > present):
-                is_valid_data = False
-        return is_valid_data
+        if self.fecha_compra and datetime.strptime(self.fecha_compra, '%Y-%m-%d') > present:
+            raise ValidationError("Fecha de compra incorrecta")
+        if self.fecha_publicacion and datetime.strptime(self.fecha_publicacion, '%Y-%m-%d') > present:
+            raise ValidationError("Fecha de publicación incorrecta")
 
-    _constraints = [
-        (_check_fecha,'Fecha debe ser anterior a la fecha actual',['fecha']),
-    ]
+    @api.one
+    @api.constrains('paginas')
+    @api.onchange('paginas')
+    def _check_paginas(self):
+        if self.paginas < 0 or self.paginas > 5000:
+            raise ValidationError("Un libro debe tener entre 0 y 5000 páginas")
 
-    def _random_precio(self, cr, uid, context = None):
-        return randint(5,100)
+    @api.onchange('precio')
+    def onchange_precio(self):
+        if self.precio and self.precio > 1000:
+            self.descripcion = 'Ta muy caro el libro'
 
-    _defaults = {
-         'active': True,
-         'state': 'solicitud',
-         'paginas': lambda *a: random(),
-         'precio': _random_precio,
-    }
+    @api.onchange('isbn')
+    def onchange_warning_isbn(self):
+        if self.isbn and len(self.isbn) < 10:
+            self.descripcion = 'Verifique el ISBN cumpla con la norma'
+            return {
+                'warning': {
+                    'title': "ISBN",
+                    'message': "El largo del ISBN debe ser mayor o igual a 10 caracteres",
+                }
+            }
 
-    def onchange_active(self, cr, uid, ids, active):
-       if not active:
-           return {'value': {'state': 'baja'} }
-       return {
-           'warning': {'message': 'Cambiando el estado a "activo"'},
-           'value': {'state': 'solicitud'},
-       }
+class biblioteca_prestamo(models.Model):
+    _name = 'biblioteca.prestamo'
+    _description = 'Informacion de prestamo de libros'
 
-biblioteca_libro()
-
-################################################################################
-#        ---  Objeto de negocio libro_prestamo
-################################################################################
-class biblioteca_libro_prestamo(osv.osv):
-    _name = "biblioteca.libro_prestamo"
-    _columns = {
-        'fecha_prestamo': fields.date('Fecha de Préstamo'),
-        'duracion_prestamo': fields.integer('días préstamo'),
-        'fecha_regreso': fields.date('Fecha de Entrega'),
-    }
-biblioteca_libro_prestamo()
+    fecha = fields.Datetime(
+        'Fecha del Prestamo',
+        help="Fecha en la que se presta el libro",
+    )
+    duracion_dias = fields.Integer(
+        'Duración del Prestamo(días)',
+        help="Número días por los cuales se presta el libro",
+    )
+    fecha_devolucion = fields.Datetime(
+        'Fecha Devolución',
+        help="Fecha de devolución del libro",
+    )
