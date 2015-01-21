@@ -1,36 +1,69 @@
-Lección 06: Vista Dinámica
-==========================
+Lección 06: Vistas Dinámicas
+============================
 
 [TOC]
 
-on_change
----------
+Actualizar formulario al cambiar valores: @api.onchange
+--------------------------------------------------------
 
-El atributo on_change permite ejecutar un método en el objeto de negocio cuando se realiza cualquier tipo de cambio sobre el valor del campo al cual se le asocia el atributo on_change.
+Muchas veces es necesario que algunos campos del formulario se actualicen basados en las selecciones o datos que se ingresan en otros campos del formulario, para esto se utiliza el decorador `@api.onchange` en cualquier método python que se implemente en el Modelo. Ejemplo:
 
-La estructura para el uso del atributo es la siguiente:
+```python
+from openerp import models, fields, api
 
-	<field name="nombre_campo" on_change="nombre_metodo_a_ejecutar(nombre_parametro)"/>
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
 
-Para el uso del atributo se indica en nombre del campo al cual se le asocia el atributo on_change, se referencia el método a ser llamado y los parámetros a ser pasados al método. Ejemplo del código en la vista:
+    @api.onchange('precio')
+    def onchange_precio(self):
+        if self.precio and self.precio > 1000:
+            self.descripcion = 'Ta muy caro el libro'
 
-    <field name="active" on_change="onchange_active(active)"/>
+```
 
-El método recibe los valores de los campos indicados como parámetros y retorna un diccionario con nuevos valores asignados a los campos del objeto de negocio, reflejado como cambios en la interfaz. Ejemplo del código en el objeto de negocio:
 
-    def onchange_active(self, cr, uid, ids, active):
-        if not active:
-            return {'value': {'state': 'baja'} }
-        return {
-            'warning': {'message': 'Cambiando el estado a "activo"'},
-            'value': {'state': 'solicitud'},
-        }
+De igual forma se puede utilizar un método onchange para enviarle al usuario mensajes de validación a medida que va llenando el formulario, esto no es un remplazo para las restricciones que se adicionen con _sql_constraints o @api.constraints, ya que onchange solo aplica a nivel de vista y no se llama en el momento de guardar los datos.
 
-* **value**: Diccionario con los nuevos valores a ser asignados a otros campos del formulario
-* **warning**: Despliegue de mensaje en la interfaz
 
-attr
-----------
+```python
+from openerp import models, fields, api
+
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+
+    @api.onchange('isbn')
+    def onchange_warning_isbn(self):
+        if self.isbn and len(self.isbn) < 10:
+            self.descripcion = 'Verifique el ISBN cumpla con la norma'
+            return {
+                'warning': {
+                    'title': "ISBN",
+                    'message': "El largo del ISBN debe ser mayor o igual a 10 caracteres",
+                }
+            }
+
+```
+
+Si desea que un metodo @api.constraints sea también llamado cuando el usuario cambia el valor en el formulario web puede hacerlo adicionando el @api.onchange decorator. Pero debe tener en cuenta que el error se llama utilizando `raise ValidationError` y no retornando un diccionario como en el ejemplo anterior.
+
+```python
+from openerp import models, fields, api
+
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+
+
+    @api.one
+    @api.constrains('paginas')
+    @api.onchange('paginas')
+    def _check_paginas(self):
+        if self.paginas < 0 or self.paginas > 5000:
+            raise ValidationError("Un libro debe tener entre 0 y 5000 páginas")
+
+```
+
+attrs
+-----
 
 La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs** así como el ya visto **on_change**. el atributo attrs permite que se cambie los valores definidos para *invisible*, *required* y *readonly*, basado en los valores del formulario, de acuerdo a la regla del criterio pasado en el diccionario.
 
@@ -63,6 +96,11 @@ Igualmente puede incluir todos los atributos en **attrs**. Ejemplo:
     <field name="titulo" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('state','=','catalogado')]}"/>
 
 El ejemplo anterior hace que el campo titulo no aparezca en el formulario cuando el *state* es *baja*; el campo va a ser obligatorio si el estado es *compra* y quedará en modo solo lectura cuando el estado es *catalogado*
+
+Botones
+-------
+- confirm
+- states
 
 Ejercicios propuestos
 ---------------------
