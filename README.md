@@ -36,7 +36,7 @@ Curso-Taller Odoo v8.0
     - Dominios
     - Vista tipo búsqueda (search)
 
-- [Lección 06. Vistas dinámicas](lecciones/0/)
+- [Lección 06. Vistas dinámicas](lecciones/06/)
     - onchange
     - attributes: invisible, required, readonly
     - Botones
@@ -46,13 +46,15 @@ Curso-Taller Odoo v8.0
     - one2many
     - many2many
 
-- [Lección 06. Otros Widgets y vistas](lecciones/0/)
+- [Lección 06. Otros Widgets y vistas, vistas embebidas](lecciones/0/)
     - many2many_tags
     - kanban
     - gantt
     - calendar
     - graph
     - OpenChatter
+    - formview
+      field mode attribute
 
 - [Lección 06. consultar registros desde el Modelo](lecciones/0/)
     - search
