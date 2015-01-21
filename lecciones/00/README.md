@@ -1,4 +1,5 @@
-## Instalación de OpenERP
+Instalación del ambiente para el curso
+--------------------------------------
 
 *   Descargar ubuntu 14.04 LTS http://www.ubuntu.com/download
 
