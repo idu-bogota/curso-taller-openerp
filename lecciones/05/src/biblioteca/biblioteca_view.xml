@@ -24,7 +24,7 @@
                 <filter name="catalogado" string="Catalogado" help="Estado del registro Catalogado"
                     domain="[('state','=','catalogado')]"
                 />
-                <filter name="catalogado" string="No catalogado" help="Libros no catalogados"
+                <filter name="no_catalogado" string="No catalogado" help="Libros no catalogados"
                     domain="[('state','!=','catalogado')]"
                 />
                 <separator string="tamaño"/>
@@ -38,6 +38,7 @@
                     <filter string="Clasificación del Libro" context="{'group_by':'clasificacion'}"/>
                     <filter string="Género del Libro" context="{'group_by':'genero'}"/>
                     <filter string="Editorial" context="{'group_by':'editorial'}"/>
+                    <filter string="Estado" context="{'group_by':'state'}"/>
                 </group>
             </search>
         </field>
