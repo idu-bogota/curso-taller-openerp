@@ -1,104 +1,114 @@
-Guía para el desarrollo
-========================
+Curso-Taller Odoo v8.0
+======================
 
 [TOC]
 
-Lección 02 Crear Modelos
--------------------------
-1. Crear libro
-1. Crear un menu para desplegar los libros desde interfaz
+- [Lección 00. Instalación](lecciones/00/)
+    - Instalar sistema operativo y entorno de programación
+    - Instalar Odoo
+    - Configuración de Eclipse como ambiente de desarrollo
+    - Crear un proyecto y configurar el entorno para ejecutar Odoo
 
-Lección 03 Adicionar vistas básicas
------------------
-1. Crear vistas para Libro (form, tree)
+- [Lección 01. Estructura de un módulo en Odoo](lecciones/01/)
+    - Directorios y archivos básicos
+    - Carga de datos con archivos XML
+    - Instalación del módulo
+    - Actualizar un módulo
 
-Lección 04 Adicionar Restricciones
-----------------------------------
-1. required
-1. readonly
-1. default
-1. @constraints
-1. _sql_constraints
+- [Lección 02. Modelos Odoo](lecciones/02/)
+    - Crear un Modelo
+    - Adicionar campos al Modelo
+    - Tipos de datos para los campos
+    - Adicionar menuitems a través de la interfaz de administración web de Odoo
 
-Lección 05 Dominios, Busquedas, Filtros y Agrupamientos
---------------------------------------------------------
-1. Adición de busquedas en la vista tipo lista
-1. Adición de filtros en la vista tipo lista
-1. Adición de agrupamientos en la vista tipo lista
+- [Lección 03. Vistas básicas](lecciones/03/)
+    - Defiición de una vista
+    - Vista tipo listado (tree)
+    - Vista tipo formulario (form)
+    - Window Actions y Menu Items
 
-Lección 06 vistas dinámicas
----------------------------
-1. onchange
-1. attributes: invisible, required, readonly
+- [Lección 04. Reglas Básicas y Restricciones en Modelos](lecciones/04/)
+    - Campos requeridos, de solo lectura y valores por defecto
+    - Restricciones de Modelo: @api.constrains
+    - Restricciones SQL: _sql_constraints
 
-Lección 07 relaciones entre objetos de negocio
--------------------------------------------
-1. many2one - clasificacion
-1. one2many - clasificacion
-1. many2many - genero
-1. Ejercicio: editorial
+- [Lección 05. Dominios, Busquedas, Filtros y Agrupamientos](lecciones/05/)
+    - Dominios
+    - Vista tipo búsqueda (search)
 
-Leccion 08 Otros Widgets y vistas
----------------
-1. many2many_tags
-1. kanban
-1. gantt
-1. calendar
-1. Vista graph
+- [Lección 06. Vistas dinámicas](lecciones/0/)
+    - onchange
+    - attributes: invisible, required, readonly
+    - Botones
 
-Lección 09 navegar registros
--------------------------
-1. Añadir un botón a la vista formulario
-1. search
-1. browse
-1. read
+- [Lección 06. Relaciones entre Modelos](lecciones/0/)
+    - many2one
+    - one2many
+    - many2many
 
-Lección 10 Extensión de módulos base
--------------------------
-1. Extender un Objeto
-1. Extender una Vista
+- [Lección 06. Otros Widgets y vistas](lecciones/0/)
+    - many2many_tags
+    - kanban
+    - gantt
+    - calendar
+    - graph
+    - OpenChatter
 
-Lección 11 Wizards
-------------------
-1. Wizard para el Prestamo
+- [Lección 06. consultar registros desde el Modelo](lecciones/0/)
+    - search
+    - browse
+    - read
 
-Lección 12 Campos y atributos avanzados
---------------------------
-1. related
-1. domain
-1. function
+- [Lección 06. Extensión de módulos](lecciones/0/)
+    - Extender un Objeto
+    - Extender una Vista
 
-Lección Workflow
-----------------
-1. Libro
-1. widget statusbar
+- [Lección 06. Campos, atributos y decoradores avanzados](lecciones/0/)
+    - related
+    - domain
+    - function
+    - depends
+    - multi
+    - states
+    - parent
 
-Lección Reporte PDF
--------------------
-1. Ficha del libro
-1. Ficha de prestamo
-1. Ficha Libro con sus prestamos
+- [Lección 06. Wizards](lecciones/0/)
+    - Wizard para el Prestamo
 
-Lección Informes dinámicos
---------------------------
-1. Cantidad de prestamos por mes
+- [Lección 06. Seguridad y control de acceso](lecciones/0/)
+    - Definición de Grupos y Usuarios
+    - Permisos sobre objetos de negocios
+    - Accesos a menús
 
-Lección Seguridad
------------------
-1. Definición de Grupos y Usuarios
-1. Permisos sobre objetos de negocios
-1. Accesos a menús
+- [Lección 06. Workflow](lecciones/0/)
+    - Actividades
+    - Transiciones
 
-Lección atributos avanzados en campos
--------------------------------------
-1. write, read
-1. states states
+- [Lección 06. Reportes y dashboards](lecciones/0/)
+    - Ficha del libro
+    - Ficha de prestamo
+    - Ficha Libro con sus prestamos
 
-Acciones planificadas y parametros
-----------------------------------
-1. Enviar notificacion de libro no devuelto
+- [Lección 06. Acciones planificadas](lecciones/0/)
+    - Enviar notificacion de libro no devuelto
 
-erppeek y scripts
------------------
-1. script de importacion de datos
-1. Administracion de datos
+- [Lección 06. erppeek y scripts](lecciones/0/)
+    - script de importacion de datos
+    - Administracion de datos
+
+- [Lección 06. Imágenes y archivos adjuntos](lecciones/0/)
+    - Instalar sistema operativo y entorno de programación
+
+- [Lección 06. ](lecciones/0/)
+    - Instalar sistema operativo y entorno de programación
+
+- [Lección 06. ](lecciones/0/)
+    - Instalar sistema operativo y entorno de programación
+
+- [Lección 06. ](lecciones/0/)
+    - Instalar sistema operativo y entorno de programación
+
+- [Lección 06. ](lecciones/0/)
+    - Instalar sistema operativo y entorno de programación
+
+
