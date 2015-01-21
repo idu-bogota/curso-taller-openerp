@@ -12,7 +12,7 @@ class biblioteca_libro(models.Model):
     def _precio_aleatorio(self):
         return random.random()
 
-    name = fields.Char('Titulo', size=255, help='Título del libro', default=names.get_full_name)
+    name = fields.Char('Titulo', size=255, help='Título del libro')
     active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
     descripcion = fields.Text('Descripción')
     fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
@@ -46,6 +46,7 @@ class biblioteca_libro(models.Model):
     nombre_autor = fields.Char(
         'Nombre del Autor', size=255,
         help="Nombre completo del autor",
+        default=names.get_full_name,
     )
     clasificacion = fields.Char(
         'Clasificación', size=255,
