@@ -74,37 +74,36 @@ Mayor información del uso de onchange en:
 attrs
 -----
 
-La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs** así como el ya visto **on_change**. el atributo attrs permite que se cambie los valores definidos para *invisible*, *required* y *readonly*, basado en los valores del formulario, de acuerdo a la regla del criterio pasado en el diccionario.
+La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs** en las etiquetas `button`,`field`,`notebook`. El atributo *attrs* permite que se cambie los valores definidos para los campos en las opciones `invisible`, `required` y `readonly` de acuerdo a una regla de dominio que se cumpla.
 
-### Invisible
+- **Invisible**: El atributo invisible permite mostrar u ocultar un campo en la vista, el valor `True` oculta el campo. Ejemplo:
 
-El atributo invisible permite dejar o no visible un campo en la vista. Ejemplo:
+        <field name= "descripcion" attrs= "{'invisible': [('state', '=', 'baja')]}"/>
 
-	<field name= "descripcion" attrs= "{'invisible': [('state', '=', 'baja')]}"/>
+   En el ejemplo se indica que el campo descripción se oculta cuando el estado es del libro es **De baja**.
 
-En el ejemplo se indica que el campo descripción es visible en la vista si el estado del libro es **De baja**.
+- **Required**: El atributo required permite indicar si el campo es o no obligatorio a nivel de la vista, esto no cambia el valor de required para el campo a nivel de modelo. Ejemplo:
 
-### Required
+        <field name="paginas" attrs="{'required': [('state', '=', 'en_compra')]}"/>
 
-El atributo required permite indicar si el campo es o no obligatorio en la vista. Ejemplo:
+    En el ejemplo se indica que el campo *paginas* es obligatorio a nivel de vista si el estado del libro es **Proceso de Compra**.
 
-	<field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
+- **Readonly**: El atributo readonly permite indicar si el campo es o no de solo lectura a nivel de la vista. Ejemplo:
 
-En el ejemplo se indica que el campo paginas es obligatorio en la vista, si el estado del libro es **Proceso de Compra**.
+        <field name="name" attrs="{'readonly': [('state','=','catalogado')]}"/>
 
-### Readonly
-
-El atributo readonly permite indicar si el campo es o no se solo lectura en la vista. Ejemplo:
-
-	<field name="titulo" attrs="{'readonly': [('state','=','catalogado')]}"/>
-
-En el ejemplo se indica que el campo titulo es unicamente de lectura en la vista, si el estado del libro es Catalogado.
+    En el ejemplo se indica que el campo titulo es unicamente de lectura en la vista cuando el estado del libro es **Catalogado**.
 
 Igualmente puede incluir todos los atributos en **attrs**. Ejemplo:
 
-    <field name="titulo" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('state','=','catalogado')]}"/>
+    <field name="name" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('state','=','catalogado')]}"/>
 
 El ejemplo anterior hace que el campo titulo no aparezca en el formulario cuando el *state* es *baja*; el campo va a ser obligatorio si el estado es *compra* y quedará en modo solo lectura cuando el estado es *catalogado*
+
+Igualmente si ud quiere en la vista utilizar los atributos `invisible`, `required` y `readonly` sin depender de una condición lo puede hacer como se muestra acontinuación:
+
+    <field name="nombre_campo" invisible="1" required="1" readonly="1"/>
+
 
 Botones
 -------

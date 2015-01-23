@@ -102,7 +102,7 @@
                         <field name="nombre_autor"/>
                         <field name="paginas"/>
                         <field name="active"/>
-                        <field name="precio"/>
+                        <field name="precio" readonly="1"/>
                     </group>
                     <notebook>
                         <page string="Descripción">
@@ -116,7 +116,9 @@
                         <page string="Fechas">
                             <group>
                                 <label string="Fechas importantes en la gestión del libro" colspan="2" class="oe_read_only"/>
-                                <field name="fecha_compra"/>
+                                <field name="fecha_compra"
+                                    attrs="{'invisible': [('state', '=', 'solicitud')], 'required': [('state', '=', 'en_compra')], 'readonly': [('state','!=','en_compra')]}"
+                                />
                                 <field name="fecha_publicacion"/>
                             </group>
                         </page>
