@@ -138,6 +138,28 @@ Para que la vista se despliegue es necesario adicionar en el action_libro_presta
 		  <field name="view_mode">tree,form,gantt,calendar</field>
 	</record>
 
+	
+Botones
+-------
+- confirm
+- states
+- magic
+
+                    <div class="oe_button_box oe_right">
+                        <button name="button_fecha_compra_hoy" type="object" 
+                            class="oe_inline oe_stat_button" icon="fa-calendar-o"
+                            string="Comprado hoy"
+                            confirm="Se marcará el libro como adquirido en la fecha de hoy, esta seguro?"
+                            states="en_compra"
+                        />
+                    </div>
+
+    @api.one
+    def button_fecha_compra_hoy(self):
+        self.fecha_compra = fields.Date.today()
+        self.state = 'adquirido'
+
+
 Ejercicios propuestos
 ---------------------
 
