@@ -71,8 +71,8 @@ Mayor información del uso de onchange en:
 - https://www.odoo.com/documentation/8.0/reference/orm.html#onchange-updating-ui-on-the-fly
 - https://www.odoo.com/documentation/8.0/howtos/backend.html#onchange
 
-attrs
------
+Cambios basado en otros campos: attrs
+-------------------------------------
 
 La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs** en las etiquetas `button`,`field`,`notebook`. El atributo *attrs* permite que se cambie los valores definidos para los campos en las opciones `invisible`, `required` y `readonly` de acuerdo a una regla de dominio que se cumpla.
 
@@ -96,7 +96,7 @@ La interfaz también puede cambiar dinámicamente utilizando el atributo **attrs
 
 Igualmente puede incluir todos los atributos en **attrs**. Ejemplo:
 
-    <field name="name" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('state','=','catalogado')]}"/>
+    <field name="name" attrs="{'invisible': [('state', '=', 'baja')], 'required': [('state', '=', 'compra')], 'readonly': [('precio','>',100)]}"/>
 
 El ejemplo anterior hace que el campo titulo no aparezca en el formulario cuando el *state* es *baja*; el campo va a ser obligatorio si el estado es *compra* y quedará en modo solo lectura cuando el estado es *catalogado*
 
@@ -105,13 +105,14 @@ Igualmente si ud quiere en la vista utilizar los atributos `invisible`, `require
     <field name="nombre_campo" invisible="1" required="1" readonly="1"/>
 
 
-Botones
--------
-- confirm
-- states
-
 Ejercicios propuestos
 ---------------------
 
-1. Verificar los cambios en la vista al activar el atributo on_change del código ejemplo.
-1. Verificar los cambios en la vista según los atributos invisible, required y readonly del código ejemplo.
+Utilizando el código de la lección:
+
+1. Verifique que el precio no puede ser editable a través de la vista formulario del libro, pero si a través del menú editar precios. Verifique en la definición de la vista como se hizo.
+1. Cambie un libro de estado y vea como se comporta la pestaña de *fechas* cuando esta en modo edición.
+1. Coloque el libro en estado *Proceso de compra* y haga click en el botón *Comprado hoy*, vea como cambian los campos *fecha de compra* y el *estado* del libro.
+1. Adicioné un botón llamado *Devolver compra* que aparezca cuando el estado sea *Adquirido* y que cambie la fecha de compra a vacio y el estado a *Proceso de Compra*
+1. Ajuste los campos de *Editorial*, *Clasificación* y *Género* para que sean obligatorios cuando el estado del libro sea *Adquirido*
+1. Ajuste los campos del formulario para que sean de solo lectura cuando el estado es *Catalogado* y *De baja*
