@@ -39,14 +39,22 @@ Curso-Taller Odoo v8.0
 - [Lección 06. Vistas dinámicas](lecciones/06/)
     - onchange
     - attributes: invisible, required, readonly
-    - Botones
 
 - [Lección 06. Relaciones entre Modelos](lecciones/0/)
     - many2one
     - one2many
     - many2many
 
-- [Lección 06. Otros Widgets y vistas, vistas embebidas](lecciones/0/)
+- [Lección 06. Campos, atributos y decoradores avanzados](lecciones/0/)
+    - related
+    - domain
+    - function
+    - depends
+    - multi
+    - states
+    - parent
+
+- [Lección 06. Vistas, widgets y botones](lecciones/0/)
     - many2many_tags
     - kanban
     - gantt
@@ -64,15 +72,6 @@ Curso-Taller Odoo v8.0
 - [Lección 06. Extensión de módulos](lecciones/0/)
     - Extender un Objeto
     - Extender una Vista
-
-- [Lección 06. Campos, atributos y decoradores avanzados](lecciones/0/)
-    - related
-    - domain
-    - function
-    - depends
-    - multi
-    - states
-    - parent
 
 - [Lección 06. Wizards](lecciones/0/)
     - Wizard para el Prestamo
