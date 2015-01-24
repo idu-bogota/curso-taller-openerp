@@ -165,6 +165,34 @@
     <menuitem id="biblioteca_precio_libro_menu" parent="biblioteca_menu" name="Editar precios" action="precio_libro_action"/>
     <!--
     =================================================================
+    Vista tipo search para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="prestamo_search">
+        <field name="name">biblioteca.prestamo.search</field>
+        <field name="model">biblioteca.prestamo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="fecha"/>
+                <field name="fecha_devolucion"/>
+                <field name="duracion_dias"/>
+                <separator string="duracion" />
+                <filter name="duracion_menor_mes" string="Duración menor a un mes"
+                    domain="[('duracion_dias','&lt;',30)]"
+                />
+                <filter name="duracion_mayor_mes" string="Duración mayor a un mes"
+                    domain="[('duracion_dias','>=',30)]"
+                />
+                <group string="Group By...">
+                    <filter string="Duración" context="{'group_by':'duracion_dias'}"/>
+                    <filter string="Fecha devolución" context="{'group_by':'fecha_devolucion'}"/>
+                    <filter string="Fecha" context="{'group_by':'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!--
+    =================================================================
     Vista tipo lista para biblioteca.prestamo
     =================================================================
     -->
