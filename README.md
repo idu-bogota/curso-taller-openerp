@@ -40,64 +40,63 @@ Curso-Taller Odoo v8.0
     - onchange
     - attributes: invisible, required, readonly
 
-- [Lección 06. Relaciones entre Modelos](lecciones/0/)
+- [Lección 07. Relaciones entre Modelos](lecciones/07/)
     - many2one
     - one2many
     - many2many
 
-- [Lección 06. Campos, atributos y decoradores avanzados](lecciones/0/)
-    - related
-    - domain
+- [Lección 08. Vistas avanzadas y botones](lecciones/08/)
+    - botones
+    - kanban
+    - gantt
+    - calendar
+    - graph
+
+- [Lección 09. Campos funcionales, atributos y decoradores avanzados](lecciones/0/)
     - function
+    - related
     - depends
     - multi
     - states
     - parent
 
-- [Lección 06. Vistas, widgets y botones](lecciones/0/)
-    - many2many_tags
-    - kanban
-    - gantt
-    - calendar
-    - graph
-    - OpenChatter
-    - formview
-      field mode attribute
-
-- [Lección 06. consultar registros desde el Modelo](lecciones/0/)
+- [Lección 10. consultar y crear registros desde python](lecciones/0/)
     - search
     - browse
     - read
+    - write
+    - create
 
-- [Lección 06. Extensión de módulos](lecciones/0/)
+- [Lección 11. Extensión de módulos](lecciones/0/)
     - Extender un Objeto
     - Extender una Vista
+    - OpenChatter
 
-- [Lección 06. Wizards](lecciones/0/)
+- [Lección 12. Wizards](lecciones/0/)
     - Wizard para el Prestamo
 
-- [Lección 06. Seguridad y control de acceso](lecciones/0/)
+- [Lección 13. Seguridad y control de acceso](lecciones/0/)
     - Definición de Grupos y Usuarios
     - Permisos sobre objetos de negocios
     - Accesos a menús
 
-- [Lección 06. Workflow](lecciones/0/)
+- [Lección 14. Workflow](lecciones/0/)
     - Actividades
     - Transiciones
 
-- [Lección 06. Reportes y dashboards](lecciones/0/)
+- [Lección 15. Reportes y dashboards](lecciones/0/)
     - Ficha del libro
     - Ficha de prestamo
     - Ficha Libro con sus prestamos
 
-- [Lección 06. Acciones planificadas](lecciones/0/)
+- [Lección 16. Acciones planificadas](lecciones/0/)
     - Enviar notificacion de libro no devuelto
 
-- [Lección 06. erppeek y scripts](lecciones/0/)
+- [Lección 17. erppeek y scripts](lecciones/0/)
     - script de importacion de datos
     - Administracion de datos
 
-- [Lección 06. Imágenes y archivos adjuntos](lecciones/0/)
+- [Lección 18. Imágenes y archivos adjuntos](lecciones/0/)
     - Instalar sistema operativo y entorno de programación
 
 - [Lección 06. ](lecciones/0/)
