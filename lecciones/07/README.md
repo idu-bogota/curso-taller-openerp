@@ -50,8 +50,8 @@ Un campo One2many permite que el Modelo actual (donde se define el campo) pueda 
 
 Los parámetros recibidos por este campo son:
 
-* **Nombre del Modelo Relacionado**: Nombre del Modelo que contiene el campo Many2one que apunta a este Modelo. Ej. `biblioteca.prestamo`
-* **Nombre del campo que contine la relación**: Nombre del campo Many2one que existe en el Modelo relacionado. Ej. `libro_id`
+- **Nombre del Modelo Relacionado**: Nombre del Modelo que contiene el campo Many2one que apunta a este Modelo. Ej. `biblioteca.prestamo`
+- **Nombre del campo que contine la relación**: Nombre del campo Many2one que existe en el Modelo relacionado. Ej. `libro_id`
 
 Por convención el nombre del campo se le adiciona el sufijo **_ids**
 
@@ -62,7 +62,7 @@ Ejemplo:
 ```python
 from openerp import models, fields, api
 
-class biblioteca_prestamo(models.Model):
+class biblioteca_libro(models.Model):
     _name = 'biblioteca.libro'
     _description = 'Libro de la biblioteca'
 
@@ -87,54 +87,63 @@ Se puede definir la estructura de la vista a ser utilizada dentro de la misma et
 Relaciones many2many
 --------------------
 
-many2many consiste en que un objeto de negocio A se relaciona con un objeto de negocio B y a su vez el objeto de negocio B se relaciona con el objeto de negocio A, de tal forma que al persistirse cualquier objeto también se persista la lista de objetos que posee. Su estructura es la siguiente:
+La relación many2many consiste en que un Modelo A puede tener relación con uno o varios registros del Modelo B y a su vez el Modelo B se puede relacionar con varios registros del Modelo A, a diferencia de one2many donde la cardinalidad es de muchos a uno. Para esto se requiere de una tabla intermedia que almacena la relación entre los Modelos, esta tabla es generada automáticamente y no se puede acceder como un Modelo independiente. Su estructura es la siguiente:
 
-	'nombre_campo_ids': fields.many2one('nombre_tabla_a_relacionar', 'nombre_tabla_nueva', 'campo_id_en_A', 'campo_id_en_B', 'Descripción del campo')
+	nombre_campo_ids = fields.Many2many('Nombre Modelo del Relacionado', string='Etiqueta')
 
 Los parámetros recibidos por este campo son:
 
-* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
-* **ondelete**: Indica como se manejará la eliminación del objeto padre, aquí los valores disponibles en la documentación de PostgreSQL (set null, cascade)
-* **domain**: Criterio que limita los objetos que serán relacionados, más adelante se dan mayores ejemplos del criterio de búsqueda.
+- **Nombre del Modelo Relacionado**: Nombre del Modelo que contiene el campo Many2one que apunta a este Modelo. Ej. `biblioteca.prestamo`
+- **domain**: Criterio que limita el listado de registros a ser listados para ser relacionados con el Modelo actual.
 
-los parámetros a utilizar son:
+Por defecto Odoo genera el nombre de la tabla intermedia y de los campos relacionados, pero estos pueden ser indicados explicitamente utilizando
 
-* **nombre_tabla_a_relacionar**: Nombre del objeto de negocio relacionado.
-* **nombre_tabla_nueva**: Nombre de la tabla relación donde se almacena la relación muchos a muchos.
-* **campo_id_en_A**: Nombre del campo en la tabla relación donde se almacena el ID del objeto actual.
-* **campo_id_en_B**: Nombre del campo en la tabla relación donde se almacena el ID del objeto objetivo.
+- **relation**: Nombre de la tabla a utilizar para almacenar los registros de la relación
+- **column1**: Nombre de la columna en la tabla de relación que va a contener los IDs del **Modelo actual** (donde se esta definiendo el campo)
+- **column2**: Nombre de la columna en la tabla de relación que va a contener los IDs del **Modelo relacionado**
 
 Por convención el nombre del campo se le adiciona el sufijo **_ids**
 
-Ejemplo (campo genero_ids):
+Ejemplo:
 
-	class biblioteca_libro(osv.osv):
-		_name = "biblioteca.libro"
-		_order= 'fecha'
-		_columns = {
-			'active': fields.boolean('Active', help='Activo/Inactivo'),
-			'isbn': fields.char('ISBN', size = 255, required=True,),
-			.
-			.
-			.
-			'genero_ids': fields.many2many('biblioteca.libro_genero','biblioteca_libro_clasificaciones',
-					'genero_id',
-					'libro_id',
-					'Género del Libro',
-			),
-			'editorial': fields.char('Editorial', size = 255, help='Editorial del libro'),
-		}
+```python
+from openerp import models, fields, api
 
-	biblioteca_libro()
+class biblioteca_libro(models.Model):
+    _name = 'biblioteca.libro'
+    _description = 'Libro de la biblioteca'
 
-Para adicionar el campo en la vista solo debe adicionarlo en la vista correspondiente como lo haría con cualquier otro campo usando la etiqueta `<field>`.
+    genero_ids = fields.Many2many('biblioteca.genero', string="Generos")
+
+class biblioteca_genero(models.Model):
+    _name = 'biblioteca.genero'
+    _description = 'Genero literario'
+
+    libro_ids = fields.Many2many('biblioteca.libro', string="Libros")
+
+```
+
+:white_up_pointing_index: El ejemplo va a crear una tabla para la relación llamada `biblioteca_genero_biblioteca_libro_rel` y con los campos: `biblioteca_libro_id` y `biblioteca_genero_id`
+
+### Despliegue en la vista
+
+Para que el campo se despliegue en la vista debe simplemente agregar en el documento XML el tag `field` con el nombre del campo, como se hace regularmente. ej `<field name="genero_ids"/>`. Pero de manera adicional puede indicar como desplegar los registros relacionados:
+
+- Atributo **`widget`**: Por defecto se despliegan los registros relacionados utilizando la vista tipo listado o `tree` del Modelo relacionado, pero se puede indicar si se desea utilizar un widget diferente como **`many2many_tags`**.
 
 
 Ejercicios propuestos
 ---------------------
 
-1. Verificar los cambios en los campos donde se aplicaron las relaciones. Ver código ejemlo.
-1. Crear el objeto de negocio editorial, con los campos name, pais.
-1. Crear vista y menú de acceso para el objeto de negocio editorial.
-1. Cambiar el tipo del campo editorial ubicaco en el objeto de negocio libro, por el tipo de campo many2many. Moficiar el nombre de campo a editorial_ids y crear la relación.
-1. Verifique en la vista los cambios realizados.
+Utilizando el código de ejemplo de la lección:
+
+1. Crear un prestamo y ver como el campo libro solo muestra los libros en estado *catalogado*.
+1. Adicione generos a uno registro del Modelo libro.
+1. En la vista tipo formulario del Modelo prestamo adicionar el atributo `widget="selection"` en el campo `libro_id`, nota la diferencia?
+1. En la vista tipo formulario del Modelo libro adicionar el atributo `widget="many2many_tags"` en el campo `genero_ids`, nota la diferencia? Adicione nuevos generos a varios registros del Modelo libro.
+1. En la vista tipo formulario del Modelo libro adicionar en el listado de prestamos el campo `duracion_dias`.
+1. Crear un Modelo **biblioteca.editorial** con el campo `name`
+1. Crear una relación many2one de *libro* a *editorial* y el inverso one2many de *libro* a *editorial*, desplegarlos en las vista formulario.
+1. Crear un Modelo **biblioteca.autor** con el campo `name`
+1. Crear una relación many2many de *libro* a *autor* y el inverso de *autor* a *libro*, desplegarlos en las vista formulario.
+1. Verifique a través de pgadmin3 la estructura de las tablas y los *constraints* creados.
