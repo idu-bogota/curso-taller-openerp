@@ -138,10 +138,10 @@ Ejercicios propuestos
 Utilizando el código de ejemplo de la lección:
 
 1. Crear un prestamo y ver como el campo libro solo muestra los libros en estado *catalogado*.
-1. Adicione generos a uno registro del Modelo libro.
-1. En la vista tipo formulario del Modelo prestamo adicionar el atributo `widget="selection"` en el campo `libro_id`, nota la diferencia?
-1. En la vista tipo formulario del Modelo libro adicionar el atributo `widget="many2many_tags"` en el campo `genero_ids`, nota la diferencia? Adicione nuevos generos a varios registros del Modelo libro.
-1. En la vista tipo formulario del Modelo libro adicionar en el listado de prestamos el campo `duracion_dias`.
+1. Adicione generos a un registro del Modelo libro.
+1. En la vista tipo formulario del Modelo *prestamo* adicionar el atributo `widget="selection"` en el campo `libro_id`. Nota la diferencia?
+1. En la vista tipo formulario del Modelo *libro* adicionar el atributo `widget="many2many_tags"` en el campo `genero_ids`. Nota la diferencia? Adicione nuevos generos a varios registros del Modelo libro.
+1. En la vista tipo formulario del Modelo *libro* adicionar en el listado de prestamos el campo `duracion_dias`.
 1. Crear un Modelo **biblioteca.editorial** con el campo `name`
 1. Crear una relación many2one de *libro* a *editorial* y el inverso one2many de *libro* a *editorial*, desplegarlos en las vista formulario.
 1. Crear un Modelo **biblioteca.autor** con el campo `name`

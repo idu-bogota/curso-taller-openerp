@@ -103,7 +103,9 @@
                         <field name="paginas"/>
                         <field name="active"/>
                         <field name="precio" readonly="1"/>
-                        <field name="genero_ids"/>
+                        <field name="genero_ids" widget="many2many_tags"/>
+                        <field name="editorial_id"/>
+                        <field name="autor_ids"/>
                     </group>
                     <notebook>
                         <page string="Descripción">
@@ -140,6 +142,7 @@
                                 <tree>
                                     <field name="fecha"/>
                                     <field name="fecha_devolucion"/>
+                                    <field name="duracion_dias"/>
                                 </tree>
                             </field>
                         </page>
@@ -233,7 +236,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="libro_id"/>
+                        <field name="libro_id" widget="selection"/>
                         <field name="fecha"/>
                         <field name="duracion_dias"/>
                         <field name="fecha_devolucion"/>
@@ -260,6 +263,93 @@
     -->
     <menuitem id="biblioteca_prestamos_menu" name="Prestamos" parent="biblioteca_nav_menu"/>
     <menuitem id="biblioteca_prestamo_menu" parent="biblioteca_prestamos_menu" name="Prestamos" action="prestamo_action"/>
+    <!--
+    =================================================================
+    Vista tipo lista para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="editorial_tree">
+        <field name="name">biblioteca.editorial.tree</field>
+        <field name="model">biblioteca.editorial</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="libro_ids"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.editorial
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="editorial_form">
+        <field name="name">biblioteca.editorial.form</field>
+        <field name="model">biblioteca.editorial</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="libro_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.editorial
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="editorial_action">
+        <field name="name">Editorial</field>
+        <field name="res_model">biblioteca.editorial</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.editorial
+    =================================================================
+    -->
+    <menuitem id="biblioteca_editorial_menu" parent="biblioteca_menu" name="Editoriales" action="editorial_action"/>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.autor
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="autor_form">
+        <field name="name">biblioteca.autor.form</field>
+        <field name="model">biblioteca.autor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="libro_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.autor
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="autor_action">
+        <field name="name">Autor</field>
+        <field name="res_model">biblioteca.autor</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.autor
+    =================================================================
+    -->
+    <menuitem id="biblioteca_autor_menu" parent="biblioteca_menu" name="Autores" action="autor_action"/>
 
 </data>
 </openerp>
