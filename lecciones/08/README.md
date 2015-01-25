@@ -164,3 +164,5 @@ Ejercicios propuestos
 ---------------------
 
 1. Verificar las diferentes vistas creadas.
+1. Adicioné un botón llamado *Devolver compra* que aparezca cuando el estado sea *Adquirido* y que cambie la fecha de compra a vacio y el estado a *Proceso de Compra*
+
