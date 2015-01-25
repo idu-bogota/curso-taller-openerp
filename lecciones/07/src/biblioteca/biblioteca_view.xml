@@ -108,9 +108,21 @@
                         <page string="Descripción">
                             <field name="descripcion" placeholder="Descripción del libro"/>
                             <group string="Otros detalles">
-                                <field name="editorial"/>
-                                <field name="clasificacion"/>
-                                <field name="genero"/>
+                                <field name="editorial" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
+                                <field name="clasificacion" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
+                                <field name="genero" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
                             </group>
                         </page>
                         <page string="Fechas">

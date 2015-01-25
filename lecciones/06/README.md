@@ -113,5 +113,5 @@ Utilizando el código de la lección:
 1. Verifique que el precio no puede ser editable a través de la vista formulario del libro, pero si a través del menú editar precios. Verifique en la definición de la vista como se hizo.
 1. Cambie un libro de estado y vea como se comporta la pestaña de *fechas* cuando esta en modo edición.
 1. Ajuste los campos de *Editorial*, *Clasificación* y *Género* para que sean obligatorios cuando el estado del libro sea *Adquirido*
-1. Ajuste los campos del formulario para que sean de solo lectura cuando el estado es *Catalogado* y *De baja*
+1. Ajuste los campos de *Editorial*, *Clasificación* y *Género* para que sean de solo lectura cuando el estado es *Catalogado* y *De baja*
 
