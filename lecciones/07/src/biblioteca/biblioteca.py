@@ -66,6 +66,7 @@ class biblioteca_libro(models.Model):
         help='Editorial del libro',
     )
     prestamo_ids = fields.One2many('biblioteca.prestamo', 'libro_id', 'Prestamos realizados')
+    genero_ids = fields.Many2many('biblioteca.genero', string="Géneros")
 
     @api.one
     @api.constrains('fecha_publicacion','fecha_compra')
@@ -121,3 +122,10 @@ class biblioteca_prestamo(models.Model):
         domain=[('state', '=', 'catalogado')],
         required=True,
     )
+
+class biblioteca_genero(models.Model):
+    _name = 'biblioteca.genero'
+    _description = 'Genero literario'
+
+    name = fields.Char('Nombre', size=30, help='Nombre')
+    libro_ids = fields.Many2many('biblioteca.libro', string="Libros")

@@ -103,6 +103,7 @@
                         <field name="paginas"/>
                         <field name="active"/>
                         <field name="precio" readonly="1"/>
+                        <field name="genero_ids"/>
                     </group>
                     <notebook>
                         <page string="Descripción">
