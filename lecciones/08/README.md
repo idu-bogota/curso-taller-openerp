@@ -1,8 +1,3 @@
-[[
-title: Lección 08: Otros Widgets y Vistas
-author: STRT Grupo I+D+I
-]]
-
 Lección 08: Otros Widgets y Vistas
 ==================================
 
@@ -21,9 +16,8 @@ Existen diferentes widgets:
 **widget="mail_thread"**: Mail a grupos
 **widget="statusbar"**: Muestra la barra de estado
 **widget="progressbar"**: Muestra la barra de progreso
-**widget="html"**: Muestra los campos HTML
 **widget="url"**: Muestra la url como un enlace
-**widget=”integer”**: Permite almacenar solo valores enteros
+**widget="integer"**: Permite almacenar solo valores enteros
 **widget="image"**: Muestra el valor del campo como una imagen
 **widget="handle"**: Permite organizar un listado de registros y almacenar la posición en un campo con el nombre **sequence**.
 
@@ -138,7 +132,31 @@ Para que la vista se despliegue es necesario adicionar en el action_libro_presta
 		  <field name="view_mode">tree,form,gantt,calendar</field>
 	</record>
 
-	
+
+Vista tipo Gráfica
+------------------
+
+Esta vista permite desplegar los datos disponibles en una grafica. Cada vista gráfica puede ser definida utilizando los siguientes elementos básicos:
+
+* atributo **`type`**: Indica el tipo de gráfica a utilizarse (pie, bar), por defecto pie
+* atributo **`orientation`**: Indica la orientación de las barras (horizontal, vertical)
+* **`field`**: Se debe ingresar como mínimo dos campos field (eje X, eje Y, eje Z), un tercero es opcional 3
+* atributo **`group`**: Se coloca en 1 para el campo a ser utilizado en el GROUP BY
+* atributo **`operator`**: Indica el tipo de operador de agregación a ser utilizado (+,*,**,min,max)
+
+Ejemplo para la creación de una vista tipo gráfico:
+
+    <record model="ir.ui.view" id="libro_graph">
+        <field name="name">libro.graph</field>
+        <field name="model">biblioteca.libro</field>
+        <field name="arch" type="xml">
+            <graph type="bar" orientation="horizontal" string="Gráfico">
+                <field name="state"/>
+                <field name="paginas" operator="min"/>
+            </graph>
+        </field>
+    </record>
+
 Botones
 -------
 - confirm

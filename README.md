@@ -45,7 +45,8 @@ Curso-Taller Odoo v8.0
     - one2many
     - many2many
 
-- [Lección 08. Vistas avanzadas y botones](lecciones/08/)
+- [Lección 08. idgets, vistas avanzadas y botones](lecciones/08/)
+    - widgets
     - botones
     - kanban
     - gantt
