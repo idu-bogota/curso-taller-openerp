@@ -1,12 +1,135 @@
-[[
-title: Lección 12: Campos y Atributos Avanzados
-author: STRT Grupo I+D+I
-]]
-
-Lección 12: Campos y Atributos Avanzados
-========================================
+Lección 08: Campos funcionales, atributos y decoradores avanzados
+=================================================================
 
 [TOC]
+
+Campos Related
+--------------
+En algunos casos es necesario tener disponible el valor de un campo de un Modelo relacionado, como si fuera un campo del Modelo actual, por ejemplo si tenemos los Modelos Persona -> Ciudad -> Pais, podemos adicionar un campo en Persona que nos diga directamente cual es el Pais, basado en la selección de la Ciudad. Para esto definimos un proxy a través de un campo con el atributo `related`.
+
+```python
+from openerp import models, fields, api
+
+
+class pais(models.Model):
+    _name = 'mi_modulo.pais'
+    _description = 'Pais'
+
+    name = fields.Char('Nombre')
+
+
+class ciudad(models.Model):
+    _name = 'mi_modulo.ciudad'
+    _description = 'Ciudad'
+
+    name = fields.Char('Nombre')
+    pais_id = fields.Many2one('mi_modulo.pais','País')
+
+
+class persona(models.Model):
+    _name = 'mi_modulo.persona'
+    _description = 'Persona'
+
+    ciudad_id = fields.Many2one('mi_modulo.ciudad', 'Ciudad de Residencia')
+    pais = fields.Many2one(related='ciudad_id.pais_id')
+
+```
+
+Ud puede modificar el campo `persona->pais_id` y eso cambiará el valor en el registro `ciudad->pais_id`, también automáticamente la interfaz web va a mostrar el país cuando se selecciones la ciudad. Se pueden adicionar otros atributos propios del campo que aplicarian solo al Modelo actual (persona) tales como: string, help, readonly, required y estos no afectarían la definición original del campo.
+`
+Campos computados
+-----------------
+
+Muchas veces los campos tienen valores que deben calcularse de automáticamente, para esto se utiliza el atributo: `compute` y el nombre del método del Modelo que hará el cálculo del valor. Por ejemplo:
+
+```python
+from openerp import models, fields, api
+import datetime.timedelta
+
+class biblioteca_prestamo(models.Model):
+    _name = 'biblioteca.prestamo'
+    _description = 'Informacion de prestamo de libros'
+
+    fecha = fields.Datetime(
+        'Fecha del Prestamo',
+        help="Fecha en la que se presta el libro",
+    )
+    duracion_dias = fields.Integer(
+        'Duración del Prestamo(días)',
+        help="Número días por los cuales se presta el libro",
+    )
+    fecha_devolucion = fields.Datetime(
+        'Fecha Devolución',
+        compute='_compute_fecha_devolucion',
+        help="Fecha de devolución del libro",
+    )
+
+    @api.one
+    def _compute_fecha_devolucion(self):
+        """Calcula la fecha de devolución basado en la fecha inicial y la duración en días del prestamo"""
+        fecha = fields.Datetime.from_string(self.fecha)
+        self.fecha_devolucion = fecha + timedelta(days=10)
+
+```
+
+Con el código anterior el cálculo se va a realizar cuando se guarde el registro en la base de datos y en la interfaz el campo se va a mostrar como de solo lectura. Si se desea que se pueda también definir manualmente la fecha de devolución, se debe usar el atributo `inverse` y el nombre del método del Modelo que hará el cálculo inverso. Para nuestro ejemplo el método inverson debería calcular la duración en días a partir de la fecha del prestamo y la fecha de devolución.
+
+```python
+from openerp import models, fields, api
+import datetime.timedelta
+
+class biblioteca_prestamo(models.Model):
+    _name = 'biblioteca.prestamo'
+
+    [...]
+
+    fecha_devolucion = fields.Datetime(
+        'Fecha Devolución',
+        compute='_compute_fecha_devolucion',
+        inverse='_compute_inv_fecha_devolucion',
+        help="Fecha de devolución del libro",
+    )
+
+    [...]
+
+    @api.one
+    def _compute_inv_fecha_devolucion(self):
+        """Calcula la fecha duración en días del prestamo basado en la fecha de devolución"""
+        if self.fecha and self.fecha_devolucion:
+            fecha = fields.Datetime.from_string(self.fecha)
+            fecha_devolucion = fields.Datetime.from_string(self.fecha_devolucion)
+            delta = fecha_devolucion - fecha
+            self.duracion_dias = delta.days
+
+```
+
+Por defecto el valor del campo es calculado en el momento en que se carga el registro y no es almacenado en la base de datos, si se desea que se almacene en la base de datos se debe adicionar el atributo `store=True`. :happy_person_raising_one_hand: Cuando se utiliza store=True se recomienda utilizar el decorador depends, para que que se le indique cuando debe ser recalculado el valor del campo basado en los valores de otros campos del modelo, más detalles en la siguiente sección.
+
+Decorador: depends
+------------------
+
+@api.depends('fecha', duracion_dias')
+
+Decorador: multi
+----------------
+
+Decorador: one
+--------------
+
+Decorador: model
+----------------
+
+Atributo: states
+----------------
+
+Manejo de árboles
+------------------
+
+    - related
+    - depends
+    - multi
+    - states
+    - parent
 
 Related
 -------

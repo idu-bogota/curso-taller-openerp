@@ -1,419 +1,358 @@
 <?xml version="1.0"?>
 <openerp>
 <data>
-
-  <!--
-  =================================================================
-  Lección 6
-  =================================================================
-  -->
-
-  <!--
-  =================================================================
-   Vista Dinámica
-  =================================================================
-  -->
-  <record model="ir.ui.view" id="biblioteca_libro_search">
-      <field name="name">biblioteca.libro.search</field>
-      <field name="model">biblioteca.libro</field>
-      <field name="arch" type="xml">
-      <search string="Biblioteca Libro">
-          <field name="isbn" string="ISBN del libro"/>
-          <field name="titulo" string="Título del libro"/>
-          <field name="autor" string="Nombre del autor del libro"/>
-          <separator string="Estados"/>
-          <filter name="state" string="En Solicitud " domain="[('state','=','solicitud')]" help="Estado del regristro En progreso " icon="terp-check"/>
-          <filter name="state" string="En proceso de Compra" domain="[('state','=','compra')]" help="Estado del regristro En progreso " icon="terp-check"/>
-          <separator/>
-          <group expand="0" string="Group By...">
-          <filter string="Estado del Libro" icon="terp-folder-violet" domain="[]" context="{'group_by':'state'}"/>
-          <filter string="Autor del Libro" icon="terp-folder-violet" domain="[]" context="{'group_by':'autor'}"/>
-          <filter string="Editorial" icon="terp-go-month" domain="[]" context="{'group_by':'editorial'}"/>
-          </group>
-      </search>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo lista para biblioteca.libro
-  =================================================================
-  -->
-  <record model="ir.ui.view" id="biblioteca_libro_tree">
-      <field name="name">biblioteca.libro.tree</field>
-      <field name="model">biblioteca.libro</field>
-      <field name="arch" type="xml">
-      <tree string="Biblioteca Libro" colors="blue:state=='solicitud'">
-          <field name="isbn"/>
-          <field name="titulo"/>
-          <field name="autor"/>
-          <field name="paginas"/>
-          <field name="state" invisible="1"/>
-      </tree>
-      </field>
-  </record>
-
-
-  <!--
-  =================================================================
-  Vista tipo formulario para biblioteca.libro
-  =================================================================
-  -->
-  <record model="ir.ui.view" id="biblioteca_libro_form">
-      <field name="name">biblioteca.libro.form</field>
-      <field name="model">biblioteca.libro</field>
-      <field name="arch" type="xml">
-          <form string="Biblioteca Libro" version="7.0">
-             <header>
-                  <field name="state" widget="statusbar" attrs="{'readonly':True}"/>
-              </header>
-              <label string="Este es un formulario de prueba"/>
-              <separator string=""/>
-              <div class="oe_button_box oe_right">
-                  <button name="%(biblioteca.action_biblioteca_wizard_radicar_prestamo)d" string="Radicar Préstamo"
-                                type="action" icon="gtk-ok" context="{'libro_id': id}"
-                  /> 
-                  <button name="obtener_promedio_prestamo_metodo_read"
-                      string="Promedio de Préstamo (read)" type="object"
-                  />
-                  <button name="obtener_promedio_prestamo_metodo_browse"
-                      string="Promedio de Préstamo (browse)" type="object"
-                  />
-              </div>
-              <group string="Libros" colspan="4">
-                  <field name="titulo" attrs="{'readonly': [('state','=','catalogado')]}"/>
-              </group>
-              <group string="Estado" colspan="4">
-                  <field name="active" on_change="onchange_active(active)"/>
-              </group>
-              <notebook colspan="4">
-                  <page string="Detalles">
-                     <group colspan="2">
+    <!--
+    =================================================================
+    Vista tipo busqueda para biblioteca.libro
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="libro_search">
+        <field name="name">biblioteca.libro.search</field>
+        <field name="model">biblioteca.libro</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="isbn" string="ISBN del libro"/>
+                <field name="name" string="Título del libro"/>
+                <field name="nombre_autor" string="Nombre del autor del libro"/>
+                <separator string="Estados"/>
+                <filter name="solicitud" string="En Solicitud" help="Estado del regristro En progreso"
+                    domain="[('state','=','solicitud')]"
+                />
+                <filter name="en_compra" string="En proceso de Compra" help="Estado del regristro En Compra"
+                    domain="[('state','=','en_compra')]"
+                />
+                <filter name="catalogado" string="Catalogado" help="Estado del registro Catalogado"
+                    domain="[('state','=','catalogado')]"
+                />
+                <filter name="no_catalogado" string="No catalogado" help="Libros no catalogados"
+                    domain="[('state','!=','catalogado')]"
+                />
+                <separator string="tamaño"/>
+                <filter name="grandes" string="Libros grandes" help="Libros con más de 1000 páginas"
+                    domain="[('paginas','>=',1000)]"
+                />
+                <filter name="pequenos" string="Libros pequeños" help="Libros con menos de 1000 páginas"
+                    domain="[('paginas','&lt;',1000)]"
+                />
+                <group string="Group By...">
+                    <filter string="Clasificación del Libro" context="{'group_by':'clasificacion'}"/>
+                    <filter string="Género del Libro" context="{'group_by':'genero'}"/>
+                    <filter string="Editorial" context="{'group_by':'editorial'}"/>
+                    <filter string="Estado" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo lista para biblioteca.libro
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="libro_tree">
+        <field name="name">biblioteca.libro.tree</field>
+        <field name="model">biblioteca.libro</field>
+        <field name="arch" type="xml">
+            <tree colors="blue:state=='solicitud';green:state=='catalogado';red:paginas==0;maroon:state=='en_compra';gray:state=='baja'"
+                fonts="bold:paginas==0;underline:paginas>100"
+            >
+                <field name="sequence" widget="handle"/>
+                <field name="isbn"/>
+                <field name="name"/>
+                <field name="nombre_autor"/>
+                <field name="paginas"/>
+                <field name="fecha_publicacion"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="precio_libro_tree">
+        <field name="name">biblioteca.libro.precio.tree</field>
+        <field name="model">biblioteca.libro</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree editable="top" fonts="bold:precio==0">
+                <field name="isbn"/>
+                <field name="name"/>
+                <field name="nombre_autor"/>
+                <field name="precio"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.libro
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="libro_form">
+        <field name="name">biblioteca.libro.form</field>
+        <field name="model">biblioteca.libro</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Título" />
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <separator string="Detalles"/>
+                    <group>
                         <field name="isbn"/>
-                        <field name="autor"/>
-                        <field name="descripcion" attrs="{'invisible': [('state', '=', 'baja')]}"/>
-                        <newline/>
-                        <field name="paginas" attrs="{'required': [('state', '=', 'compra')]}"/>
-                        <field name="fecha"/>
+                        <field name="nombre_autor"/>
+                        <field name="paginas"/>
+                        <field name="active"/>
+                        <field name="precio" readonly="1"/>
+                        <field name="genero_ids" widget="many2many_tags"/>
+                        <field name="editorial_id"/>
+                        <field name="autor_ids"/>
                     </group>
-                  </page>
-                  <page string="Clasificación">
-                      <group colspan="2">
-                        <field name="clasificacion_ids"/>
-                        <field name="genero_ids"/>
-                      </group>
-                  </page>
-                  <page string="Préstamo">
-                      <group colspan="2">
-                        <field name="prestamo_ids"/>
-                      </group>
-                  </page>
-              </notebook>
-              <footer>
-                  <button name="confirmar_compra" states="solicitud" string="Confirmar proceso de Compra" icon="gtk-execute"/>
-                  <button special="cancel" string="Cancelar Solicitud" states="solicitud"/>
-              </footer>
-          </form>
-    </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo gráficos de datos para biblioteca.libro
-  =================================================================
-  -->
-  <record model="ir.ui.view" id="libro_graph">
-      <field name="name">libro.graph</field>
-      <field name="model">biblioteca.libro</field>
-      <field name="arch" type="xml">
-      <graph type="bar" orientation="horizontal" string="Gráfico">
-          <field name="state"/>
-          <field name="paginas" operator="min"/>
-      </graph>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo kanban de datos para biblioteca.libro
-  =================================================================
-  -->
-  <record model="ir.ui.view" id="libro_kanban">
-  <field name="name">libro.kanban</field>
-  <field name="model">biblioteca.libro</field>
-  <field name="type">kanban</field>
-  <field name="arch" type="xml">
-    <kanban version="7.0" class="oe_background_grey">
-        <field name="titulo"/>
-        <field name="autor"/>
-        <field name="user_id"/>
-        <templates>
-            <t t-name="kanban-box">
-                <div class="oe_resource_vignette">
-                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.state.value)} oe_kanban_card oe_kanban_global_click">
-                        <div class="oe_kanban_project_avatars">
-                            <img t-att-src="kanban_image('res.users', 'image', record.user_id.raw_value)"
-                                t-att-title="record.user_id.value"
-                                width="24" height="24"
-                                class="oe_kanban_avatar"
-                            />
-                        </div>
-                    </div>
-                    <div class="oe_resource_details">
-                        <ul>
-                           <li><field name="state"/></li>
-                           <field name="titulo"/>
-                           <field name="autor"/>
-                         </ul>
-                    </div>
-                </div>
-            </t>
-        </templates>
-    </kanban>
-  </field>
-  </record>
-
-  <!--
-  =================================================================
-  Acción para biblioteca.libro
-  =================================================================
-  -->
-  <record model="ir.actions.act_window" id="action_libro">
-      <field name="name">Libro</field>
-      <field name="res_model">biblioteca.libro</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form,graph,kanban</field>
-  </record>
-
-  <!--
-  =================================================================
-  Menú para biblioteca.libro
-  =================================================================
-  -->
-  <menuitem id="menu_biblioteca_root" name="Biblioteca"/>
-  <menuitem id="menu_biblioteca" name="Biblioteca" parent="menu_biblioteca_root"/>
-  <menuitem id="menu_biblioteca_libro" parent="menu_biblioteca" name="Libro" action="action_libro"/>
-
-
-  <!--
-  ===================================================================================
-  Vista tipo lista para biblioteca.libro_genero
-  ===================================================================================
-  -->
-  <record id="biblioteca_libro_genero_list" model="ir.ui.view">
-      <field name="name">biblioteca.libro_genero.list</field>
-      <field name="model">biblioteca.libro_genero</field>
-      <field name="arch" type="xml">
-          <tree string="Género del Libro">
-              <field name="name"/>
-          </tree>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo formulario para biblioteca.libro_genero
-  =================================================================
-  -->
-  <record id="biblioteca_libro_genero_form" model="ir.ui.view">
-      <field name="name">biblioteca.libro_genero.form</field>
-      <field name="model">biblioteca.libro_genero</field>
-      <field name="arch" type="xml">
-          <form string="Género" version="7.0">
-              <sheet>
-                  <group col="2 " colspan="2">
-                      <field name="name"/>
-                  </group>
-              </sheet>
-          </form>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Acción para biblioteca.libro_genero
-  =================================================================
-  -->
-  <record model="ir.actions.act_window" id="action_libro_genero">
-      <field name="name">Genero</field>
-      <field name="res_model">biblioteca.libro_genero</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
-  </record>
-
-  <!--
-  =================================================================
-  Menú para biblioteca.libro_genero
-  =================================================================
-  -->
-  <menuitem id="menu_biblioteca_libro_genero" parent="menu_biblioteca" name="Género" action="action_libro_genero"/>
-
-  <!--
-  ===================================================================================
-  Vista tipo lista para biblioteca.libro_clasificacion
-  ===================================================================================
-  -->
-  <record id="biblioteca_libro_genero_list" model="ir.ui.view">
-      <field name="name">biblioteca.libro_clasificacion.list</field>
-      <field name="model">biblioteca.libro_clasificacion</field>
-      <field name="arch" type="xml">
-          <tree string="Clasificación del Libro">
-              <field name="name"/>
-          </tree>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo formulario para biblioteca.libro_clasificacion
-  =================================================================
-  -->
-  <record id="biblioteca_libro_clasificacion_form" model="ir.ui.view">
-      <field name="name">biblioteca.libro_clasificacion.form</field>
-      <field name="model">biblioteca.libro_clasificacion</field>
-      <field name="arch" type="xml">
-          <form string="Clasificación" version="7.0">
-              <sheet>
-                  <group col="2 " colspan="2">
-                      <field name="name"/>
-                  </group>
-              </sheet>
-          </form>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Acción para biblioteca.libro_clasificacion
-  =================================================================
-  -->
-  <record model="ir.actions.act_window" id="action_libro_clasificacion">
-      <field name="name">Clasificacion</field>
-      <field name="res_model">biblioteca.libro_clasificacion</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
-  </record>
-
-  <!--
-  =================================================================
-  Menú para biblioteca.libro_clasificacion
-  =================================================================
-  -->
-  <menuitem id="menu_biblioteca_libro_clasificacion" parent="menu_biblioteca" name="Clasificación" action="action_libro_clasificacion"/>
-
-  <!--
-  ===================================================================================
-  Vista tipo lista para biblioteca.libro_prestamo
-  ===================================================================================
-  -->
-  <record id="biblioteca_libro_prestamo_list" model="ir.ui.view">
-      <field name="name">biblioteca.libro_prestamo.list</field>
-      <field name="model">biblioteca.libro_prestamo</field>
-      <field name="arch" type="xml">
-          <tree string="Prestamo">
-              <field name="state"/>
-              <field name="titulo"/>
-              <field name="user_id"/>
-              <field name="fecha_prestamo"/>
-              <field name="fecha_regreso"/>
-          </tree>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo formulario para biblioteca.libro_prestamo
-  =================================================================
-  -->
-  <record id="biblioteca_libro_prestamo_form" model="ir.ui.view">
-      <field name="name">biblioteca.libro_prestamo.form</field>
-      <field name="model">biblioteca.libro_prestamo</field>
-      <field name="arch" type="xml">
-          <form string="Prestamo" version="7.0">
-              <sheet>
-                  <group col="2 " colspan="2">
-                      <field name="state"/>
-                      <field name="titulo" readonly="1"/>
-                      <field name="user_id"/>
-                      <field name="fecha_prestamo"/>
-                      <field name="duracion_prestamo"/>
-                      <field name="fecha_regreso"/>
-                  </group>
-              </sheet>
-          </form>
-      </field>
-  </record>
-
- <!--
-  =================================================================
-  Vista tipo gantt para biblioteca.libro_prestamo
-  =================================================================
-  -->
-  <record id="biblioteca_libro_prestamo_gantt" model="ir.ui.view">
-      <field name="name">biblioteca.libro_prestamo.gantt</field>
-      <field name="model">biblioteca.libro_prestamo</field>
-      <field eval="2" name="priority"/>
-      <field name="arch" type="xml">
-          <gantt date_start="fecha_prestamo" date_stop="fecha_regreso" string="Préstamos" default_group_by="libro_id">
-          </gantt>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Vista tipo calendar para biblioteca.libro_prestamo
-  =================================================================
-  -->
-  <record id="biblioteca_libro_prestamo_calendar" model="ir.ui.view">
-      <field name="name">biblioteca.libro_prestamo.calendar</field>
-      <field name="model">biblioteca.libro_prestamo</field>
-      <field eval="2" name="priority"/>
-      <field name="arch" type="xml">
-          <calendar color="libro_id" date_start="fecha_prestamo" date_stop="fecha_regreso" string="Informe de Préstamos">
-              <field name="libro_id"/>
-          </calendar>
-      </field>
-  </record>
-
-  <!--
-  =================================================================
-  Acción para biblioteca.libro_prestamo
-  =================================================================
-  -->
-  <record model="ir.actions.act_window" id="action_libro_prestamo">
-      <field name="name">Prestamo</field>
-      <field name="res_model">biblioteca.libro_prestamo</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form,gantt,calendar</field>
-  </record>
-
-  <!--
-  =================================================================
-  Menú para biblioteca.libro_clasificacion
-  =================================================================
-  -->
-  <menuitem id="menu_biblioteca_libro_prestamo" parent="menu_biblioteca" name="Prestamo" action="action_libro_prestamo"/>
-
-  <!--
-  ===================================================================================
-  Vista extendida de res.users
-  ===================================================================================
-  -->
-  <record id="res_users_form_inherit" model="ir.ui.view">
-    <field name="name">res.users.form.inherit</field>
-    <field name="model">res.users</field>
-    <field name="type">form</field>
-    <field name="inherit_id" ref="base.view_users_form"/>
-    <field name="arch" type="xml">
-    <page string="Access Rights" position="after">
-        <page string="Detalles Adicionales">
-           <group col="2">
-              <field name="prestamo_id"/>
-            </group>
-         </page>
-    </page>
-    </field>
-</record>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="descripcion" placeholder="Descripción del libro"/>
+                            <group string="Otros detalles">
+                                <field name="editorial" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
+                                <field name="clasificacion" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
+                                <field name="genero" attrs="{
+                                        'required': [('state','=','adquirido')],
+                                        'readonly': [('state','in',['catalogado','baja'])],
+                                    }"
+                                />
+                            </group>
+                        </page>
+                        <page string="Fechas">
+                            <group>
+                                <label string="Fechas importantes en la gestión del libro" colspan="2" class="oe_read_only"/>
+                                <field name="fecha_compra"
+                                    attrs="{'invisible': [('state', '=', 'solicitud')], 'required': [('state', '=', 'en_compra')], 'readonly': [('state','!=','en_compra')]}"
+                                />
+                                <field name="fecha_publicacion"/>
+                            </group>
+                        </page>
+                        <page string="Prestamos">
+                            <field name="prestamo_ids">
+                                <tree>
+                                    <field name="fecha"/>
+                                    <field name="fecha_devolucion"/>
+                                    <field name="duracion_dias"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.libro
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="libro_action">
+        <field name="name">Catálogo de Libros</field>
+        <field name="res_model">biblioteca.libro</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="limit">10</field>
+    </record>
+    <record model="ir.actions.act_window" id="precio_libro_action">
+        <field name="name">Precio de libros</field>
+        <field name="res_model">biblioteca.libro</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="biblioteca.precio_libro_tree"/>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.libro
+    =================================================================
+    -->
+    <menuitem id="biblioteca_nav_menu" name="Biblioteca"/>
+    <menuitem id="biblioteca_menu" name="Cátalogo" parent="biblioteca_nav_menu"/>
+    <menuitem id="biblioteca_libro_menu" parent="biblioteca_menu" name="Libros" action="libro_action"/>
+    <menuitem id="biblioteca_precio_libro_menu" parent="biblioteca_menu" name="Editar precios" action="precio_libro_action"/>
+    <!--
+    =================================================================
+    Vista tipo search para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="prestamo_search">
+        <field name="name">biblioteca.prestamo.search</field>
+        <field name="model">biblioteca.prestamo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="fecha"/>
+                <field name="fecha_devolucion"/>
+                <field name="duracion_dias"/>
+                <separator string="duracion" />
+                <filter name="duracion_menor_mes" string="Duración menor a un mes"
+                    domain="[('duracion_dias','&lt;',30)]"
+                />
+                <filter name="duracion_mayor_mes" string="Duración mayor a un mes"
+                    domain="[('duracion_dias','>=',30)]"
+                />
+                <group string="Group By...">
+                    <filter string="Duración" context="{'group_by':'duracion_dias'}"/>
+                    <filter string="Fecha devolución" context="{'group_by':'fecha_devolucion'}"/>
+                    <filter string="Fecha" context="{'group_by':'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo lista para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="prestamo_tree">
+        <field name="name">biblioteca.prestamo.tree</field>
+        <field name="model">biblioteca.prestamo</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="libro_id"/>
+                <field name="fecha"/>
+                <field name="duracion_dias"/>
+                <field name="fecha_devolucion"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="prestamo_form">
+        <field name="name">biblioteca.prestamo.form</field>
+        <field name="model">biblioteca.prestamo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="libro_id" widget="selection"/>
+                        <field name="editorial_id"/>
+                        <field name="genero_ids" widget="many2many_tags"/>
+                        <field name="fecha"/>
+                        <field name="duracion_dias"/>
+                        <field name="fecha_devolucion"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="prestamo_action">
+        <field name="name">Prestamos</field>
+        <field name="res_model">biblioteca.prestamo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.prestamo
+    =================================================================
+    -->
+    <menuitem id="biblioteca_prestamos_menu" name="Prestamos" parent="biblioteca_nav_menu"/>
+    <menuitem id="biblioteca_prestamo_menu" parent="biblioteca_prestamos_menu" name="Prestamos" action="prestamo_action"/>
+    <!--
+    =================================================================
+    Vista tipo lista para biblioteca.prestamo
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="editorial_tree">
+        <field name="name">biblioteca.editorial.tree</field>
+        <field name="model">biblioteca.editorial</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="libro_ids"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.editorial
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="editorial_form">
+        <field name="name">biblioteca.editorial.form</field>
+        <field name="model">biblioteca.editorial</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="libro_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.editorial
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="editorial_action">
+        <field name="name">Editorial</field>
+        <field name="res_model">biblioteca.editorial</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.editorial
+    =================================================================
+    -->
+    <menuitem id="biblioteca_editorial_menu" parent="biblioteca_menu" name="Editoriales" action="editorial_action"/>
+    <!--
+    =================================================================
+    Vista tipo formulario para biblioteca.autor
+    =================================================================
+    -->
+    <record model="ir.ui.view" id="autor_form">
+        <field name="name">biblioteca.autor.form</field>
+        <field name="model">biblioteca.autor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="libro_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    =================================================================
+    Acción para biblioteca.autor
+    =================================================================
+    -->
+    <record model="ir.actions.act_window" id="autor_action">
+        <field name="name">Autor</field>
+        <field name="res_model">biblioteca.autor</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--
+    =================================================================
+    Menú para biblioteca.autor
+    =================================================================
+    -->
+    <menuitem id="biblioteca_autor_menu" parent="biblioteca_menu" name="Autores" action="autor_action"/>
 
 </data>
 </openerp>
