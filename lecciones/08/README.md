@@ -8,23 +8,27 @@ Widgets
 
 Widget es la clase base para todos los componentes visuales, un widget es un componente genérico dedicado a mostrar el contenido al usuario.
 
-Existen diferentes widgets:
+Los widgets son utilizados de manera automática de acuerdo al tipo de dato del campo a mostrar, pero estos widgets pueden ser manualmente seleccionados si es necesario. Existen diferentes widgets que pueden seleccionarse:
 
-**widget="many2many_tags"**: Igual que many2many
-**widget="monetary"**: Permite visualizar el simbolo moneda
-**widget="mail_followers"**: Permite adicionar seguidores
-**widget="mail_thread"**: Mail a grupos
-**widget="statusbar"**: Muestra la barra de estado
-**widget="progressbar"**: Muestra la barra de progreso
-**widget="url"**: Muestra la url como un enlace
+**widget="many2many_tags"**: Permite la selección para un campo Many2many al estilo de tags de la web 2.0
+**widget="monetary"**: Permite visualizar el simbolo moneda, requiere que en el atributo `options` se indique el campo de tipo *res.currency* (tipo de moneda) a ser utilizado.
+**widget="mail_followers"**: Permite adicionar seguidores a las notificaciones de un registro, el Modelo debe heredar de `mail.thread`
+**widget="mail_thread"**: Despliega las notificaciones que tiene un registro, el Modelo debe heredar de `mail.thread`
+**widget="statusbar"**: Muestra los valores de campo Selection en una barra, señalando el que esta actualmente seleccionado. En el widget se puede indicar por defecto cuales valores desplegar `statusbar_visible` y si es clickable para poder hacer cambiar la selección actual `clickable="1"`. Las opciones statusbar_visible y clickable son mutuamente excluyentes.
+**widget="progressbar"**: Muestra el valor del campo en forma de una barra de progreso
+**widget="url"**: Muestra el campo como un enlace web
 **widget="integer"**: Permite almacenar solo valores enteros
-**widget="image"**: Muestra el valor del campo como una imagen
-**widget="handle"**: Permite organizar un listado de registros y almacenar la posición en un campo con el nombre **sequence**.
+**widget="image"**: Muestra el valor de un campo binary como una imagen
+**widget="handle"**: Permite organizar un listado de registros y almacenar la posición en un campo con el nombre **sequence**. Para que los listados se desplieguen utilizando el campo sequences se debe adicionar en el Módelo el atributo _order="sequence ASC"
+**widget="selection"**: Despliega un campo Many2one sin las opciones de buscar, crear o editar.
 
 Ejemplo de aplicación de widget:
 
 	<field name="state" widget="statusbar"/>
-
+	<field name="presupuesto" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+    <field name="state" widget="statusbar"
+        statusbar_visible="draft,sent,progress,invoiced,done"/>
+    <field name="state" widget="statusbar" clickable="1"/>
 
 Vista tipo kanban
 -----------------

@@ -55,6 +55,7 @@
             <tree colors="blue:state=='solicitud';green:state=='catalogado';red:paginas==0;maroon:state=='en_compra';gray:state=='baja'"
                 fonts="bold:paginas==0;underline:paginas>100"
             >
+                <field name="sequence" widget="handle"/>
                 <field name="isbn"/>
                 <field name="name"/>
                 <field name="nombre_autor"/>

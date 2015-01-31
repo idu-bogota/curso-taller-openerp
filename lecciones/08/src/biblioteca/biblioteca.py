@@ -8,6 +8,7 @@ import names
 class biblioteca_libro(models.Model):
     _name = 'biblioteca.libro'
     _description = 'Informacion de libro de la biblioteca'
+    _order = 'sequence ASC, id DESC'
 
     _sql_constraints = [
         ('unique_isbn','unique(isbn)','El ISBN debe ser único'),
@@ -19,6 +20,7 @@ class biblioteca_libro(models.Model):
 
     name = fields.Char('Titulo', size=255, help='Título del libro')
     active = fields.Boolean('Active', help='Activo/Inactivo', default=True)
+    sequence = fields.Integer('Orden', help='Valor utilizado para ordenar el listado')
     descripcion = fields.Text('Descripción')
     fecha_publicacion = fields.Date('Fecha de Publicación', help='Fecha de publicación', default=fields.Date.today)
     precio = fields.Float('Precio', help='Precio de Compra', digits=(10, 2), default=_precio_aleatorio)
