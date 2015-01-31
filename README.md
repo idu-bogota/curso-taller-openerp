@@ -45,15 +45,7 @@ Curso-Taller Odoo v8.0
     - one2many
     - many2many
 
-- [Lección 08. idgets, vistas avanzadas y botones](lecciones/08/)
-    - widgets
-    - botones
-    - kanban
-    - gantt
-    - calendar
-    - graph
-
-- [Lección 09. Campos funcionales, atributos y decoradores avanzados](lecciones/0/)
+- [Lección 08. Campos funcionales, atributos y decoradores avanzados](lecciones/0/)
     - function
     - related
     - depends
@@ -61,17 +53,27 @@ Curso-Taller Odoo v8.0
     - states
     - parent
 
-- [Lección 10. consultar y crear registros desde python](lecciones/0/)
+- [Lección 09. Extensión de módulos](lecciones/0/)
+    - Extender un Objeto
+    - Extender una Vista
+    - OpenChatter
+
+- [Lección 10. widgets, vistas avanzadas y botones](lecciones/08/)
+    - widgets
+    - botones
+    - kanban
+    - gantt
+    - calendar
+    - graph
+    - context
+    - varias vistas por modelo
+
+- [Lección 11. consultar y crear registros desde python](lecciones/0/)
     - search
     - browse
     - read
     - write
     - create
-
-- [Lección 11. Extensión de módulos](lecciones/0/)
-    - Extender un Objeto
-    - Extender una Vista
-    - OpenChatter
 
 - [Lección 12. Wizards](lecciones/0/)
     - Wizard para el Prestamo
@@ -86,9 +88,11 @@ Curso-Taller Odoo v8.0
     - Transiciones
 
 - [Lección 15. Reportes y dashboards](lecciones/0/)
-    - Ficha del libro
-    - Ficha de prestamo
-    - Ficha Libro con sus prestamos
+    - Reportes en PDF 
+      - Ficha del libro
+      - Ficha de prestamo
+      - Ficha Libro con sus prestamos
+    - Generar archivos consolidados
 
 - [Lección 16. Acciones planificadas](lecciones/0/)
     - Enviar notificacion de libro no devuelto
@@ -111,5 +115,4 @@ Curso-Taller Odoo v8.0
 
 - [Lección 06. ](lecciones/0/)
     - Instalar sistema operativo y entorno de programación
-
 
