@@ -20,7 +20,9 @@ Instalar Odoo 8.0
         sudo su
         wget -O - https://nightly.odoo.com/odoo.key | apt-key add -
         echo "deb http://nightly.odoo.com/8.0/nightly/deb/ ./" >> /etc/apt/sources.list
-        apt-get update && apt-get install odoo
+        apt-get update
+        apt-get install odoo
+        apt-get install -f
 
 *   Para no generar conflictos entre la versión que se corre a través de eclipse y la existente en el sistema, debe desactivar el inicio del servicio Odoo con el comando
 
