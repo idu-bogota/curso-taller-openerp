@@ -45,8 +45,8 @@ Instalar Odoo 8.0
 
 *   Instalar el módulo Web Tools para incluir editor para archivos XML
     * Ingresar a la opción del menú **Help > Install New Software**
-    * En el cuadro de dialogo diligenciar **Work with:** con el valor http://download.eclipse.org/webtools/repository/helios y presionar la tecla **enter**
-    * Seleccionar en la lista que aparece seleccione para instalar **Eclipse XML Editors and Tools**, se ha probado con la versión 3.3.2
+    * En el cuadro de dialogo diligenciar **Work with:** con el valor http://download.eclipse.org/webtools/repository/indigo y presionar la tecla **enter**
+    * Seleccionar en la lista que aparece seleccione para instalar **Eclipse XML Editors and Tools**, se ha probado con la versión 3.3.2, pero cualquier versión reciente debe funcionar.
     * Continue con el proceso de instalación del plugin
 
 ## Crear un proyecto y configurar el entorno para ejecutar Odoo
