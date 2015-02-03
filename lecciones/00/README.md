@@ -40,7 +40,7 @@ Instalar Odoo 8.0
     * Ingresar a la opción del menú **Help > Install New Software**
     * En el cuadro de dialogo diligenciar **Work with:** con el valor http://pydev.org/updates y presionar la tecla **enter**
     * Desactivar el campo **Show only the latest versions of available software** para que muestre todas las versiones disponibles
-    * Seleccionar para instalar la **versión 3.5.x**, con versiones más actualizadas no se puede hacer debug de Odoo.
+    * Seleccionar para instalar la **versión 3.5.xxxxxx**, con versiones más actualizadas no se puede hacer debug de Odoo.
     * Continue con el proceso de instalación del plugin
 
 *   Instalar el módulo Web Tools para incluir editor para archivos XML
