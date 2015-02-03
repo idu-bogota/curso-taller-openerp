@@ -30,6 +30,7 @@ Instalar Odoo 8.0
         sudo /etc/init.d/odoo stop
 
 *   Configurar el usuario de base de datos para openerp con clave odoo
+
         sudo su postgres
         createuser -d -S -R odoo
         psql -c "ALTER USER odoo WITH PASSWORD 'odoo';"
