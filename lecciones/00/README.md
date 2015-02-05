@@ -29,7 +29,7 @@ Instalar Odoo 8.0
         sudo update-rc.d odoo disable
         sudo /etc/init.d/odoo stop
 
-*   Configurar el usuario de base de datos para openerp con clave odoo
+*   Configurar el usuario de base de datos `odoo` con clave `odoo`
 
         sudo su postgres
         createuser -d -S -R odoo
@@ -68,17 +68,31 @@ Instalar Odoo 8.0
         - -w la clave asignada para conectarse a PostgreSQL
 
     -   Luego haga click en el boton **Apply** y **Run**
-    -   Otro parámetro importante es **--addons-path** el cual indica al servidor donde buscar el código de módulos adicionales de OpenERP, podemos indicar que use la carpeta del proyecto eclipse con la variable **${project_loc:NombreDeMiProyecto}**, quedando el parámetro:
+    -   Otro parámetro importante para el resto del curso es **`--addons-path`** el cual indica al servidor donde buscar el código de módulos adicionales de Odoo, podemos indicar que use la carpeta del proyecto eclipse con la variable **`${project_loc:NombreDeMiProyecto}`**, quedando el parámetro:
 
             -r openerp -w openerp --db_host=localhost --addons-path=${project_loc:NombreDeMiProyecto}
 
+        **Nota**: :white_up_pointing_index: Recuerde cambiar **NombreDeMiProyecto** por el nombre del proyecto que usted acaba de crear
+        
         Si uds adiciona este campo en este momento, al arrancar el servidor fallará indicando que la carpeta no es válida como addons-path, esto es porque aún no existen modulos Odoo en el proyecto.
+        
+            openerp-server: error: option --addons-path: The addons-path '/home/usuario/workspace/lecciones_odoo' does not seem to a be a valid Addons Directory!
 
-        **Nota**: Recuerde cambiar NombreDeMiProyecto por el nombre del proyecto que usted acaba de crear
+        También puede ejecutar el servidor llamando un código disponible fuera de eclipse, por ejemplo:
+        
+            -r openerp -w openerp --db_host=localhost --addons-path=/directorio/otros/modulos
+            
+        Si ud indica un directorio que no existe el error que desplegará será:
+        
+            openerp-server: error: option --addons-path: The addons-path '/home/carpeta_vacia' does not seem to a be a valid Addons Directory!
+
+        :happy_person_raising_one_hand: Uds puede utilizar el --addons-path para indicar donde se encuentra el código de la lección que este estudiando, ejemplo.
+        
+            -r openerp -w openerp --db_host=localhost --addons-path=/home/usuario/curso-taller-openerp/lecciones/01/src
         
         [Mayor información acerca de los parámetros de arranque del servidor Odoo](https://www.odoo.com/documentation/8.0/reference/cmdline.html#running-the-server)
 
-*   Abrir en el navegador: http://localhost:8069 y accederá a la interfaz de OpenERP
+*   Abrir en el navegador: http://localhost:8069 y accederá a la interfaz de Odoo
 *   Ahora puede crear una base de datos haciendo click en **Manage Databases**
      * Master Password: es el password de super administrador de Odoo por defecto *admin*
      * New Database Name: Indique el nombre de la nueva base de datos a crear
